@@ -1,0 +1,129 @@
+[
+  {
+    "name": "Pizzeria Don Juan",
+    "address": "Calle 1 # 2-3",
+    "phone": "1234567",
+    "type" : ["pizza", "fast food", "pie"],
+    "rating": 8.5,
+    "reviews": [
+      {
+        "name": "Juan Carlos Messi",
+        "comment": "La pizza de muzzarella es un manjar, en su punto justo de cocción y muy generosa en queso.",
+        "service_rating": 8,
+        "food_rating": 9,
+        "general_rating": 8.5
+      },
+      {
+        "name": "Pedro Perez Di Salvo",
+        "comment": "El ambiente y servicio son excelentes, la comida es buena pero no es la mejor. Atención rápida y amable.",
+        "service_rating": 9,
+        "food_rating": 7,
+        "general_rating": 8 
+      },
+      {
+        "name": "Maria Rodriguez",
+        "comment": "La pizza de jamón y morrones es muy rica, la masa es fina y crocante. El servicio es bueno y rápido.",
+        "service_rating": 9,
+        "food_rating": 9,
+        "general_rating": 9
+      }
+    ]
+  },
+  {
+    "name": "El porteño",
+    "address": "Calle 2 # 3-4",
+    "phone": "7654321",
+    "type" : ["pizza", "milanesa", "pie"],
+    "rating": 7.5,
+    "reviews": [
+      {
+        "name": "John Dou",
+        "comment": "La milanesa a la napolitana es muy rica, la porción es abundante y la salsa de tomate es casera.Parece un lugar muy nuevo, ¡nos gustó! Muy linda ambientación (aunque los baños de mujeres un poco sucios), buen servicio de las mozas, y nos llamó la atención de los platos que son super abundantes. Pedimos revuelto de gramajo, menú infantil de fritas con milanesa (buenísima la mila), sorrentinos de ricota y pollo a la porteña. Muy abundante la porción de pollo, estaba bien cocido, tierno, relleno de jamón queso y tomate. También probamos la empanada de carne (tiene mucho relleno, incluido papa), estaba buena. ¡Promete!",
+        "service_rating": 9,
+        "food_rating": 9,
+        "general_rating": 9
+      },
+      {
+        "name": "Noelia Sosa",
+        "comment": "Fuimos para almorzar, pero teníamos una consulta sobre el pago mediante una aplicación. Llamaron a Agustina, la gerente, y respondió de muy mala manera, soberbia y altanera. Así que nos retiramos del lugar. Por más que haya tenido un mal día, no justifica tratar así a los clientes.",
+        "service_rating": 1,
+        "food_rating": 1,
+        "general_rating": 1 
+      },
+      {
+        "name": "Miguel Angel Durán",
+        "comment": "Excelente  siempre,  la atención es lo que hace la diferencia. Tanto los mozos como quien gestiona el local, son muy simpáticos y serviciales. Siempre que puedo lo recomiendo, por su ambiente familiar y cálido.",
+        "service_rating": 10,
+        "food_rating": 10,
+        "general_rating": 10
+      },
+      {
+        "name": "Cristian Rodriguez",
+        "comment": "Muy recomendable, atención, servicio, calidad en sus platos. Voy a volver!",
+        "service_rating": 9,
+        "food_rating": 9,
+        "general_rating": 9
+      }
+    ]
+  },
+  {
+    "name": "Paesano",
+    "address": "Calle 3 # 4-5",
+    "phone": "1234567",
+    "type" : ["pizza", "milanesa", "pie"],
+    "rating": 8.5,
+    "reviews": [
+      {
+        "name": "Genaro Wischnivetzky",
+        "comment": "Vinimos a una degustacion de pasos por primera vez, a conocer Paesano, y quedamos chochos! Comimos muy rico, degustamos la bodega Catena. La atencion impecable. Muy recomendable. Volveremos 🤗",
+        "service_rating": 10,
+        "food_rating": 10,
+        "general_rating": 10
+      },
+      {
+        "name": "Sergio Neuvilleto",
+        "comment": "Pizza de hongos, Muy buena, espera ok, tragos bien, pedí el Gin de la carta, nada del otro mundo. Personal bien, comimos en la barra, el barman Sebastián muy buena onda y atención correctisima. Postre tiramisú, no está bueno, como artificial, no está a la altura de la pizza. Música y ambiente muy buenos.",
+        "service_rating": 8,
+        "food_rating": 7,
+        "general_rating": 7.5 
+      },
+      {
+        "name": "Ana María Lopez del Valle",
+        "comment": "Hermoso lugar y excelente atención de Anita. La comida un lujo. Espectacular 🙌🏻",
+        "service_rating": 9,
+        "food_rating": 9,
+        "general_rating": 9
+      }
+    ]
+  },
+  {
+    "name": "Trattoria",
+    "address": "Calle 4 # 5-6",
+    "phone": "7654321",
+    "type" : ["pizza", "milanesa", "pie"],
+    "rating": 7.5,
+    "reviews": [
+      {
+      "name": "Mavuel Nasenia",
+      "comment": "Muy rico todo. Sin dudas se destaca la atención de Miguel, súper amable, educado y solícito, da ganas de volver… Muy buena la sopa de crema de papá como cortesía. El daikiri delicioso. Se lució el barman. Cosas a mejorar: mala calidad y sabor del aceto (parece una pavada pero no lo es… arruina la ensalada mediterránea que sale más cara que un plato de pastas…) pan de papa de la hamburguesa del menú infantil estaba seco (viejo). La carne del bife chorizo era dura…",
+      "service_rating": 9,
+      "food_rating": 9,
+      "general_rating": 9
+      },
+      {
+        "name": "Rodrigo Rodriguez",
+        "comment": "Fui con mi familia, yo pedí un risotto con frutos de mar, bastante decente, un poco ácido. Ellos pidieron milanesa con papas. El aceite se nota que era viejo las papas todas negras y SALADAS? quisiera creer que no es sobra o recalentado, pero todo muy raro. La verdad decepcionante hasta en el parripollo más berreta hay papas fritas más dignas. Mi madre le comentó al mozo su disgusto al respecto y la respuesta fue 'ok'. Sobrevalorado, trato apático, vistoso nada más. La comida no valió la pena, lo realmente rico fue la panera?. El único que nos trató bien fue el chico del estacionamiento.",
+        "service_rating": 4,
+        "food_rating": 3,
+        "general_rating": 3.5 
+      },
+      {
+        "name": "Norberto Murray",
+        "comment": "Todo muy lindo, muy bueno el Lugar para niños, en cuanto a la comida pedí ravioles y no me termino de convencer … volveré y voy a pedir otro menú",
+        "service_rating": 8,
+        "food_rating": 5,
+        "general_rating": 6.5
+      }
+    ]
+  }
+]
