@@ -1,39 +1,35 @@
-# rentapp
+# RentApp
 
-This is an academic project created as part of a software engineering course.
+# Install
 
-## Installation and Setup
+## Prerequisites
 
-To run this project locally, ensure you have [**Node.js**](https://nodejs.org) and [**npm**](https://www.npmjs.com/) installed.
+- Docker installed on your system. You can download and install it from [here](https://www.docker.com/get-started).
 
-### Step 1: Clone the repository
+## Build the api docker image:
 
-```bash
+1. Clone the project repository:
 
-git  clone  https://github.com/gonblas/rentapp.git
+    ```bash
+    git clone https://github.com/gonblas/rentapp.git
+    cd rentapp
+    ```
 
-cd  rentapp
+2. Build and start the docker container:
 
-```
+    ```bash
+    docker-compose up --build -d
+    ```
 
-### Step 2: Install dependencies
+3. Check if the container is running:
+    
+        ```bash
+        docker ps
+        ```
+    
+Now you can access the Swagger Docs on http://localhost:8000/docs
 
+## Additional notes
 
-```bash
-
-npm  install
-
-```
-  
-
-### Step 3: Run the development server
-
-Start the development server with Vite.
-
-```bash
-
-npm  run  dev
-
-```
-
-The application should now be running at `localhost:5178`
+- Make sure that port 8000 is available and not being used by another application.
+- You can change the mapped port by modifying docker-compose.yaml file.

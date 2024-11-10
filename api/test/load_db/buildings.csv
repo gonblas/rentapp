@@ -1,0 +1,5 @@
+id,address,neighborhood_id,floors,apartments_per_floor,elevator,pool,gym,terrace,bike_rack,laundry
+1,Avenida Santa Fe 1234,1,10,4,True,True,True,True,False,True
+2,Junín 567,2,15,6,True,True,False,False,True,True
+3,La Pampa 789,3,8,3,True,False,True,True,False,False
+4,Defensa 101,4,5,2,False,False,False,False,False,False
