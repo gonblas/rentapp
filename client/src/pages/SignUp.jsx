@@ -58,6 +58,7 @@ export default function SignUp(props) {
     confirmPassword: { hasError: false, message: "" },
     name: { hasError: false, message: "" },
     phone: { hasError: false, message: "" },
+    whatsapp: { hasError: false, message: "" },
     date: { hasError: false, message: "" },
   })
 
@@ -67,6 +68,7 @@ export default function SignUp(props) {
     confirmPassword: "",
     name: "",
     phone: "",
+    whatsapp: "",
     date: "",
     isRealEstate: false,
     avatar: null,
@@ -163,6 +165,18 @@ export default function SignUp(props) {
       setFieldError("phone", false, "")
     }
 
+    // WhatsApp validation
+    if (phone && phone.length < 10) {
+      setFieldError(
+        "whatsapp",
+        true,
+        "Por favor ingrese un número de WhatsApp válido.",
+      )
+      isValid = false
+    } else {
+      setFieldError("whatsapp", false, "")
+    }
+
     // Skip date validation if user is real estate
     if (isRealEstate) {
       setFieldError("date", false, "")
@@ -215,6 +229,7 @@ export default function SignUp(props) {
     formData.append("password", data.password)
     formData.append("name", data.name)
     formData.append("phone", data.phone)
+    formData.append("whatsapp", data.whatsapp)
     formData.append("date", data.date)
     formData.append("isRealEstate", data.isRealEstate)
 
@@ -344,6 +359,23 @@ export default function SignUp(props) {
                 onChange={handleOnChange}
                 error={errors.phone.hasError}
                 helperText={errors.phone.message}
+                variant="outlined"
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                fullWidth
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="whatsapp">Número de WhatsApp</FormLabel>
+              <TextField
+                id="whatsapp"
+                name="whatsapp"
+                placeholder="123-456-7890"
+                autoComplete="phone"
+                value={data.whatsapp}
+                onChange={handleOnChange}
+                error={errors.whatsapp.hasError}
+                helperText={errors.whatsapp.message}
                 variant="outlined"
                 type="tel"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
