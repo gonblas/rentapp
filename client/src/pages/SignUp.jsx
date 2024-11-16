@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
+import { useEffect } from "react"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -72,6 +73,7 @@ export default function SignUp(props) {
     date: "",
     isRealEstate: false,
     avatar: null,
+    avatarUrl: "",
   })
 
   const setFieldError = (field, hasError, message) => {
@@ -89,10 +91,11 @@ export default function SignUp(props) {
     }))
   }
 
-  const handleFileChange = (file) => {
+  const handleFileChange = (file, fileUrl) => {
     setData((prevData) => ({
       ...prevData,
       avatar: file,
+      avatarUrl: fileUrl,
     }))
   }
 
@@ -221,40 +224,34 @@ export default function SignUp(props) {
     event.preventDefault()
     if (!validateInputs()) return
 
-    // Crear un nuevo FormData
     const formData = new FormData()
-
-    // Agregar los campos del formulario
+    formData.append("name", data.name)
     formData.append("email", data.email)
     formData.append("password", data.password)
-    formData.append("name", data.name)
-    formData.append("phone", data.phone)
-    formData.append("whatsapp", data.whatsapp)
-    formData.append("date", data.date)
-    formData.append("isRealEstate", data.isRealEstate)
+    formData.append("is_real_estate", data.isRealEstate)
+    formData.append("phone_number", data.phone)
+    formData.append("has_phone_number", String(data.phone !== ""))
+    formData.append("whatsapp_number", data.whatsapp)
+    formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
 
     if (data.avatar) {
       formData.append("avatar", data.avatar)
+    } else {
+      formData.append("avatar", "")
     }
 
-    console.log("Form data: ", formData)
-
-    // try {
-    // const response = await fetch("/api/register", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   if (response.ok) {
-
-    //     navigate("/sign-in")
-    //   } else {
-
-    //     console.error("Error en el registro")
-    //   }
-    // } catch (error) {
-    //   console.error("Error al enviar los datos: ", error)
-    // }
-    navigate("/sign-in")
+    fetch("http://localhost:8000/signup/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data)
+        navigate("/sign-in")
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
   }
 
   return (
@@ -421,7 +418,7 @@ export default function SignUp(props) {
                   gap: "1rem",
                 }}
               >
-                <AvatarRender name={data.name} image={data.avatar} />
+                <AvatarRender name={data.name} image={data.avatarUrl} />
                 <InputFileUpload onFileChange={handleFileChange} />
               </div>
             </FormControl>
