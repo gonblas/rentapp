@@ -35,6 +35,10 @@ class User(Base):
     is_real_estate = Column(Boolean, default=False)
     email = Column(String(100), unique=True)
     password = Column(String(100))
+    phone_number = Column(String(20))
+    has_phone_number = Column(Boolean, default=False)
+    whatsapp_number = Column(String(20))
+    has_whatsapp_number = Column(Boolean, default=False)
     avatar = Column(String(255))
 
 class Property(Base):
@@ -44,11 +48,8 @@ class Property(Base):
     publication_date = Column(Date)
     approved = Column(Boolean, default=False)
     description = Column(Text)
-    phone = Column(String(20))
-    email = Column(String(100))
     address = Column(String(255))
     neighborhood_id = Column(Integer, ForeignKey('neighborhoods.id'))
-    type = Column(Enum('apartment', 'house', 'ph'), nullable=False)
     rental_value = Column(Float)
     expenses_value = Column(Float)
     rooms = Column(Integer)

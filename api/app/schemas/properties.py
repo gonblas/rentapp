@@ -6,9 +6,6 @@ class FilterParams(BaseModel):
     neighborhood_id: int = Field(
         None, alias="neighborhood_id", title="Neighborhood ID"
     )
-    type: str = Field(
-        None, alias="type", title="Property type"
-    )
     min_rental_value: float = Field(
         0, alias="min_rental_value", title="Minimum rental value", ge=0
     )
@@ -42,9 +39,6 @@ class FilterParams(BaseModel):
     location: str = Field(
         None, alias="location", title="Location"
     )
-    building_id: int = Field(
-        None, alias="building_id", title="Building ID"
-    )
     limit: int = Field(
         10, alias="limit", title="Limit of postings", ge=0
     )
@@ -52,16 +46,11 @@ class FilterParams(BaseModel):
         0, alias="offset", title="Offset of postings", ge=0
     )
 
-class ContactInfo(BaseModel):
-    phone: str
-    email: str
-
 class LocationInfo(BaseModel):
     address: str
     neighborhood_id: int
 
 class Features(BaseModel):
-    type: str
     rental_value: float
     expenses_value: float
     rooms: int
@@ -72,10 +61,18 @@ class Features(BaseModel):
     garage: bool
     pet_friendly: bool
 
+class ContactInfo(BaseModel):
+    email : str
+    phone_number: str
+    has_phone_number: bool
+    whatsapp_number: str
+    has_whatsapp_number: bool
+
 class PublisherInfo(BaseModel):
     publisher_id: int
     is_real_estate: bool
     avatar : str
+    contact: ContactInfo
 
 class PaginationInfo(BaseModel):
     total_records: int
@@ -84,7 +81,6 @@ class PaginationInfo(BaseModel):
 class PropertyResponse(BaseModel):
     id : int
     description: str
-    contact: ContactInfo
     location: LocationInfo
     features: Features
     publisher: PublisherInfo
