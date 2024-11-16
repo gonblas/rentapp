@@ -92,7 +92,10 @@ async def register(
         
         hashed_password = auth_context.hash(password)
 
-        avatar_url = upload_avatar(avatar)
+        if avatar is None:
+            avatar_url = ""
+        else:
+            avatar_url = upload_avatar(avatar)
 
         if avatar_url is None:
             raise HTTPException(status_code=404, detail="Error uploading avatar")
