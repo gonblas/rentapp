@@ -13,16 +13,6 @@ function PropertyFilters() {
     petfriendly: false,
   })
 
-  const handleOnChange = (event) => {
-    const { name, value, checked } = event.target
-    const fieldsWithCheckedValues = ["hasBackyard", "hasBalcony", "petfriendly"]
-    // For all other fields
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: fieldsWithCheckedValues.includes(name) ? checked : value,
-    }))
-  }
-
   return (
     <Grid container spacing={2}>
       <ShowFilter
@@ -30,40 +20,58 @@ function PropertyFilters() {
         label="Patio"
         type="checkbox"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="hasBalcony"
         label="Balcón"
         type="checkbox"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="ambients"
         label="Ambientes"
         type="number"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="surface"
         label="Superficie"
         type="number"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="position"
         label="Orientación"
         type="select"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
         options={[
           { value: "north", label: "Frente" },
           { value: "south", label: "Interno" },
           { value: "east", label: "Contrafrente" },
         ]}
+      />
+      <ShowFilter
+        name="rentPrice"
+        label="Precio de Alquiler"
+        type="slider"
+        filters={filters}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
+        options={{
+          min: 0,
+          max: 500000,
+          step: 50,
+        }}
       />
     </Grid>
   )

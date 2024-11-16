@@ -14,25 +14,6 @@ function BuildingFilters() {
     hasElevator: false,
   })
 
-  const handleOnChange = (event) => {
-    const { name, value, checked } = event.target
-    const fieldsWithCheckedValues = ["hasGarage", "hasElevator"]
-
-    if (name === "services") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        services: checked
-          ? [...prevFilters.services, value]
-          : prevFilters.services.filter((service) => service !== value),
-      }))
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: fieldsWithCheckedValues.includes(name) ? checked : value,
-      }))
-    }
-  }
-
   return (
     <Grid container spacing={2}>
       <ShowFilter
@@ -40,21 +21,24 @@ function BuildingFilters() {
         label="Garage"
         type="checkbox"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="hasElevator"
         label="Ascensor"
         type="checkbox"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="services"
         label="Servicios"
         type="multiselect"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
         options={services.map((service) => ({
           value: service,
           label: service,
@@ -65,7 +49,8 @@ function BuildingFilters() {
         label="Barrio"
         type="select"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
         options={[
           { value: "st-ana", label: "St. Ana" },
           { value: "el-peligro", label: "El Peligro" },
@@ -77,14 +62,29 @@ function BuildingFilters() {
         label="Pisos"
         type="number"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
       />
       <ShowFilter
         name="apartmentsPerFloor"
         label="Departamentos por piso"
         type="number"
         filters={filters}
-        handleOnChange={handleOnChange}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
+      />
+      <ShowFilter
+        name="expenses"
+        label="Expensas"
+        type="slider"
+        filters={filters}
+        // searchFilters={searchFilters}
+        setFilters={setFilters}
+        options={{
+          min: 0,
+          max: 500000,
+          step: 50,
+        }}
       />
     </Grid>
   )

@@ -1,37 +1,79 @@
 import React from "react"
 import {
   FormControl,
-  FormControlLabel,
-  Checkbox,
   FormLabel,
+  Checkbox,
+  FormControlLabel,
   TextField,
   Select,
   MenuItem,
+  Slider,
 } from "@mui/material"
 
-function ShowFilter({
-  name,
-  label,
-  type,
-  filters,
-  handleOnChange,
-  options = [],
-}) {
+function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
+  const handleOnChange = (event) => {
+    const { name, value, checked } = event.target
+
+    if (name === "services") {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        services: checked
+          ? [...prevFilters.services, value]
+          : prevFilters.services.filter((service) => service !== value),
+      }))
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }))
+    }
+  }
+
+  const handleSliderChange = (event, newValue) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: newValue,
+    }))
+  }
+
   switch (type) {
     case "checkbox":
       return (
-        <FormControlLabel
-          id={name}
-          control={
-            <Checkbox
-              checked={filters[name]}
-              onChange={handleOnChange}
-              name={name}
-            />
-          }
-          label={label}
-          labelPlacement="end"
-        />
+        <FormControl>
+          <FormLabel htmlFor={name} color="black">
+            {label}
+          </FormLabel>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filters[name] || false}
+                onChange={handleOnChange}
+                name={name}
+                slotProps={{ checked: filters[name] || false }}
+              />
+            }
+            label={label}
+            labelPlacement="end"
+          />
+        </FormControl>
+      )
+
+    case "text":
+      return (
+        <FormControl>
+          <FormLabel htmlFor={name} color="black">
+            {label}
+          </FormLabel>
+          <TextField
+            id={name}
+            name={name}
+            value={filters[name]}
+            onChange={handleOnChange}
+            slotProps={{
+              input: { value: filters[name], onChange: handleOnChange },
+            }}
+          />
+        </FormControl>
       )
 
     case "select":
@@ -46,6 +88,9 @@ function ShowFilter({
             value={filters[name] || ""}
             onChange={handleOnChange}
             displayEmpty
+            slotProps={{
+              select: { value: filters[name] || "", onChange: handleOnChange },
+            }}
           >
             <MenuItem value="">
               <em>Seleccionar...</em>
@@ -62,7 +107,9 @@ function ShowFilter({
     case "number":
       return (
         <FormControl>
-          <FormLabel htmlFor={name}>{label}</FormLabel>
+          <FormLabel htmlFor={name} color="black">
+            {label}
+          </FormLabel>
           <TextField
             id={name}
             name={name}
@@ -71,23 +118,10 @@ function ShowFilter({
             onChange={handleOnChange}
             slotProps={{
               htmlInput: {
-                min: 1, // Sets the minimum value
+                min: options?.min || 0,
+                max: options?.max || 100,
               },
             }}
-          />
-        </FormControl>
-      )
-
-    case "text":
-      return (
-        <FormControl>
-          <FormLabel htmlFor={name}>{label}</FormLabel>
-          <TextField
-            id={name}
-            name={name}
-            type="text"
-            value={filters[name]}
-            onChange={handleOnChange}
           />
         </FormControl>
       )
@@ -107,13 +141,52 @@ function ShowFilter({
                     checked={filters[name]?.includes(option.value) || false}
                     onChange={handleOnChange}
                     name={name}
-                    value={option.value} // Ensure the checkbox sends the correct value
+                    value={option.value}
+                    slotProps={{
+                      checked: filters[name]?.includes(option.value) || false,
+                    }}
                   />
                 }
                 label={option.label}
               />
             ))}
           </div>
+        </FormControl>
+      )
+
+    case "slider":
+      return (
+        <FormControl>
+          <FormLabel htmlFor={name} color="black">
+            {label}
+          </FormLabel>
+          <Slider
+            value={filters[name] || 0}
+            onChange={handleSliderChange}
+            name={name}
+            min={options?.min || 0}
+            max={options?.max || 100}
+            step={options?.step || 1}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => value}
+            sx={{
+              color: "primary.dark", // Set the color of the slider to primary.dark
+              width: "300px", // Custom width for the slider
+            }}
+          />
+          <TextField
+            type="number"
+            value={filters[name] || 0}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, [name]: e.target.value }))
+            }
+            slotProps={{
+              htmlInput: {
+                min: options?.min || 0,
+                max: options?.max || 100,
+              },
+            }}
+          />
         </FormControl>
       )
 

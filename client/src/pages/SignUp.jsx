@@ -17,7 +17,6 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
-import { useEffect } from "react"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",

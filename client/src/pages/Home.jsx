@@ -62,9 +62,9 @@ const Home = () => {
             margin: "0px!important",
           }}
         >
-          {properties.map((property, index) => (
+          {/* {properties.map((property, index) => (
             <PropertyCard key={index} property={property} />
-          ))}
+          ))} */}
         </Container>
       </Container>
     </div>
