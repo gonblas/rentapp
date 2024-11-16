@@ -58,7 +58,7 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
 
     response.set_cookie(key="token",
                         httponly=True,
-                        samesite="strict",
+                        samesite="lax",
                         value=token
                         )
 
