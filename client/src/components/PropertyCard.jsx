@@ -12,7 +12,6 @@ import { useState } from "react"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import Divider from "@mui/material/Divider"
 import Carousel from "./Carousel"
-import Avatar from "@mui/material/Avatar"
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
@@ -20,6 +19,7 @@ import React from "react"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import CopyToClipboardButton from "./CopyToClipboardButton"
+import AvatarRender from "./AvatarRender"
 
 function ContactButton({ contact }) {
   const items = [
@@ -52,6 +52,7 @@ function ContactButton({ contact }) {
               borderColor: "#D9D9D9",
               fontWeight: "600",
               textTransform: "none",
+              border: "none",
               height: "100%",
               "&:hover": {
                 background: "#003080",
@@ -136,6 +137,7 @@ function FavoriteButton() {
         color: "#ff3d3d",
         height: "100%!important",
         py: "10px!important",
+        border: "0px!important",
         m: "0px",
       }}
       onClick={() => setFavorite(!favorite)}
@@ -155,9 +157,9 @@ function InfoTag(props) {
         fontSize: "15px",
         fontWeight: 400,
         borderRadius: "5px",
-        borderColor: "#D9D9D9",
         padding: "0.3rem",
         backgroundColor: "#2c2c2c",
+        border: "none",
       }}
     />
   )
@@ -175,7 +177,8 @@ function AvatarPublisher({ publisher }) {
         height: "100%",
       }}
     >
-      <Avatar src={publisher.avatar} alt={publisher.name} />
+      {console.log(publisher.name)}
+      <AvatarRender name={publisher.name} image={publisher.avatar} />
       <Container
         sx={{
           display: "flex",
@@ -201,12 +204,22 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property }) {
-  const lastTag =
-    property.features.type === "apartment" ? (
-      <InfoTag>{property.location.location}</InfoTag>
-    ) : (
-      <InfoTag>Mascotas</InfoTag>
-    )
+
+  const lastTag = (() => {
+    if (property.features.pet_friendly) {
+      return <InfoTag>Mascotas</InfoTag>
+    }
+    if (property.features.garage) {
+      return <InfoTag>Garaje</InfoTag>
+    }
+    if (property.features.backyard) {
+      return <InfoTag>Patio</InfoTag>
+    }
+    if (property.features.balconies > 0) {
+      return <InfoTag>Balcón</InfoTag>
+    }
+    return null
+  })()
 
   return (
     <Card
@@ -309,13 +322,20 @@ function PropertyCard({ property }) {
             flexDirection: "row",
             gap: "10px",
             px: "0!important",
+            border: "none",
           }}
         >
-          <InfoTag>{property.features.type}</InfoTag>
           <InfoTag>
             {property.features.square_meters} m<sup>2</sup>
           </InfoTag>
           <InfoTag>{property.features.rooms} amb</InfoTag>
+          <InfoTag>
+            {property.features.location === "front"
+              ? "Frente"
+              : property.features.location === "back"
+                ? "Contrafrente"
+                : "Interno"}
+          </InfoTag>
           {lastTag}
         </Container>
         <Typography

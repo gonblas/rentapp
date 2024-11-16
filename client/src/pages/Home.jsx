@@ -15,7 +15,6 @@ const properties = [
     location: {
       address: "Avenida Scalabrini Ortiz 1550",
       neighborhood_id: 1,
-      location: "front",
     },
     features: {
       type: "apartment",
@@ -27,6 +26,7 @@ const properties = [
       patio: true,
       garage: true,
       pet_friendly: true,
+      location: "front",
     },
     publisher: {
       publisher_id: 1,
@@ -51,7 +51,6 @@ const properties = [
     location: {
       address: "Avenida Rivadavia 5400",
       neighborhood_id: 5,
-      location: "front",
     },
     features: {
       type: "house",
@@ -60,9 +59,10 @@ const properties = [
       rooms: 4,
       square_meters: 180,
       balconies: 1,
-      patio: true,
-      garage: true,
-      pet_friendly: true,
+      patio: false,
+      garage: false,
+      pet_friendly: false,
+      location: "back",
     },
     publisher: {
       publisher_id: 2,
