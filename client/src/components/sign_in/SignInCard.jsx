@@ -2,10 +2,8 @@ import * as React from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import MuiCard from "@mui/material/Card"
-import Checkbox from "@mui/material/Checkbox"
 import FormLabel from "@mui/material/FormLabel"
 import FormControl from "@mui/material/FormControl"
-import FormControlLabel from "@mui/material/FormControlLabel"
 import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
@@ -31,11 +29,24 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }))
 
 export default function SignInCard() {
-  const [emailError, setEmailError] = React.useState(false)
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("")
-  const [passwordError, setPasswordError] = React.useState(false)
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("")
   const [open, setOpen] = React.useState(false)
+
+  const [errors, setErrors] = React.useState({
+    email: { hasError: false, message: "" },
+    password: { hasError: false, message: "" },
+  })
+
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+  })
+
+  const setFieldError = (field, hasError, message) => {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: { hasError, message },
+    }))
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -46,49 +57,70 @@ export default function SignInCard() {
   }
 
   const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault()
-      return
-    }
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    event.preventDefault()
+    if (!validateInputs()) return
+
+    const URLdata = new URLSearchParams({
+      email: data.email,
+      password: data.password,
     })
+
+    fetch("http://localhost:8000/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: URLdata.toString(),
+    })
+      .then((d) => d.json())
+      .then((d) => {
+        console.log(d)
+      })
   }
 
   const validateInputs = () => {
-    const email = document.getElementById("email")
-    const password = document.getElementById("password")
+    const { email, password } = data
 
     let isValid = true
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true)
-      setEmailErrorMessage("Por favor ingrese un correo electrónico válido.")
-      isValid = false
-    } else {
-      setEmailError(false)
-      setEmailErrorMessage("")
-    }
-
-    if (
-      !password.value ||
-      password.value.length < 8 ||
-      !/[!@#$%^&*]/.test(password.value) ||
-      !/[A-Z]/.test(password.value)
-    ) {
-      setPasswordError(true)
-      setPasswordErrorMessage(
-        "La contraseña debe tener al menos 8 caracteres, un caracter especial y una mayuscula.",
+    // Email validation
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setFieldError(
+        "email",
+        true,
+        "Por favor ingrese un correo electrónico válido.",
       )
       isValid = false
     } else {
-      setPasswordError(false)
-      setPasswordErrorMessage("")
+      setFieldError("email", false, "")
+    }
+
+    // Password validation
+    if (
+      !password ||
+      password.length < 8 ||
+      !/[!@#$%^&*]/.test(password) ||
+      !/[A-Z]/.test(password)
+    ) {
+      setFieldError(
+        "password",
+        true,
+        "La contraseña debe tener al menos 8 caracteres, un caracter especial y una mayúscula.",
+      )
+      isValid = false
+    } else {
+      setFieldError("password", false, "")
     }
 
     return isValid
+  }
+
+  const handleOnChange = (event) => {
+    const { name, value } = event.target
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
   return (
@@ -112,20 +144,20 @@ export default function SignInCard() {
         sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
       >
         <FormControl>
-          <FormLabel htmlFor="email">Correo electrónico</FormLabel>
+          <FormLabel htmlFor="email">Correo Electrónico</FormLabel>
           <TextField
-            error={emailError}
-            helperText={emailErrorMessage}
             id="email"
-            type="email"
             name="email"
             placeholder="ejemplo@email.com"
             autoComplete="email"
-            autoFocus
+            value={data.email}
+            onChange={handleOnChange}
+            error={errors.email.hasError}
+            helperText={errors.email.message}
+            color={errors.email.hasError ? "error" : "primary"}
+            variant="outlined"
             required
             fullWidth
-            variant="outlined"
-            color={emailError ? "error" : "primary"}
           />
         </FormControl>
         <FormControl>
@@ -142,30 +174,31 @@ export default function SignInCard() {
             </Link>
           </Box>
           <TextField
-            error={passwordError}
-            helperText={passwordErrorMessage}
+            id="password"
             name="password"
             placeholder="••••••••"
+            autoComplete="new-password"
+            value={data.password}
+            onChange={handleOnChange}
+            error={errors.password.hasError}
+            helperText={errors.password.message}
+            color={errors.password.hasError ? "error" : "primary"}
+            variant="outlined"
             type="password"
-            id="password"
-            autoComplete="current-password"
-            autoFocus
             required
             fullWidth
-            variant="outlined"
-            color={passwordError ? "error" : "primary"}
           />
         </FormControl>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Recordarme"
-        />
+        /> */}
         <ForgotPassword open={open} handleClose={handleClose} />
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          onClick={validateInputs}
+          onClick={handleSubmit}
         >
           Ingresar
         </Button>

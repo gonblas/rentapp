@@ -17,7 +17,6 @@ export default function SignInSide(props) {
             height: "auto",
             marginTop: "max(40px - var(--template-frame-height, 0px), 0px)",
           },
-          //BACKGROUND HERE
           () => ({
             "&::before": {
               content: '""',
