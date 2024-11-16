@@ -1,2 +1,5 @@
-from ..database import get_db, Session
+from ..database import db_dependency
+from fastapi import APIRouter, Depends, HTTPException, status
+
+router = APIRouter()
 
