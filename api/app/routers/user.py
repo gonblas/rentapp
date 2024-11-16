@@ -8,7 +8,7 @@ from ..database import db_dependency
 import jwt
 from passlib.context import CryptContext
 from ..models import User
-from ..schemas.users import UserSignIn, UserSignUp
+from ..schemas.users import UserResponse
 from ..bucket import upload_avatar
 
 router = APIRouter()
@@ -23,7 +23,7 @@ auth_context = CryptContext(
     deprecated="auto"
 )
 
-@router.post("/signin", status_code=status.HTTP_200_OK)
+@router.post("/signin", response_model=UserResponse, status_code=status.HTTP_200_OK, )
 def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_dependency):
 
     usr = db.query(User).filter(User.email == email).first()
@@ -45,8 +45,13 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
     response = JSONResponse(
         content={
             "id" : usr.id,
+            "name" : usr.name,
             "email": usr.email,
             "is_real_estate": usr.is_real_estate,
+            "phone_number": usr.phone_number,
+            "has_phone_number": usr.has_phone_number,
+            "whatsapp_number": usr.whatsapp_number,
+            "has_whatsapp_number": usr.has_whatsapp_number,
             "avatar" : usr.avatar
         }
     )
@@ -68,7 +73,7 @@ def check_user_exists(email:str, db: db_dependency):
     return db.query(User).filter(User.email == email).first()
 
 
-@router.post("/signup/", status_code=status.HTTP_201_CREATED)
+@router.post("/signup/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
                 name: Annotated[str, Form()],
                 email: Annotated[str, Form()],
@@ -110,15 +115,20 @@ async def register(
         user_created = db.query(User).filter(User.email == email).first()
         del user_created.password
     
-        return (
+
+        return(
             {
-                "id": user_created.id,
-                "email": user_created.email,
-                "is_real_estate": user_created.is_real_estate,
-                "avatar": user_created.avatar
+            "id" :user_created.id,
+            "name" :user_created.name,
+            "email":user_created.email,
+            "is_real_estate":user_created.is_real_estate,
+            "phone_number":user_created.phone_number,
+            "has_phone_number":user_created.has_phone_number,
+            "whatsapp_number":user_created.whatsapp_number,
+            "has_whatsapp_number":user_created.has_whatsapp_number,
+            "avatar" :user_created.avatar
             }
         )
-
 
 
 
