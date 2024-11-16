@@ -2,7 +2,7 @@ import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import React from "react"
-import FilterList from "./FilterList"
+import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
 
 function SearchBar() {

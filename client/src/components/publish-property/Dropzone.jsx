@@ -85,7 +85,7 @@ function MyDropzone() {
     })
   }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getslotProps, isDragActive } = useDropzone({
     onDrop,
     onDropRejected,
     maxFiles: 10,
@@ -105,7 +105,7 @@ function MyDropzone() {
           backgroundColor: isDragActive ? "#e0e0e0" : "#ffffff",
         }}
       >
-        <input {...getInputProps()} type="file" />
+        <input {...getslotProps()} type="file" />
         <Typography
           variant="subtitle2"
           sx={{
