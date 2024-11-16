@@ -1,6 +1,8 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .routers import building, neighborhood, property, user
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
@@ -9,12 +11,17 @@ load_dotenv()
 
 app = FastAPI()
 
-# Incluir los routers
+# allow any origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+# Include routers
 app.include_router(property.router)
 app.include_router(user.router)
 # app.include_router(building.router)
 # app.include_router(neighborhoods.router)
-
-# app.include_router(users.router)
-# app.include_router(properties.router)
-# app.include_router(images.router)
