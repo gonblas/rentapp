@@ -69,7 +69,11 @@ function ShowFilter({
             type="number"
             value={filters[name]}
             onChange={handleOnChange}
-            slotProps={{ min: 1 }}
+            slotProps={{
+              htmlInput: {
+                min: 1, // Sets the minimum value
+              },
+            }}
           />
         </FormControl>
       )
