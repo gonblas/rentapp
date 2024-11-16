@@ -67,6 +67,7 @@ export default function SignInCard() {
 
     fetch("http://localhost:8000/signin", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
