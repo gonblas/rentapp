@@ -17,7 +17,6 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
-import { useEffect } from "react"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -188,8 +187,8 @@ export default function SignUp(props) {
 
     // Date validation with age check
     if (date) {
-      const [year, month, day] = date.split("-").map(Number) // Parse the date
-      const birthDate = new Date(year, month - 1, day) // Create Date object
+      const [year, month, day] = date.split("-").map(Number)
+      const birthDate = new Date(year, month - 1, day)
       const today = new Date()
       let age = today.getFullYear() - birthDate.getFullYear()
 
@@ -233,12 +232,7 @@ export default function SignUp(props) {
     formData.append("has_phone_number", String(data.phone !== ""))
     formData.append("whatsapp_number", data.whatsapp)
     formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
-
-    if (data.avatar) {
-      formData.append("avatar", data.avatar)
-    } else {
-      formData.append("avatar", "")
-    }
+    formData.append("avatar", data.avatar)
 
     fetch("http://localhost:8000/signup/", {
       method: "POST",
