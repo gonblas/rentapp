@@ -14,8 +14,8 @@ function ImagePreview({ file }) {
         alignItems: "center",
         padding: "0px!important",
         margin: "0px!important",
-        width: "100px",
-        height: "100px",
+        width: "19.1%",
+        aspectRatio: "1 / 1",
         borderRadius: "5px!important",
         overflow: "hidden",
         border: "1px solid #ccc",
@@ -85,7 +85,7 @@ function MyDropzone() {
     })
   }
 
-  const { getRootProps, getslotProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     onDropRejected,
     maxFiles: 10,
@@ -99,13 +99,17 @@ function MyDropzone() {
       <div
         {...getRootProps()}
         style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "300px",
           border: "2px dashed #ccc",
           padding: "20px",
           textAlign: "center",
           backgroundColor: isDragActive ? "#e0e0e0" : "#ffffff",
         }}
       >
-        <input {...getslotProps()} type="file" />
+        <input {...getInputProps()} type="file" />
         <Typography
           variant="subtitle2"
           sx={{

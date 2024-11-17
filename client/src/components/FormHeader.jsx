@@ -4,7 +4,7 @@ function FormHeader({ title, description }) {
   return (
     <>
       <Typography
-        variant="h5"
+        variant="h4"
         sx={{
           pb: "30px",
         }}

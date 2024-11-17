@@ -1,19 +1,24 @@
 import React from "react"
 import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
-import { Container } from "@mui/material"
+import { Container, Select } from "@mui/material"
 import Multimedia from "../components/publish-property/Multimedia"
-import Principal from "../components/publish-property/Principal"
+import SelectBuilding from "../components/publish-property/SelectBuilding"
 import Characteristics from "../components/publish-property/Characteristics"
 import ReviewProperty from "../components/publish-property/ReviewProperty"
 
 const comps = [
-  <Principal key={0} />,
+  <SelectBuilding key={0} />,
   <Multimedia key={1} />,
   <Characteristics key={2} />,
   <ReviewProperty key={3} />,
 ]
 
-const steps = ["Principal", "Multimedia", "Características", "Revisión"]
+const steps = [
+  "Seleccionar Edificio",
+  "Multimedia",
+  "Características",
+  "Revisión",
+]
 
 const PublishProperty = () => {
   return (
