@@ -39,6 +39,31 @@ class FilterParams(BaseModel):
     location: str = Field(
         None, alias="location", title="Location"
     )
+    # buildings filters
+    floors: int = Field(
+        None, alias="floors", title="Number of floors", ge=0
+    )
+    apartments_per_floor: int = Field(
+        None, alias="apartments_per_floor", title="Number of apartments per floor", ge=0
+    )
+    elevator: bool = Field(
+        None, alias="elevator", title="Has elevator"
+    )
+    pool: bool = Field(
+        None, alias="pool", title="Has pool"
+    )
+    gym: bool = Field(
+        None, alias="gym", title="Has gym"
+    )
+    terrace: bool = Field(
+        None, alias="terrace", title="Has terrace"
+    )
+    bike_rack: bool = Field(
+        None, alias="bike_rack", title="Has bike rack"
+    )
+    laundry: bool = Field(
+        None, alias="laundry", title="Has laundry"
+    )
     limit: int = Field(
         10, alias="limit", title="Limit of postings", ge=0
     )
