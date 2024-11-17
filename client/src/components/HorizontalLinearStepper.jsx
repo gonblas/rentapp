@@ -36,10 +36,17 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }))
 
-export default function HorizontalLinearStepper({ componets, steps }) {
+export default function HorizontalLinearStepper({
+  componets,
+  steps,
+  nextStepFunction,
+  setErrors,
+  formData,
+}) {
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleNext = () => {
+    nextStepFunction[activeStep](setErrors[activeStep], formData[activeStep])
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
