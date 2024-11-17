@@ -4,6 +4,7 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
+import GoogleMaps from "../GoogleMaps"
 
 function SelectBuilding() {
   const { formData, errors, handleOnChange } = useContext(
@@ -26,6 +27,7 @@ function SelectBuilding() {
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         fullWidth
       />
+      <GoogleMaps />
     </FormControl>
   )
 }
