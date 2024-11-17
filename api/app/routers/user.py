@@ -74,6 +74,7 @@ async def register(
                 email: Annotated[str, Form()],
                 password: Annotated[str, Form()],
                 is_real_estate: Annotated[bool, Form()],
+                birth_date: Annotated[datetime, Form()],
                 phone_number: Annotated[str, Form()],
                 has_phone_number: Annotated[bool, Form()],
                 whatsapp_number: Annotated[str, Form()],
