@@ -6,6 +6,7 @@ import SelectBuilding from "../components/publish-property/SelectBuilding"
 // import Multimedia from "../components/publish-property/Multimedia"
 // import Characteristics from "../components/publish-property/Characteristics"
 // import ReviewProperty from "../components/publish-property/ReviewProperty"
+import PublishPropertyContext from "../components/publish-property/PublishPropertyContext"
 
 function PublishProperty() {
   const steps = [
@@ -16,25 +17,24 @@ function PublishProperty() {
   ]
 
   const validateStep1 = (setErrors, formData) => {
-    const setFieldError = (field, hasError, message) => {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [field]: { hasError, message },
-      }))
-    }
-
     const { building_id } = formData
-
     let isValid = true
 
     if (!building_id || building_id.length < 10) {
-      setFieldError(
-        "building_id",
-        true,
-        "El número de teléfono debe tener al menos 10 dígitos."
-      )
+      setErrors((prevErrors) => {
+        const updatedErrors = [...prevErrors]
+        updatedErrors[0] = {
+          ...updatedErrors[0],
+          building_id: {
+            hasError: true,
+            message: "El número de edificio debe ser de 10 dígitos",
+          },
+        }
+        return updatedErrors
+      })
       isValid = false
     }
+
     console.log(isValid)
     console.log(formData)
     return isValid
@@ -64,10 +64,8 @@ function PublishProperty() {
   const handleOnChange = (event, index) => {
     const { name, value, type, checked } = event.target
 
-    // Determina el valor de acuerdo al tipo de campo (checkbox o texto)
     const newValue = type === "checkbox" ? checked : value
 
-    // Actualiza el estado de forma general
     setFormData((prevData) => {
       const updatedData = [...prevData]
       updatedData[index] = {
@@ -79,12 +77,7 @@ function PublishProperty() {
   }
 
   const comps = [
-    <SelectBuilding
-      key={0}
-      formData={formData[0]}
-      handleOnChange={handleOnChange}
-      errors={errors[0]}
-    />,
+    <SelectBuilding key={0} />,
     // <Multimedia key={1} />,
     // <Characteristics key={2} />,
     // <ReviewProperty key={3} />,
@@ -100,16 +93,18 @@ function PublishProperty() {
         width: "90%",
       }}
     >
-      {errors[0].building_id.hasError && (
-        <h1>hay un error en el número de teléfono</h1>
-      )}
-      <HorizontalLinearStepper
-        componets={comps}
-        steps={steps}
-        nextStepFunction={nextStepFunction}
-        setErrors={setErrors}
-        formData={formData}
-      />
+      <PublishPropertyContext.Provider
+        value={{
+          formData,
+          setFormData,
+          errors,
+          setErrors,
+          nextStepFunction,
+          handleOnChange,
+        }}
+      >
+        <HorizontalLinearStepper componets={comps} steps={steps} />
+      </PublishPropertyContext.Provider>
     </Container>
   )
 }
