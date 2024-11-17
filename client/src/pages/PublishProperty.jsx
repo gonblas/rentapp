@@ -1,24 +1,24 @@
-import React, { useState } from "react"
+import React from "react"
 import { Container } from "@mui/material"
 import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
 import SelectBuilding from "../components/publish-property/SelectBuilding"
+import Characteristics from "../components/publish-property/Characteristics"
 // import Multimedia from "../components/publish-property/Multimedia"
-// import Characteristics from "../components/publish-property/Characteristics"
 // import ReviewProperty from "../components/publish-property/ReviewProperty"
 import { PublishPropertyProvider } from "../components/publish-property/PublishPropertyContext"
 
 function PublishProperty() {
   const steps = [
     "Seleccionar Edificio",
+    "Características",
     // "Multimedia",
-    // "Características",
     // "Revisión",
   ]
 
   const comps = [
     <SelectBuilding key={0} />,
-    // <Multimedia key={1} />,
-    // <Characteristics key={2} />,
+    <Characteristics key={1} />,
+    // <Multimedia key={2} />,
     // <ReviewProperty key={3} />,
   ]
 
