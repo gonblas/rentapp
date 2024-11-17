@@ -46,8 +46,13 @@ export default function HorizontalLinearStepper({
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleNext = () => {
-    nextStepFunction[activeStep](setErrors[activeStep], formData[activeStep])
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    let isValid = nextStepFunction[activeStep](
+      setErrors[activeStep],
+      formData[activeStep],
+    )
+    if (isValid) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    }
   }
 
   const handleBack = () => {

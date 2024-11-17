@@ -45,7 +45,7 @@ function PublishProperty() {
     // () => console.log("Estoy en la etapa 2"),
     // () => console.log("Estoy en la etapa 3"),
     // () => console.log("Estoy en la etapa 4"),
-  ];
+  ]
 
   const [formData, setFormData] = useState([
     // Índice 0: Datos de la primera "etapa"
@@ -100,6 +100,9 @@ function PublishProperty() {
         width: "90%",
       }}
     >
+      {errors[0].building_id.hasError && (
+        <h1>hay un error en el número de teléfono</h1>
+      )}
       <HorizontalLinearStepper
         componets={comps}
         steps={steps}

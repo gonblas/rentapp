@@ -7,6 +7,7 @@ function SelectBuilding({ formData, handleOnChange, errors }) {
   return (
     <FormControl>
       <FormControl>
+        {errors.building_id.hasError && <h1>hay un error</h1>}
         <FormLabel htmlFor="number">Número de Teléfono</FormLabel>
         <TextField
           id="building_id"
