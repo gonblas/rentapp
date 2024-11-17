@@ -51,9 +51,7 @@ function ImagePreview({ file }) {
   )
 }
 
-function MyDropzone() {
-  const [files, setFiles] = React.useState([])
-
+function Dropzone({ files, onChange }) {
   const onDrop = useCallback(
     (acceptedFiles) => {
       if (acceptedFiles.length > 10) {
@@ -70,11 +68,12 @@ function MyDropzone() {
       const filesWithPreview = filteredFiles.map((file) => ({
         name: file.name,
         url: URL.createObjectURL(file),
+        image: file,
       }))
 
-      setFiles((prev) => [...prev, ...filesWithPreview])
+      onChange(filesWithPreview)
     },
-    [files],
+    [files, onChange],
   )
 
   const onDropRejected = (fileRejections) => {
@@ -141,4 +140,4 @@ function MyDropzone() {
   )
 }
 
-export default MyDropzone
+export default Dropzone
