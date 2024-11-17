@@ -1,50 +1,38 @@
-import React, { useState, useRef, Fragment } from "react"
-import {
-  Button,
-  Popper,
-  Typography,
-  Container,
-  useClickAway,
-} from "@mui/material"
+import React, { useState, Fragment } from "react"
+import { Button, Popover, Typography, Container } from "@mui/material"
 import BuildingFilters from "./BuildingFilters"
 import PropertyFilters from "./PropertyFilters"
 
-function FilterList() {
+function FilterList({ filters, setFilters }) {
   const [anchorEl, setAnchorEl] = useState(null)
-  const [open, setOpen] = useState(false)
-  const popperRef = useRef(null) // Reference for the Popper element
-  const buttonRef = useRef(null) // Reference for the button element
 
-  // Toggle Popper visibility when button is clicked
+  // Toggle Popover visibility when button is clicked
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-    setOpen((prev) => !prev) // Toggle visibility
+    setAnchorEl(anchorEl ? null : event.currentTarget)
   }
 
-  // Use the `useClickAway` hook to close the Popper when clicking outside
-  useClickAway(popperRef, () => setOpen(false)) // Close the Popper on outside click
+  // Determine if the Popover is open
+  const open = Boolean(anchorEl)
 
   return (
     <Fragment>
-      <Button ref={buttonRef} variant="contained" onClick={handleClick}>
+      <Button variant="contained" onClick={handleClick}>
         Filtros
       </Button>
-      <Popper
+      <Popover
         open={open}
         anchorEl={anchorEl}
-        placement="bottom-start" // Popper placement below and to the left of the button
-        ref={popperRef} // Attach the ref to the Popper
-        modifiers={[
-          {
-            name: "offset",
-            options: {
-              offset: [0, 10], // Adjust the position of the Popper
-            },
-          },
-        ]}
-      >
-        <Container
-          sx={{
+        onClose={() => setAnchorEl(null)} // Close Popover when clicking outside or elsewhere
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          sx: {
             p: "30px!important",
             display: "flex",
             flexDirection: "column",
@@ -52,14 +40,22 @@ function FilterList() {
             backgroundColor: "white", // Optional background color
             borderRadius: "4px", // Optional border radius
             boxShadow: 3, // Optional shadow
-          }}
-        >
+          },
+        }}
+      >
+        <Container>
           <Typography variant="h5">Filtros del Edificio</Typography>
-          <BuildingFilters />
+          <BuildingFilters
+            filters={filters.BuildingFilters}
+            setFilters={setFilters}
+          />
           <Typography variant="h5">Filtros de la Propiedad</Typography>
-          <PropertyFilters />
+          <PropertyFilters
+            filters={filters.PropertyFilters}
+            setFilters={setFilters}
+          />
         </Container>
-      </Popper>
+      </Popover>
     </Fragment>
   )
 }

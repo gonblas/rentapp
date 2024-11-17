@@ -6,26 +6,26 @@ import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
 
 function SearchBar() {
-  // const [filters, setFilters] = React.useState({
-  //   property: {
-  //     ambients: 0,
-  //     surface: 0,
-  //     hasBackyard: false,
-  //     hasBalcony: false,
-  //     position: "",
-  //     rentPrice: 0,
-  //     petfriendly: false,
-  //   },
-  //   building: {
-  //     services: [],
-  //     hasGarage: false,
-  //     neighborhood: "",
-  //     expenses: 0,
-  //     floors: 0,
-  //     apartmentsPerFloor: 0,
-  //     hasElevator: false,
-  //   },
-  // })
+  const [filters, setFilters] = React.useState({
+    property: {
+      ambients: 0,
+      surface: 0,
+      hasBackyard: false,
+      hasBalcony: false,
+      position: "",
+      rentPrice: 0,
+      petfriendly: false,
+    },
+    building: {
+      services: [],
+      hasGarage: false,
+      neighborhood: "",
+      expenses: 0,
+      floors: 0,
+      apartmentsPerFloor: 0,
+      hasElevator: false,
+    },
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -56,7 +56,8 @@ function SearchBar() {
         }}
       />
       <FilterList
-        // filters={filters}
+        filters={filters}
+        setFilters={setFilters}
         style={{
           flexShrink: 0,
         }}

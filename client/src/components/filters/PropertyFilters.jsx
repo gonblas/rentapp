@@ -2,17 +2,7 @@ import Grid from "@mui/material/Grid2"
 import React from "react"
 import ShowFilter from "./ShowFilter"
 
-function PropertyFilters() {
-  const [filters, setFilters] = React.useState({
-    ambients: 0,
-    surface: 0,
-    hasBackyard: false,
-    hasBalcony: false,
-    position: "",
-    rentPrice: 0,
-    petfriendly: false,
-  })
-
+function PropertyFilters({ filters, setFilters }) {
   return (
     <Grid container spacing={2}>
       <ShowFilter
@@ -20,7 +10,6 @@ function PropertyFilters() {
         label="Patio"
         type="checkbox"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -28,7 +17,6 @@ function PropertyFilters() {
         label="Balcón"
         type="checkbox"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -36,7 +24,6 @@ function PropertyFilters() {
         label="Ambientes"
         type="number"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -44,7 +31,6 @@ function PropertyFilters() {
         label="Superficie"
         type="number"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -52,7 +38,6 @@ function PropertyFilters() {
         label="Orientación"
         type="select"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
         options={[
           { value: "north", label: "Frente" },
@@ -65,7 +50,6 @@ function PropertyFilters() {
         label="Precio de Alquiler"
         type="slider"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
         options={{
           min: 0,

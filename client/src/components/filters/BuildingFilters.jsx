@@ -2,17 +2,8 @@ import Grid from "@mui/material/Grid2"
 import React from "react"
 import ShowFilter from "./ShowFilter"
 
-function BuildingFilters() {
+function BuildingFilters({ filters, setFilters }) {
   const services = ["Pileta", "Gimnasio", "Terraza", "Baulera", "Lavadero"]
-  const [filters, setFilters] = React.useState({
-    services: [],
-    hasGarage: false,
-    neighborhood: "",
-    expenses: 0,
-    floors: 0,
-    apartmentsPerFloor: 0,
-    hasElevator: false,
-  })
 
   return (
     <Grid container spacing={2}>
@@ -21,7 +12,6 @@ function BuildingFilters() {
         label="Garage"
         type="checkbox"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -29,7 +19,6 @@ function BuildingFilters() {
         label="Ascensor"
         type="checkbox"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -37,7 +26,6 @@ function BuildingFilters() {
         label="Servicios"
         type="multiselect"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
         options={services.map((service) => ({
           value: service,
@@ -49,7 +37,6 @@ function BuildingFilters() {
         label="Barrio"
         type="select"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
         options={[
           { value: "st-ana", label: "St. Ana" },
@@ -62,7 +49,6 @@ function BuildingFilters() {
         label="Pisos"
         type="number"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -70,7 +56,6 @@ function BuildingFilters() {
         label="Departamentos por piso"
         type="number"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
       />
       <ShowFilter
@@ -78,7 +63,6 @@ function BuildingFilters() {
         label="Expensas"
         type="slider"
         filters={filters}
-        // searchFilters={searchFilters}
         setFilters={setFilters}
         options={{
           min: 0,
