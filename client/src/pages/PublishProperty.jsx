@@ -1,11 +1,11 @@
 import React from "react"
-import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
+import { useState } from "react"
 import { Container } from "@mui/material"
+import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
 import SelectBuilding from "../components/publish-property/SelectBuilding"
 // import Multimedia from "../components/publish-property/Multimedia"
 // import Characteristics from "../components/publish-property/Characteristics"
 // import ReviewProperty from "../components/publish-property/ReviewProperty"
-import { useState } from "react"
 
 function PublishProperty() {
   const steps = [
@@ -15,65 +15,75 @@ function PublishProperty() {
     // "Revisión",
   ]
 
+  const validateStep1 = (setErrors, formData) => {
+    const setFieldError = (field, hasError, message) => {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: { hasError, message },
+      }))
+    }
+
+    const { building_id } = formData
+
+    let isValid = true
+
+    if (!building_id || building_id.length < 10) {
+      setFieldError(
+        "building_id",
+        true,
+        "El número de teléfono debe tener al menos 10 dígitos."
+      )
+      isValid = false
+    }
+    console.log(isValid)
+    console.log(formData)
+    return isValid
+  }
+
   const nextStepFunction = [
-    () => console.log("Estoy en la etapa 1"),
+    () => validateStep1(setErrors, formData[0]),
     // () => console.log("Estoy en la etapa 2"),
     // () => console.log("Estoy en la etapa 3"),
     // () => console.log("Estoy en la etapa 4"),
-  ]
+  ];
 
   const [formData, setFormData] = useState([
     // Índice 0: Datos de la primera "etapa"
     {
-      email: "",
-      password: "",
+      building_id: 0,
     },
-    // Índice 1: Datos de la segunda "etapa"
-    {
-      confirmPassword: "",
-      name: "",
-    },
-    // Índice 2: Datos de la tercera "etapa"
-    {
-      phone: "",
-      whatsapp: "",
-    },
-    // Índice 3: Datos de la cuarta "etapa"
-    {
-      date: "",
-      address: "",
-    },
-  ]);
+  ])
 
   const [errors, setErrors] = useState([
     // Índice 0: Errores para la primera "etapa"
     {
-      email: { hasError: false, message: "" },
-      password: { hasError: false, message: "" },
+      building_id: { hasError: false, message: "" },
     },
-    // Índice 1: Errores para la segunda "etapa"
-    // {
-    //   confirmPassword: { hasError: false, message: "" },
-    //   name: { hasError: false, message: "" },
-    // },
-    // // Índice 2: Errores para la tercera "etapa"
-    // {
-    //   phone: { hasError: false, message: "" },
-    //   whatsapp: { hasError: false, message: "" },
-    // },
-    // // Índice 3: Errores para la cuarta "etapa"
-    // {
-    //   date: { hasError: false, message: "" },
-    //   address: { hasError: false, message: "" },
-    // },
   ])
+
+  const handleOnChange = (event, index) => {
+    const { name, value, type, checked } = event.target
+
+    // Determina el valor de acuerdo al tipo de campo (checkbox o texto)
+    const newValue = type === "checkbox" ? checked : value
+
+    // Actualiza el estado de forma general
+    setFormData((prevData) => {
+      const updatedData = [...prevData]
+      updatedData[index] = {
+        ...updatedData[index],
+        [name]: newValue,
+      }
+      return updatedData
+    })
+  }
 
   const comps = [
     <SelectBuilding
       key={0}
-      formData={formData}
-      setFormData={setFormData}
-      errors={errors}
+      formData={formData[0]}
+      handleOnChange={handleOnChange}
+      errors={errors[0]}
     />,
     // <Multimedia key={1} />,
     // <Characteristics key={2} />,
