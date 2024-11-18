@@ -1,11 +1,13 @@
+import React from "react"
 import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
-import React from "react"
 import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
+import { useNavigate } from "react-router-dom"
 
 function SearchBar() {
+  const navigate = useNavigate()
   const [filters, setFilters] = React.useState({
     property: {
       ambients: 0,
@@ -29,13 +31,31 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const formData = new FormData()
-    formData.append("search", event.target.search.value)
+
+    const formData = {
+      search: event.target.search.value,
+      ...filters.property,
+      ...filters.building,
+    }
+
+    console.log("Submitted data:", formData)
+
+    fetch("http://localhost:8000/search/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data)
+        navigate("/search", { state: { data } })
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
   }
 
   return (
     <Container
-      onSubmit={handleSubmit}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -47,31 +67,42 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      <TextField
-        id="outlined-search"
-        label="Search field"
-        type="search"
-        sx={{
-          flexGrow: 1,
-        }}
-      />
-      <FilterList
-        filters={filters}
-        setFilters={setFilters}
+      {/* Form wrapper */}
+      <form
+        onSubmit={handleSubmit}
         style={{
-          flexShrink: 0,
-        }}
-      />
-      <Button
-        type="submit"
-        variant="contained"
-        href="/search"
-        sx={{
-          width: "10px",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          gap: "10px",
         }}
       >
-        <SearchIcon />
-      </Button>
+        <TextField
+          id="search"
+          name="search"
+          label="Search field"
+          type="search"
+          sx={{
+            flexGrow: 1,
+          }}
+        />
+        <FilterList
+          filters={filters}
+          setFilters={setFilters}
+          style={{
+            flexShrink: 0,
+          }}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            width: "10px",
+          }}
+        >
+          <SearchIcon />
+        </Button>
+      </form>
     </Container>
   )
 }

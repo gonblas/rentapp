@@ -12,19 +12,23 @@ import {
 
 function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
   const handleOnChange = (event) => {
-    const { name, value, checked } = event.target
+    const { name, value, type, checked } = event.target
 
-    if (name === "services") {
+    if (type === "checkbox" && name === "services") {
       setFilters((prevFilters) => ({
         ...prevFilters,
-        services: checked
-          ? [...prevFilters.services, value]
-          : prevFilters.services.filter((service) => service !== value),
+        services: Array.isArray(prevFilters.services)
+          ? checked
+            ? [...prevFilters.services, value]
+            : prevFilters.services.filter((service) => service !== value)
+          : checked
+            ? [value]
+            : [],
       }))
     } else {
       setFilters((prevFilters) => ({
         ...prevFilters,
-        [name]: value,
+        [name]: type === "checkbox" ? checked : value, // Handle generic checkboxes and other inputs
       }))
     }
   }
