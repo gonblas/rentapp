@@ -204,7 +204,6 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property }) {
-
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>

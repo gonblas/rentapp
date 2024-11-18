@@ -31,10 +31,10 @@ function Carousel({ data }) {
         sx={{
           position: "absolute",
           filter: "drop-shadow(0px 0px 5px #555)",
-          width: "1.5rem",
-          height: "1.5rem",
+          width: "2.5rem",
+          height: "2.5rem",
           color: "white",
-          left: "0.25rem",
+          left: "1rem",
           "&:hover": {
             color: "white",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -70,15 +70,15 @@ function Carousel({ data }) {
         sx={{
           position: "absolute",
           filter: "drop-shadow(0px 0px 5px #555)",
-          width: "1.5rem",
-          height: "1.5rem",
+          width: "2.5rem",
+          height: "2.5rem",
           color: "white",
-          right: "0.25rem",
+          right: "1rem",
           "&:hover": {
             color: "white",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             boxShadow: "0px 0px 5px #333",
-            borderRadius: "50%", // Ensures the shape is circular
+            borderRadius: "50%",
           },
         }}
       />
