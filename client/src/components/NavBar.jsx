@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Settings from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
+import { Link } from "react-router-dom"
 
 function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -133,13 +134,11 @@ function NavBar() {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button
-                key={item.title}
-                href={item.path}
-                sx={{ color: "text.primary", mr: 2 }}
-              >
-                {item.title}
-              </Button>
+              <Link to={item.path} key={item.title}>
+                <Button sx={{ color: "text.primary", mr: 2 }}>
+                  {item.title}
+                </Button>
+              </Link>
             ))}
           </Box>
           <AccountMenu></AccountMenu>
