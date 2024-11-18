@@ -146,9 +146,6 @@ function Characteristics() {
           fullWidth
         />
       </FormControl>
-      {/* backyard: false,
-      garage: false,
-      pet_friendly: false, */}
       <FormControlLabel
         id="backyard"
         control={

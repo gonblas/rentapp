@@ -53,7 +53,7 @@ export default function HorizontalLinearStepper({
   const handleNext = () => {
     let isValid = nextStepFunction[activeStep](setErrors, formData[activeStep])
     if (isValid) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
   }
 

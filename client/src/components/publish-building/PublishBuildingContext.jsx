@@ -1,25 +1,21 @@
 import React, { createContext, useState } from "react"
 
-// Crear el Contexto
 const PublishBuildingContext = createContext(undefined)
 
-// Crear el Provider para envolver tus componentes
 export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       building_address: "",
     },
     {
-      description: "",
-      rental_value: 0,
-      expenses_value: 0,
-      rooms: 0,
-      square_meters: 0,
-      location: "",
-      balconies: 0,
-      backyard: false,
-      garage: false,
-      pet_friendly: false,
+      floors: 0,
+      apartments_per_floor: 0,
+      elevator: false,
+      pool: false,
+      gym: false,
+      terrace: false,
+      bike_rack: false,
+      laundry: false,
     },
   ])
 
@@ -28,16 +24,14 @@ export const PublishBuildingProvider = ({ children }) => {
       building_address: { hasError: false, message: "" },
     },
     {
-      description: { hasError: false, message: "" },
-      rental_value: { hasError: false, message: "" },
-      expenses_value: { hasError: false, message: "" },
-      rooms: { hasError: false, message: "" },
-      square_meters: { hasError: false, message: "" },
-      location: { hasError: false, message: "" },
-      balconies: { hasError: false, message: "" },
-      backyard: { hasError: false, message: "" },
-      garage: { hasError: false, message: "" },
-      pet_friendly: { hasError: false, message: "" },
+      floors: { hasError: false, message: "" },
+      apartments_per_floor: { hasError: false, message: "" },
+      elevator: { hasError: false, message: "" },
+      pool: { hasError: false, message: "" },
+      gym: { hasError: false, message: "" },
+      terrace: { hasError: false, message: "" },
+      bike_rack: { hasError: false, message: "" },
+      laundry: { hasError: false, message: "" },
     },
   ])
 
@@ -78,17 +72,17 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const validateStep2 = (setErrors, formData) => {
-    const { rental_value, expenses_value, rooms, square_meters } = formData
+    const { floors, apartments_per_floor } = formData
     let isValid = true
 
-    if (!rental_value || rental_value <= 0) {
+    if (!floors || floors < 1) { 
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[1] = {
           ...updatedErrors[1],
-          rental_value: {
+          floors: {
             hasError: true,
-            message: "El valor del alquiler debe ser mayor a 0",
+            message: "Selecciona un número de pisos válido",
           },
         }
         return updatedErrors
@@ -99,7 +93,7 @@ export const PublishBuildingProvider = ({ children }) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[1] = {
           ...updatedErrors[1],
-          rental_value: {
+          floors: {
             hasError: false,
             message: "",
           },
@@ -108,14 +102,14 @@ export const PublishBuildingProvider = ({ children }) => {
       })
     }
 
-    if (!expenses_value) {
+    if (!apartments_per_floor || apartments_per_floor < 1) {
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[1] = {
           ...updatedErrors[1],
-          expenses_value: {
+          apartments_per_floor: {
             hasError: true,
-            message: "El valor de las expensas debe ser mayor o igual a 0",
+            message: "Selecciona un número de apartamentos válido",
           },
         }
         return updatedErrors
@@ -126,61 +120,7 @@ export const PublishBuildingProvider = ({ children }) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[1] = {
           ...updatedErrors[1],
-          expenses_value: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
-    }
-
-    if (!rooms || rooms <= 0) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rooms: {
-            hasError: true,
-            message: "La cantidad de habitaciones debe ser mayor a 0",
-          },
-        }
-        return updatedErrors
-      })
-      isValid = false
-    } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rooms: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
-    }
-
-    if (!square_meters || square_meters <= 0) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          square_meters: {
-            hasError: true,
-            message: "Los metros cuadrados deben ser mayor a 0",
-          },
-        }
-        return updatedErrors
-      })
-      isValid = false
-    } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          square_meters: {
+          apartments_per_floor: {
             hasError: false,
             message: "",
           },
