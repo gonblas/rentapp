@@ -38,10 +38,10 @@ function Characteristics() {
           id="floors"
           name="floors"
           placeholder="Ej: 3"
-          value={formData[1].floors}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].floors.hasError}
-          helperText={errors[1].floors.message}
+          value={formData.floors}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.floors.hasError}
+          helperText={errors.floors.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -55,10 +55,10 @@ function Characteristics() {
           id="apartments_per_floor"
           name="apartments_per_floor"
           placeholder="Ej: 2"
-          value={formData[1].apartments_per_floor}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].apartments_per_floor.hasError}
-          helperText={errors[1].apartments_per_floor.message}
+          value={formData.apartments_per_floor}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.apartments_per_floor.hasError}
+          helperText={errors.apartments_per_floor.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -68,8 +68,8 @@ function Characteristics() {
         id="elevator"
         control={
           <Checkbox
-            checked={formData[1].elevator}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.elevator}
+            onChange={(e) => handleOnChange(e)}
             name="elevator"
           />
         }
@@ -79,8 +79,8 @@ function Characteristics() {
         id="pool"
         control={
           <Checkbox
-            checked={formData[1].pool}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.pool}
+            onChange={(e) => handleOnChange(e)}
             name="pool"
           />
         }
@@ -90,8 +90,8 @@ function Characteristics() {
         id="gym"
         control={
           <Checkbox
-            checked={formData[1].gym}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.gym}
+            onChange={(e) => handleOnChange(e)}
             name="gym"
           />
         }
@@ -101,8 +101,8 @@ function Characteristics() {
         id="terrace"
         control={
           <Checkbox
-            checked={formData[1].terrace}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.terrace}
+            onChange={(e) => handleOnChange(e)}
             name="terrace"
           />
         }
@@ -112,8 +112,8 @@ function Characteristics() {
         id="bike_rack"
         control={
           <Checkbox
-            checked={formData[1].bike_rack}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.bike_rack}
+            onChange={(e) => handleOnChange(e)}
             name="bike_rack"
           />
         }
@@ -123,8 +123,8 @@ function Characteristics() {
         id="laundry"
         control={
           <Checkbox
-            checked={formData[1].laundry}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.laundry}
+            onChange={(e) => handleOnChange(e)}
             name="laundry"
           />
         }

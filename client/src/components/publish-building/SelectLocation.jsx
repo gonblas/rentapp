@@ -10,7 +10,9 @@ import TextField from "@mui/material/TextField"
 import { useEffect, useState } from "react"
 
 function SelectLocation() {
-  const { errors, handleOnChange, formData } = useContext(PublishBuildingContext)
+  const { errors, handleOnChange, formData } = useContext(
+    PublishBuildingContext,
+  )
   const [neighborhoods, setNeighborhoods] = useState([])
 
   useEffect(() => {
@@ -39,24 +41,24 @@ function SelectLocation() {
   return (
     <>
       <FormControl>
-        <FormControl error={errors[0].building_address.hasError}>
+        <FormControl error={errors.building_address.hasError}>
           <FormLabel>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
-            value={formData[0].building_address}
+            value={formData.building_address}
           />
           <FormHelperText>
-            {errors[0].building_address.hasError &&
-              errors[0].building_address.message}
+            {errors.building_address.hasError &&
+              errors.building_address.message}
           </FormHelperText>
         </FormControl>
       </FormControl>
-      <FormControl sx={{ pt: "30px" }} error={errors[0].neighbourhood.hasError}>
+      <FormControl sx={{ pt: "30px" }} error={errors.neighborhood.hasError}>
         <FormLabel>Barrio</FormLabel>
         <Autocomplete
           disablePortal
           autoComplete
-          value={formData[0].neighbourhood}
+          value={formData.neighborhood}
           noOptionsText="Sin resultados"
           options={neighborhoods}
           sx={{ width: "auto" }}
@@ -64,14 +66,14 @@ function SelectLocation() {
           onChange={(event, newValue) => {
             handleOnChange(
               {
-                target: { name: "neighbourhood", value: newValue },
+                target: { name: "neighborhood", value: newValue },
               },
               0,
             )
           }}
         />
         <FormHelperText>
-          {errors[0].neighbourhood.hasError && errors[0].neighbourhood.message}
+          {errors.neighborhood.hasError && errors.neighborhood.message}
         </FormHelperText>
       </FormControl>
     </>
