@@ -10,6 +10,9 @@ import StepConnector, {
 } from "@mui/material/StepConnector"
 import { styled } from "@mui/material/styles"
 import Container from "@mui/material/Container"
+import { useContext, useState } from "react"
+import PublishPropertyContext from "./publish-property/PublishPropertyContext"
+import PublishBuildingContext from "./publish-building/PublishBuildingContext"
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -36,11 +39,22 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }))
 
-export default function HorizontalLinearStepper({ componets, steps }) {
-  const [activeStep, setActiveStep] = React.useState(0)
+export default function HorizontalLinearStepper({
+  componets,
+  steps,
+  property,
+}) {
+  const { formData, setErrors, nextStepFunction } = useContext(
+    property ? PublishPropertyContext : PublishBuildingContext,
+  )
+
+  const [activeStep, setActiveStep] = useState(0)
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    let isValid = nextStepFunction[activeStep](setErrors, formData[activeStep])
+    if (isValid) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   }
 
   const handleBack = () => {

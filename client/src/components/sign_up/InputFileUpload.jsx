@@ -21,7 +21,7 @@ const VisuallyHiddenInput = styled("input")`
 `
 
 export default function InputFileUpload({ onFileChange }) {
-  const [file, setFile] = useState()
+  const [file, setFile] = useState(null)
 
   function handleChange(e) {
     const selectedFile = e.target.files[0]
@@ -38,8 +38,8 @@ export default function InputFileUpload({ onFileChange }) {
         return
       }
 
-      setFile(URL.createObjectURL(selectedFile))
-      onFileChange(URL.createObjectURL(selectedFile))
+      setFile(selectedFile)
+      onFileChange(selectedFile, URL.createObjectURL(selectedFile))
     }
   }
 

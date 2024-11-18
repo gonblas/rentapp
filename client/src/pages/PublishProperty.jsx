@@ -1,21 +1,27 @@
 import React from "react"
-import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
 import { Container } from "@mui/material"
-import Multimedia from "../components/publish-property/Multimedia"
-import Principal from "../components/publish-property/Principal"
+import HorizontalLinearStepper from "../components/HorizontalLinearStepper"
+import SelectBuilding from "../components/publish-property/SelectBuilding"
 import Characteristics from "../components/publish-property/Characteristics"
-import ReviewProperty from "../components/publish-property/ReviewProperty"
+import Multimedia from "../components/publish-property/Multimedia"
+// import ReviewProperty from "../components/publish-property/ReviewProperty"
+import { PublishPropertyProvider } from "../components/publish-property/PublishPropertyContext"
 
-const comps = [
-  <Principal key={0} />,
-  <Multimedia key={1} />,
-  <Characteristics key={2} />,
-  <ReviewProperty key={3} />,
-]
+function PublishProperty() {
+  const steps = [
+    "Seleccionar Edificio",
+    "Características",
+    "Multimedia",
+    // "Revisión",
+  ]
 
-const steps = ["Principal", "Multimedia", "Características", "Revisión"]
+  const comps = [
+    <SelectBuilding key={0} />,
+    <Characteristics key={1} />,
+    <Multimedia key={2} />,
+    // <ReviewProperty key={3} />,
+  ]
 
-const PublishProperty = () => {
   return (
     <Container
       sx={{
@@ -26,7 +32,13 @@ const PublishProperty = () => {
         width: "90%",
       }}
     >
-      <HorizontalLinearStepper componets={comps} steps={steps} />
+      <PublishPropertyProvider>
+        <HorizontalLinearStepper
+          componets={comps}
+          steps={steps}
+          property={true}
+        />
+      </PublishPropertyProvider>
     </Container>
   )
 }

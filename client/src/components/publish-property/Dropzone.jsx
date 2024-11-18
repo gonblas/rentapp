@@ -14,8 +14,8 @@ function ImagePreview({ file }) {
         alignItems: "center",
         padding: "0px!important",
         margin: "0px!important",
-        width: "100px",
-        height: "100px",
+        width: "19.1%",
+        aspectRatio: "1 / 1",
         borderRadius: "5px!important",
         overflow: "hidden",
         border: "1px solid #ccc",
@@ -51,9 +51,7 @@ function ImagePreview({ file }) {
   )
 }
 
-function MyDropzone() {
-  const [files, setFiles] = React.useState([])
-
+function Dropzone({ files, onChange }) {
   const onDrop = useCallback(
     (acceptedFiles) => {
       if (acceptedFiles.length > 10) {
@@ -70,11 +68,12 @@ function MyDropzone() {
       const filesWithPreview = filteredFiles.map((file) => ({
         name: file.name,
         url: URL.createObjectURL(file),
+        image: file,
       }))
 
-      setFiles((prev) => [...prev, ...filesWithPreview])
+      onChange(filesWithPreview)
     },
-    [files],
+    [files, onChange],
   )
 
   const onDropRejected = (fileRejections) => {
@@ -99,6 +98,10 @@ function MyDropzone() {
       <div
         {...getRootProps()}
         style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "300px",
           border: "2px dashed #ccc",
           padding: "20px",
           textAlign: "center",
@@ -137,4 +140,4 @@ function MyDropzone() {
   )
 }
 
-export default MyDropzone
+export default Dropzone

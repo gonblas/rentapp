@@ -7,6 +7,7 @@ import {
   PublishProperty,
   PublishBuilding,
   Search,
+  PropertyFullView,
 } from "./pages"
 import NavBar from "./components/NavBar"
 import Footer from "./components/footer/Footer"
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/publish-property" element={<PublishProperty />} />
           <Route path="/publish-building" element={<PublishBuilding />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/property-full-view" element={<PropertyFullView />} />
         </Routes>
         <Footer />
       </AppTheme>

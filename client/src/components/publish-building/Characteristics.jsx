@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material"
 import FormHeader from "../FormHeader"
-import PropertyFilters from "../PropertyFilters"
+import PropertyFilters from "../filters/PropertyFilters"
 
 function Subtitle({ children }) {
   return (

@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography"
 import parse from "autosuggest-highlight/parse"
 import { debounce } from "@mui/material/utils"
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDgk_8qsWug-yseYcct8p-rrXGRzYgx29k"
+const GOOGLE_MAPS_API_KEY = "AIzaSyBRBWgrItri9YSfUy3uNFd36eVQsMnZGws"
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -24,7 +24,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null }
 
-export default function GoogleMaps() {
+export default function GoogleMaps({ handleOnChange }) {
   const [value, setValue] = React.useState(null)
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState([])
@@ -89,7 +89,7 @@ export default function GoogleMaps() {
 
   return (
     <Autocomplete
-      sx={{ width: 300 }}
+      sx={{ width: "auto" }}
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.description
       }
@@ -99,16 +99,23 @@ export default function GoogleMaps() {
       includeInputInList
       filterSelectedOptions
       value={value}
-      noOptionsText="No locations"
+      noOptionsText="Sin resultados"
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
         setValue(newValue)
+        console.log(newValue.description)
+        handleOnChange(
+          {
+            target: { name: "building_address", value: newValue.description },
+          },
+          0,
+        )
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Add a location" fullWidth />
+        <TextField {...params} label="Agrega una ubicación" fullWidth />
       )}
       renderOption={(props, option) => {
         const { key, ...optionProps } = props

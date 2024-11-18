@@ -95,7 +95,6 @@ export const inputsCustomizations = {
             },
             style: {
               color: (theme.vars || theme).palette.text.primary,
-              border: "1px solid",
               borderColor: gray[200],
               backgroundColor: alpha(gray[50], 0.3),
               "&:hover": {
@@ -168,16 +167,9 @@ export const inputsCustomizations = {
         fontWeight: theme.typography.fontWeightMedium,
         letterSpacing: 0,
         color: (theme.vars || theme).palette.text.primary,
-        border: "1px solid ",
+        border: "none",
         borderColor: gray[200],
         backgroundColor: alpha(gray[50], 0.3),
-        "&:hover": {
-          backgroundColor: gray[100],
-          borderColor: gray[300],
-        },
-        "&:active": {
-          backgroundColor: gray[200],
-        },
         variants: [
           {
             props: {
@@ -267,7 +259,7 @@ export const inputsCustomizations = {
   MuiInputBase: {
     styleOverrides: {
       root: {
-        border: "none",
+        border: "1px solid",
       },
       input: {
         "&::placeholder": {
@@ -293,7 +285,6 @@ export const inputsCustomizations = {
           borderColor: gray[400],
         },
         [`&.${outlinedInputClasses.focused}`]: {
-          outline: `3px solid ${alpha(brand[500], 0.5)}`,
           borderColor: brand[400],
         },
         variants: [
@@ -301,16 +292,10 @@ export const inputsCustomizations = {
             props: {
               size: "small",
             },
-            style: {
-              height: "2.25rem",
-            },
           },
           {
             props: {
               size: "medium",
-            },
-            style: {
-              height: "2.5rem",
             },
           },
         ],

@@ -58,6 +58,7 @@ export default function SignUp(props) {
     confirmPassword: { hasError: false, message: "" },
     name: { hasError: false, message: "" },
     phone: { hasError: false, message: "" },
+    whatsapp: { hasError: false, message: "" },
     date: { hasError: false, message: "" },
   })
 
@@ -67,9 +68,11 @@ export default function SignUp(props) {
     confirmPassword: "",
     name: "",
     phone: "",
+    whatsapp: "",
     date: "",
     isRealEstate: false,
     avatar: null,
+    avatarUrl: "",
   })
 
   const setFieldError = (field, hasError, message) => {
@@ -87,10 +90,11 @@ export default function SignUp(props) {
     }))
   }
 
-  const handleFileChange = (file) => {
+  const handleFileChange = (file, fileUrl) => {
     setData((prevData) => ({
       ...prevData,
       avatar: file,
+      avatarUrl: fileUrl,
     }))
   }
 
@@ -163,6 +167,18 @@ export default function SignUp(props) {
       setFieldError("phone", false, "")
     }
 
+    // WhatsApp validation
+    if (phone && phone.length < 10) {
+      setFieldError(
+        "whatsapp",
+        true,
+        "Por favor ingrese un número de WhatsApp válido.",
+      )
+      isValid = false
+    } else {
+      setFieldError("whatsapp", false, "")
+    }
+
     // Skip date validation if user is real estate
     if (isRealEstate) {
       setFieldError("date", false, "")
@@ -171,8 +187,8 @@ export default function SignUp(props) {
 
     // Date validation with age check
     if (date) {
-      const [year, month, day] = date.split("-").map(Number) // Parse the date
-      const birthDate = new Date(year, month - 1, day) // Create Date object
+      const [year, month, day] = date.split("-").map(Number)
+      const birthDate = new Date(year, month - 1, day)
       const today = new Date()
       let age = today.getFullYear() - birthDate.getFullYear()
 
@@ -207,39 +223,29 @@ export default function SignUp(props) {
     event.preventDefault()
     if (!validateInputs()) return
 
-    // Crear un nuevo FormData
     const formData = new FormData()
-
-    // Agregar los campos del formulario
+    formData.append("name", data.name)
     formData.append("email", data.email)
     formData.append("password", data.password)
-    formData.append("name", data.name)
-    formData.append("phone", data.phone)
-    formData.append("date", data.date)
-    formData.append("isRealEstate", data.isRealEstate)
+    formData.append("is_real_estate", data.isRealEstate)
+    formData.append("phone_number", data.phone)
+    formData.append("has_phone_number", String(data.phone !== ""))
+    formData.append("whatsapp_number", data.whatsapp)
+    formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
+    formData.append("avatar", data.avatar)
 
-    if (data.avatar) {
-      formData.append("avatar", data.avatar)
-    }
-
-    console.log("Form data: ", formData)
-
-    // try {
-    // const response = await fetch("/api/register", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   if (response.ok) {
-
-    //     navigate("/sign-in")
-    //   } else {
-
-    //     console.error("Error en el registro")
-    //   }
-    // } catch (error) {
-    //   console.error("Error al enviar los datos: ", error)
-    // }
-    navigate("/sign-in")
+    fetch("http://localhost:8000/signup/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data)
+        navigate("/sign-in")
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
   }
 
   return (
@@ -350,6 +356,23 @@ export default function SignUp(props) {
                 fullWidth
               />
             </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="whatsapp">Número de WhatsApp</FormLabel>
+              <TextField
+                id="whatsapp"
+                name="whatsapp"
+                placeholder="123-456-7890"
+                autoComplete="phone"
+                value={data.whatsapp}
+                onChange={handleOnChange}
+                error={errors.whatsapp.hasError}
+                helperText={errors.whatsapp.message}
+                variant="outlined"
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                fullWidth
+              />
+            </FormControl>
             <FormControlLabel
               id="isRealEstate"
               control={
@@ -389,7 +412,7 @@ export default function SignUp(props) {
                   gap: "1rem",
                 }}
               >
-                <AvatarRender name={data.name} image={data.avatar} />
+                <AvatarRender name={data.name} image={data.avatarUrl} />
                 <InputFileUpload onFileChange={handleFileChange} />
               </div>
             </FormControl>

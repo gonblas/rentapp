@@ -4,81 +4,23 @@ import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
 import SearchBar from "../components/SearchBar"
 
-const properties = [
-  {
-    description: "Departamento luminoso en Palermo",
-    contact: {
-      phone: "1144444444",
-      email: "contacto@example.com",
-      whatsapp_enabled: true,
-    },
-    location: {
-      address: "Avenida Scalabrini Ortiz 1550",
-      neighborhood_id: 1,
-      location: "front",
-    },
-    features: {
-      type: "apartment",
-      rental_value: 150000,
-      expenses_value: 30000,
-      rooms: 2,
-      square_meters: 60,
-      balconies: 1,
-      patio: true,
-      garage: true,
-      pet_friendly: true,
-    },
-    publisher: {
-      publisher_id: 1,
-      is_real_estate: false,
-      avatar:
-        "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/3.jpeg",
-      name: "Juan Perez",
-    },
-    building_id: 1,
-    images: [
-      "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/images/2-1.jpg",
-      "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/images/2-2.jpg",
-    ],
-  },
-  {
-    description: "Casa espaciosa en Caballito",
-    contact: {
-      phone: "1188888888",
-      email: "venta@example.com",
-      whatsapp_enabled: false,
-    },
-    location: {
-      address: "Avenida Rivadavia 5400",
-      neighborhood_id: 5,
-      location: "front",
-    },
-    features: {
-      type: "house",
-      rental_value: 2500,
-      expenses_value: 450,
-      rooms: 4,
-      square_meters: 180,
-      balconies: 1,
-      patio: true,
-      garage: true,
-      pet_friendly: true,
-    },
-    publisher: {
-      publisher_id: 2,
-      is_real_estate: true,
-      avatar: "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/2.jpg",
-      name: "Geronimo Benavidez",
-    },
-    building_id: 3,
-    images: [
-      "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/images/2-1.jpg",
-      "https://rentapp-bucket.s3.sa-east-1.amazonaws.com/images/2-2.jpg",
-    ],
-  },
-]
+import { useState, useEffect } from "react"
 
 const Home = () => {
+  const [properties, setProperties] = useState([])
+
+  useEffect(() => {
+    fetch("http://localhost:8000/properties", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        setProperties(response)
+      })
+      .catch((error) => console.error("Error fetching properties:", error))
+  }, [])
+
   return (
     <div
       style={{
@@ -120,9 +62,9 @@ const Home = () => {
             margin: "0px!important",
           }}
         >
-          {properties.map((property, index) => (
+          {/* {properties.map((property, index) => (
             <PropertyCard key={index} property={property} />
-          ))}
+          ))} */}
         </Container>
       </Container>
     </div>
