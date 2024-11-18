@@ -8,7 +8,6 @@ export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       building_address: "",
-      building_id: 1,
     },
     {
       description: "",
@@ -26,7 +25,7 @@ export const PublishBuildingProvider = ({ children }) => {
 
   const [errors, setErrors] = useState([
     {
-      building_id: { hasError: false, message: "" },
+      building_address: { hasError: false, message: "" },
     },
     {
       description: { hasError: false, message: "" },
@@ -43,52 +42,34 @@ export const PublishBuildingProvider = ({ children }) => {
   ])
 
   const validateStep1 = (setErrors, formData) => {
-    const { building_id, building_address } = formData
+    const { building_address } = formData
     let isValid = true
-
-    // para la validacion esperar que rama tenga el endpoint, preguntas con el string
-    // y te guardas el id del edificio.
 
     if (!building_address) {
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[0] = {
           ...updatedErrors[0],
-          building_id: {
+          building_address: {
             hasError: true,
-            message: "Selecciona un edificio",
+            message: "Selecciona una dirección válida",
           },
         }
         return updatedErrors
       })
       isValid = false
     } else {
-      if (building_id === 0) {
-        setErrors((prevErrors) => {
-          const updatedErrors = [...prevErrors]
-          updatedErrors[0] = {
-            ...updatedErrors[0],
-            building_id: {
-              hasError: true,
-              message: "El edificio seleccionado no es válido",
-            },
-          }
-          return updatedErrors
-        })
-        isValid = false
-      } else {
-        setErrors((prevErrors) => {
-          const updatedErrors = [...prevErrors]
-          updatedErrors[0] = {
-            ...updatedErrors[0],
-            building_id: {
-              hasError: false,
-              message: "",
-            },
-          }
-          return updatedErrors
-        })
-      }
+      setErrors((prevErrors) => {
+        const updatedErrors = [...prevErrors]
+        updatedErrors[0] = {
+          ...updatedErrors[0],
+          building_address: {
+            hasError: false,
+            message: "",
+          },
+        }
+        return updatedErrors
+      })
     }
 
     console.log(isValid)
