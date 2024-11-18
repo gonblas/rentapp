@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField"
 import { useEffect, useState } from "react"
 
 function SelectLocation() {
-  const { errors, handleOnChange } = useContext(PublishBuildingContext)
+  const { errors, handleOnChange, formData } = useContext(PublishBuildingContext)
   const [neighborhoods, setNeighborhoods] = useState([])
 
   useEffect(() => {
@@ -41,7 +41,10 @@ function SelectLocation() {
       <FormControl>
         <FormControl error={errors[0].building_address.hasError}>
           <FormLabel>Ubicación del edificio</FormLabel>
-          <GoogleMaps handleOnChange={handleOnChange} />
+          <GoogleMaps
+            handleOnChange={handleOnChange}
+            value={formData[0].building_address}
+          />
           <FormHelperText>
             {errors[0].building_address.hasError &&
               errors[0].building_address.message}
@@ -53,6 +56,7 @@ function SelectLocation() {
         <Autocomplete
           disablePortal
           autoComplete
+          value={formData[0].neighbourhood}
           noOptionsText="Sin resultados"
           options={neighborhoods}
           sx={{ width: "auto" }}

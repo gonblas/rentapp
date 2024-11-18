@@ -7,6 +7,8 @@ import Grid from "@mui/material/Grid2"
 import Typography from "@mui/material/Typography"
 import parse from "autosuggest-highlight/parse"
 import { debounce } from "@mui/material/utils"
+import { useContext } from "react"
+import PublishBuildingContext from "./publish-building/PublishBuildingContext"
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyBRBWgrItri9YSfUy3uNFd36eVQsMnZGws"
 
@@ -24,8 +26,8 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null }
 
-export default function GoogleMaps({ handleOnChange }) {
-  const [value, setValue] = React.useState(null)
+export default function GoogleMaps({ handleOnChange, value }) {
+  const { formData } = useContext(PublishBuildingContext)
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState([])
   const loaded = React.useRef(false)
@@ -102,7 +104,6 @@ export default function GoogleMaps({ handleOnChange }) {
       noOptionsText="Sin resultados"
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
-        setValue(newValue)
         console.log(newValue.description)
         handleOnChange(
           {

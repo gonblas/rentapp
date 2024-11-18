@@ -15,7 +15,10 @@ function SelectBuilding() {
       <FormControl>
         <FormControl error={errors[0].building_id.hasError}>
           <FormLabel>Ubicación del edificio</FormLabel>
-          <GoogleMaps handleOnChange={handleOnChange} />
+          <GoogleMaps
+            handleOnChange={handleOnChange}
+            value={formData[0].building_address}
+          />
           <FormHelperText>
             {errors[0].building_id.hasError && errors[0].building_id.message}
           </FormHelperText>
