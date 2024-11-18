@@ -25,6 +25,8 @@ DROP TABLE IF EXISTS `buildings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `buildings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `publisher_id` int(11) DEFAULT NULL,
+  `approved` tinyint(1) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `neighborhood_id` int(11) DEFAULT NULL,
   `floors` int(11) DEFAULT NULL,
@@ -37,7 +39,8 @@ CREATE TABLE `buildings` (
   `laundry` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `neighborhood_id` (`neighborhood_id`),
-  CONSTRAINT `buildings_ibfk_1` FOREIGN KEY (`neighborhood_id`) REFERENCES `neighborhoods` (`id`)
+  CONSTRAINT `buildings_ibfk_1` FOREIGN KEY (`neighborhood_id`) REFERENCES `neighborhoods` (`id`),
+  CONSTRAINT `buildings_ibfk_2` FOREIGN KEY (`publisher_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -4,7 +4,7 @@ from ..database import db_dependency
 from ..models import Building, Neighborhood, User
 from ..schemas.buildings import BuildingsResponse, BuildingResponse
 from fastapi import Cookie
-import auth
+from . import auth
 
 router = APIRouter(
     prefix="/building",

@@ -3,7 +3,8 @@ from fastapi import Cookie, Depends, HTTPException
 import jwt
 import os
 from passlib.context import CryptContext
-from ..database import db_dependency, User
+from ..database import db_dependency
+from ..models import User
 
 secret_key = os.getenv("TOKEN_SECRET_KEY")
 algorithm = os.getenv("TOKEN_ENCRYPTION_ALGORITHM")

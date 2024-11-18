@@ -13,7 +13,7 @@ from ..bucket import upload_avatar
 from ..schemas.properties import PropertyResponse, PropertiesResponse
 from .property import parse_properties_response
 from sqlalchemy import func
-import auth
+from . import auth
 
 router = APIRouter(
     prefix="/user",
