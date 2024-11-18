@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from .properties import PaginationInfo
 
 class BuildingResponse(BaseModel):
     id: int
@@ -15,4 +16,3 @@ class BuildingResponse(BaseModel):
 
 class BuildingsResponse(BaseModel):
     buildings: list[BuildingResponse]
-    pagination: dict

@@ -48,6 +48,10 @@ CREATE TABLE `buildings` (
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
 INSERT INTO `buildings` VALUES
+(1,'Calle 1 N° 100',1,10,5,1,1,1,1,1,1),
+(2,'Avenida 7 N° 200',2,6,4,0,0,0,0,0,0),
+(3,'Calle 10 N° 300',3,8,3,0,0,0,0,0,0),
+(4,'Avenida 13 N° 400',4,10,5,1,1,1,1,1,1),
 (5,'Calle 5 N° 1001',11,12,6,1,0,1,1,0,1),
 (6,'Avenida 19 N° 2002',12,15,4,1,1,0,1,1,1),
 (7,'Calle 37 N° 3003',13,8,3,0,0,0,1,0,0),
