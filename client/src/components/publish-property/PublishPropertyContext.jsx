@@ -7,7 +7,7 @@ const PublishPropertyContext = createContext(undefined)
 export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
-      building_address: "",
+      address: "",
       building_id: 1,
     },
     {
@@ -43,13 +43,13 @@ export const PublishPropertyProvider = ({ children }) => {
   ])
 
   const validateStep1 = (setErrors, formData) => {
-    const { building_id, building_address } = formData
+    const { building_id, address } = formData
     let isValid = true
 
     // para la validacion esperar que rama tenga el endpoint, preguntas con el string
     // y te guardas el id del edificio.
 
-    if (!building_address) {
+    if (!address) {
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[0] = {

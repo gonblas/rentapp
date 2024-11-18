@@ -4,7 +4,7 @@ const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState({
-    building_address: "",
+    address: "",
     neighborhood: "",
     floors: 0,
     apartments_per_floor: 0,
@@ -17,7 +17,7 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const [errors, setErrors] = useState({
-    building_address: { hasError: false, message: "" },
+    address: { hasError: false, message: "" },
     neighborhood: { hasError: false, message: "" },
     floors: { hasError: false, message: "" },
     apartments_per_floor: { hasError: false, message: "" },
@@ -30,13 +30,13 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const validateStep1 = (setErrors) => {
-    const { neighborhood, building_address } = formData
+    const { neighborhood, address } = formData
     let isValid = true
 
-    if (!building_address) {
+    if (!address) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        building_address: {
+        address: {
           hasError: true,
           message: "Selecciona una dirección válida",
         },
@@ -45,7 +45,7 @@ export const PublishBuildingProvider = ({ children }) => {
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        building_address: {
+        address: {
           hasError: false,
           message: "",
         },

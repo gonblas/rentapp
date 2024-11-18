@@ -41,15 +41,15 @@ function SelectLocation() {
   return (
     <>
       <FormControl>
-        <FormControl error={errors.building_address.hasError}>
+        <FormControl error={errors.address.hasError}>
           <FormLabel>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
-            value={formData.building_address}
+            value={formData.address}
           />
           <FormHelperText>
-            {errors.building_address.hasError &&
-              errors.building_address.message}
+            {errors.address.hasError &&
+              errors.address.message}
           </FormHelperText>
         </FormControl>
       </FormControl>
