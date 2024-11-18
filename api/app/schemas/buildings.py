@@ -5,6 +5,7 @@ class BuildingResponse(BaseModel):
     id: int
     address: str
     neighborhood_id: int
+    neighborhood_name: str
     floors: int
     apartments_per_floor: int
     elevator: bool

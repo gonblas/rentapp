@@ -13,21 +13,13 @@ from ..bucket import upload_avatar
 from ..schemas.properties import PropertyResponse, PropertiesResponse
 from .property import parse_properties_response
 from sqlalchemy import func
+from . import auth
 
 router = APIRouter(
     prefix="/user",
     tags=["user"],
 )
 
-secret_key = os.getenv("TOKEN_SECRET_KEY")
-algorithm = os.getenv("TOKEN_ENCRYPTION_ALGORITHM")
-expire_time = os.getenv("TOKEN_EXPIRE_MINUTES")
-
-auth_context = CryptContext(
-    schemes=["bcrypt"],
-    bcrypt__rounds = 12, #salt
-    deprecated="auto"
-)
 
 @router.post("/signin", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_dependency):
@@ -40,13 +32,7 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
     if not check_user_password(password, usr.password):
         raise HTTPException(status_code=404, detail="Invalid password")
 
-    payload = {
-        "user_id": usr.id,
-        "email": usr.email,
-        "is_real_estate": usr.is_real_estate,
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=int(expire_time))
-    }
-    token = jwt.encode(payload, secret_key, algorithm=algorithm)
+    token = auth.generate_user_token(usr.id, usr.email, usr.is_real_estate)
 
     response = JSONResponse(
         content=parse_user_response(usr)
@@ -62,7 +48,7 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
 
 
 def check_user_password(plain_password : str, hashed_password : str):
-    return auth_context.verify(plain_password, hashed_password)
+    return auth.auth_context.verify(plain_password, hashed_password)
     
 def check_user_exists(email:str, db: db_dependency):
     return db.query(User).filter(User.email == email).first()
@@ -100,7 +86,7 @@ async def register(
     if check_user_exists(email, db):
         raise HTTPException(status_code=404, detail="User already exists")
     
-    hashed_password = auth_context.hash(password)
+    hashed_password = auth.auth_context.hash(password)
 
     if avatar is None:
         avatar_url = ""
@@ -132,50 +118,22 @@ async def register(
     return parse_user_response(user_created)
 
 
+# returns the user logged in
 @router.get("/me", response_model=UserResponse, status_code=status.HTTP_200_OK)
-def read_user( db : db_dependency, token : Annotated[str | None, Cookie()] = None):
-
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-    )
-        
-    #this already checks the timestamp and the signature
-    try:
-        payload = jwt.decode(token, secret_key, algorithms=[algorithm])
-    except jwt.PyJWTError:
-        raise credentials_exception
-
-    email = payload.get("email")
-
-    user = db.query(User).filter(User.email == email).first()
+def read_user( db : db_dependency, user : User = Depends(auth.get_current_user)):
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
     return parse_user_response(user)
 
+# returns all properties from a user
 @router.get("/publications", response_model=PropertiesResponse, status_code=status.HTTP_200_OK)
-def read_user_publications( db : db_dependency, token : Annotated[str | None, Cookie()] = None):
+def read_user_publications( db : db_dependency, user : User = Depends(auth.get_current_user)):
 
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-        )
-            
-        #this already checks the timestamp and the signature
-        try:
-            payload = jwt.decode(token, secret_key, algorithms=[algorithm])
-        except jwt.PyJWTError:
-            raise credentials_exception
-    
-        email = payload.get("email")
-    
-        user = db.query(User).filter(User.email == email).first()
-    
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
-    
+
         query = (
             db.query(
                 Property,
