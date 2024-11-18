@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useState } from "react"
 
 // Crear el Contexto
 const PublishPropertyContext = createContext(undefined)
@@ -8,7 +8,7 @@ export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       building_direction: "",
-      building_id: 0,
+      building_id: 1,
     },
     {
       description: "",
@@ -63,7 +63,7 @@ export const PublishPropertyProvider = ({ children }) => {
       })
       isValid = false
     } else {
-      if(building_id === 0) {
+      if (building_id === 0) {
         setErrors((prevErrors) => {
           const updatedErrors = [...prevErrors]
           updatedErrors[0] = {
@@ -90,7 +90,6 @@ export const PublishPropertyProvider = ({ children }) => {
         })
       }
     }
-    
 
     console.log(isValid)
     console.log(formData)
