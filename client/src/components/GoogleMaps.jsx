@@ -24,7 +24,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null }
 
-export default function GoogleMaps() {
+export default function GoogleMaps({ handleOnChange }) {
   const [value, setValue] = React.useState(null)
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState([])
@@ -89,7 +89,7 @@ export default function GoogleMaps() {
 
   return (
     <Autocomplete
-      sx={{ width: "auto", m: 10 }}
+      sx={{ width: "auto", m: 5 }}
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.description
       }
@@ -103,6 +103,13 @@ export default function GoogleMaps() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
         setValue(newValue)
+        console.log(newValue.description)
+        handleOnChange(
+          {
+            target: { name: "building_direction", value: newValue.description },
+          },
+          0,
+        )
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)

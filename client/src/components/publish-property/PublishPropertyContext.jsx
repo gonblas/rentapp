@@ -7,6 +7,7 @@ const PublishPropertyContext = createContext(undefined)
 export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
+      building_direction: "",
       building_id: 0,
     },
     {
@@ -42,17 +43,20 @@ export const PublishPropertyProvider = ({ children }) => {
   ])
 
   const validateStep1 = (setErrors, formData) => {
-    const { building_id } = formData
+    const { building_id, building_direction } = formData
     let isValid = true
 
-    if (!building_id || building_id.length < 10) {
+    // para la validacion esperar que rama tenga el endpoint, preguntas con el string
+    // y te guardas el id del edificio.
+
+    if (!building_direction || building_id === 0) {
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[0] = {
           ...updatedErrors[0],
           building_id: {
             hasError: true,
-            message: "El número de edificio debe ser de 10 dígitos",
+            message: "Selecciona un edificio",
           },
         }
         return updatedErrors
