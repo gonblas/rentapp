@@ -33,7 +33,11 @@ function PublishProperty() {
       }}
     >
       <PublishPropertyProvider>
-        <HorizontalLinearStepper componets={comps} steps={steps} />
+        <HorizontalLinearStepper
+          componets={comps}
+          steps={steps}
+          property={true}
+        />
       </PublishPropertyProvider>
     </Container>
   )
