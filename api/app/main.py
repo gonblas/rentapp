@@ -24,4 +24,4 @@ app.add_middleware(
 app.include_router(property.router)
 app.include_router(user.router)
 app.include_router(building.router)
-# app.include_router(neighborhoods.router)
+app.include_router(neighborhood.router)
