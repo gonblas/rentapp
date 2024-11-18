@@ -49,7 +49,7 @@ export const PublishPropertyProvider = ({ children }) => {
     // para la validacion esperar que rama tenga el endpoint, preguntas con el string
     // y te guardas el id del edificio.
 
-    if (!building_direction || building_id === 0) {
+    if (!building_direction) {
       setErrors((prevErrors) => {
         const updatedErrors = [...prevErrors]
         updatedErrors[0] = {
@@ -63,18 +63,34 @@ export const PublishPropertyProvider = ({ children }) => {
       })
       isValid = false
     } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[0] = {
-          ...updatedErrors[0],
-          building_id: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
+      if(building_id === 0) {
+        setErrors((prevErrors) => {
+          const updatedErrors = [...prevErrors]
+          updatedErrors[0] = {
+            ...updatedErrors[0],
+            building_id: {
+              hasError: true,
+              message: "El edificio seleccionado no es válido",
+            },
+          }
+          return updatedErrors
+        })
+        isValid = false
+      } else {
+        setErrors((prevErrors) => {
+          const updatedErrors = [...prevErrors]
+          updatedErrors[0] = {
+            ...updatedErrors[0],
+            building_id: {
+              hasError: false,
+              message: "",
+            },
+          }
+          return updatedErrors
+        })
+      }
     }
+    
 
     console.log(isValid)
     console.log(formData)
