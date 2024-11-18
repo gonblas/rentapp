@@ -162,9 +162,14 @@ export const PublishBuildingProvider = ({ children }) => {
     return isValid
   }
 
+  const submitForm = () => {
+    console.log(formData)
+  }
+
   const nextStepFunction = [
     () => validateStep1(setErrors, formData[0]),
     () => validateStep2(setErrors, formData[1]),
+    () => submitForm(),
   ]
 
   const handleOnChange = (event, index) => {

@@ -76,17 +76,6 @@ function Characteristics() {
         label="Ascensor"
       />
       <FormControlLabel
-        id="parking"
-        control={
-          <Checkbox
-            checked={formData[1].parking}
-            onChange={(e) => handleOnChange(e, 1)}
-            name="parking"
-          />
-        }
-        label="Estacionamiento"
-      />
-      <FormControlLabel
         id="pool"
         control={
           <Checkbox

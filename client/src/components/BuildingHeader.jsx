@@ -19,13 +19,14 @@ function BuildingHeader({ building }) {
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        px: "0px!important",
         gap: "10px",
       }}
     >
       <Typography variant="h4">{building.address}</Typography>
 
       <Typography variant="h5" sx={{ pb: "15px" }}>
-        Neighborhood: {building.neighborhood_id}
+        {building.neighborhood}
       </Typography>
       <Typography variant="h6">Caracteristicas generales</Typography>
       <Grid

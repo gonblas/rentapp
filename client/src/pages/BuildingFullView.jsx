@@ -5,7 +5,7 @@ import BuildingHeader from "../components/BuildingHeader"
 const building = {
   id: 0,
   address: "Avenida Segurola al 4300 y Calle Habana",
-  neighborhood_id: 12,
+  neighborhood: "Villa Devoto",
   floors: 10,
   apartments_per_floor: 4,
   elevator: true,
@@ -25,6 +25,7 @@ const BuildingFullView = () => {
         alignItems: "center",
         justifyContent: "center",
         width: "90%",
+        px: "0px!important",
       }}
     >
       <BuildingHeader building={building}></BuildingHeader>
