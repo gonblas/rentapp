@@ -106,7 +106,7 @@ export default function GoogleMaps({ handleOnChange }) {
         console.log(newValue.description)
         handleOnChange(
           {
-            target: { name: "building_direction", value: newValue.description },
+            target: { name: "building_address", value: newValue.description },
           },
           0,
         )
