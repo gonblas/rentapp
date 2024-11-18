@@ -39,10 +39,10 @@ function Characteristics() {
           id="description"
           name="description"
           placeholder="Escribe tu descripción aquí"
-          value={formData[1].description}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].description.hasError}
-          helperText={errors[1].description.message}
+          value={formData.description}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.description.hasError}
+          helperText={errors.description.message}
           variant="outlined"
           multiline
           rows={4}
@@ -58,10 +58,10 @@ function Characteristics() {
           id="rental_value"
           name="rental_value"
           placeholder="Ej: 10000"
-          value={formData[1].rental_value}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].rental_value.hasError}
-          helperText={errors[1].rental_value.message}
+          value={formData.rental_value}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.rental_value.hasError}
+          helperText={errors.rental_value.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -73,10 +73,10 @@ function Characteristics() {
           id="expenses_value"
           name="expenses_value"
           placeholder="Ej: 5000"
-          value={formData[1].expenses_value}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].expenses_value.hasError}
-          helperText={errors[1].expenses_value.message}
+          value={formData.expenses_value}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.expenses_value.hasError}
+          helperText={errors.expenses_value.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -90,10 +90,10 @@ function Characteristics() {
           id="rooms"
           name="rooms"
           placeholder="Ej: 3"
-          value={formData[1].rooms}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].rooms.hasError}
-          helperText={errors[1].rooms.message}
+          value={formData.rooms}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.rooms.hasError}
+          helperText={errors.rooms.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -105,10 +105,10 @@ function Characteristics() {
           id="square_meters"
           name="square_meters"
           placeholder="Ej: 100"
-          value={formData[1].square_meters}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].square_meters.hasError}
-          helperText={errors[1].square_meters.message}
+          value={formData.square_meters}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.square_meters.hasError}
+          helperText={errors.square_meters.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -116,15 +116,15 @@ function Characteristics() {
       </FormControl>
 
       <FormControl>
-        <FormLabel htmlFor="location">Ubicación</FormLabel>
+        <FormLabel htmlFor="location">Ubicación en el edificio</FormLabel>
         <TextField
           id="location"
           name="location"
           placeholder="Ej: Av. Siempre Viva 123"
-          value={formData[1].location}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].location.hasError}
-          helperText={errors[1].location.message}
+          value={formData.location}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.location.hasError}
+          helperText={errors.location.message}
           variant="outlined"
           fullWidth
         />
@@ -137,10 +137,10 @@ function Characteristics() {
           id="balconies"
           name="balconies"
           placeholder="Ej: 1"
-          value={formData[1].balconies}
-          onChange={(e) => handleOnChange(e, 1)}
-          error={errors[1].balconies.hasError}
-          helperText={errors[1].balconies.message}
+          value={formData.balconies}
+          onChange={(e) => handleOnChange(e)}
+          error={errors.balconies.hasError}
+          helperText={errors.balconies.message}
           type="number"
           variant="outlined"
           fullWidth
@@ -150,8 +150,8 @@ function Characteristics() {
         id="backyard"
         control={
           <Checkbox
-            checked={formData[1].backyard}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.backyard}
+            onChange={(e) => handleOnChange(e)}
             name="backyard"
           />
         }
@@ -161,8 +161,8 @@ function Characteristics() {
         id="garage"
         control={
           <Checkbox
-            checked={formData[1].garage}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.garage}
+            onChange={(e) => handleOnChange(e)}
             name="garage"
           />
         }
@@ -172,8 +172,8 @@ function Characteristics() {
         id="pet_friendly"
         control={
           <Checkbox
-            checked={formData[1].pet_friendly}
-            onChange={(e) => handleOnChange(e, 1)}
+            checked={formData.pet_friendly}
+            onChange={(e) => handleOnChange(e)}
             name="pet_friendly"
           />
         }
