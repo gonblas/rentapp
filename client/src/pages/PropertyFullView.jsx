@@ -1,6 +1,6 @@
 import React from "react"
 import { Container } from "@mui/material"
-import Property from "../components/Property"
+import PropertyHeader from "../components/PropertyHeader"
 
 const property = {
   id: 0,
@@ -63,7 +63,7 @@ const PropertyFullView = () => {
         width: "90%",
       }}
     >
-      <Property property={property}></Property>
+      <PropertyHeader property={property}></PropertyHeader>
     </Container>
   )
 }
