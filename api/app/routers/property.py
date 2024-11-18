@@ -6,7 +6,7 @@ from sqlalchemy import func
 from ..schemas.properties import FilterParams, PropertiesResponse, PropertyResponse
 
 router = APIRouter(
-    prefix="/properties",
+    prefix="/property",
     tags=["properties"],
 )
 

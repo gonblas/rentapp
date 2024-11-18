@@ -4,7 +4,7 @@ from ..models import Building
 from ..schemas.buildings import BuildingsResponse, BuildingResponse
 
 router = APIRouter(
-    prefix="/buildings",
+    prefix="/building",
     tags=["buildings"],
 )
 
