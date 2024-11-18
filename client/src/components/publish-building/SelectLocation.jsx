@@ -5,9 +5,37 @@ import { useContext } from "react"
 import PublishBuildingContext from "./PublishBuildingContext"
 import GoogleMaps from "../GoogleMaps"
 import FormHelperText from "@mui/material/FormHelperText"
+import Autocomplete from "@mui/material/Autocomplete"
+import TextField from "@mui/material/TextField"
+import { useEffect, useState } from "react"
 
 function SelectLocation() {
   const { errors, handleOnChange } = useContext(PublishBuildingContext)
+  const [neighborhoods, setNeighborhoods] = useState([])
+
+  useEffect(() => {
+    fetch("http://localhost:8000/neighborhood/", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al obtener los barrios")
+        }
+        return response.json()
+      })
+      .then((data) => {
+        setNeighborhoods(
+          data.neighborhoods.map((neighborhood) => neighborhood.name),
+        )
+      })
+      .catch((error) => {
+        console.error(error.message)
+      })
+  }, [])
+
   return (
     <>
       <FormControl>
@@ -19,6 +47,28 @@ function SelectLocation() {
               errors[0].building_address.message}
           </FormHelperText>
         </FormControl>
+      </FormControl>
+      <FormControl sx={{ pt: "30px" }} error={errors[0].neighbourhood.hasError}>
+        <FormLabel>Barrio</FormLabel>
+        <Autocomplete
+          disablePortal
+          autoComplete
+          noOptionsText="Sin resultados"
+          options={neighborhoods}
+          sx={{ width: "auto" }}
+          renderInput={(params) => <TextField {...params} />}
+          onChange={(event, newValue) => {
+            handleOnChange(
+              {
+                target: { name: "neighbourhood", value: newValue },
+              },
+              0,
+            )
+          }}
+        />
+        <FormHelperText>
+          {errors[0].neighbourhood.hasError && errors[0].neighbourhood.message}
+        </FormHelperText>
       </FormControl>
     </>
   )

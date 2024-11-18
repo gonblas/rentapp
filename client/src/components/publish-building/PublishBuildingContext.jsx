@@ -6,6 +6,7 @@ export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       building_address: "",
+      neighbourhood: "",
     },
     {
       floors: 0,
@@ -22,6 +23,7 @@ export const PublishBuildingProvider = ({ children }) => {
   const [errors, setErrors] = useState([
     {
       building_address: { hasError: false, message: "" },
+      neighbourhood: { hasError: false, message: "" },
     },
     {
       floors: { hasError: false, message: "" },
@@ -36,7 +38,7 @@ export const PublishBuildingProvider = ({ children }) => {
   ])
 
   const validateStep1 = (setErrors, formData) => {
-    const { building_address } = formData
+    const { neighbourhood, building_address } = formData
     let isValid = true
 
     if (!building_address) {
@@ -58,6 +60,33 @@ export const PublishBuildingProvider = ({ children }) => {
         updatedErrors[0] = {
           ...updatedErrors[0],
           building_address: {
+            hasError: false,
+            message: "",
+          },
+        }
+        return updatedErrors
+      })
+    }
+
+    if(!neighbourhood || neighbourhood === "") {
+      setErrors((prevErrors) => {
+        const updatedErrors = [...prevErrors]
+        updatedErrors[0] = {
+          ...updatedErrors[0],
+          neighbourhood: {
+            hasError: true,
+            message: "Selecciona un barrio",
+          },
+        }
+        return updatedErrors
+      })
+      isValid = false
+    } else {
+      setErrors((prevErrors) => {
+        const updatedErrors = [...prevErrors]
+        updatedErrors[0] = {
+          ...updatedErrors[0],
+          neighbourhood: {
             hasError: false,
             message: "",
           },

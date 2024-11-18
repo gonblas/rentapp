@@ -114,9 +114,7 @@ export default function GoogleMaps({ handleOnChange }) {
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
       }}
-      renderInput={(params) => (
-        <TextField {...params} label="Agrega una ubicación" fullWidth />
-      )}
+      renderInput={(params) => <TextField {...params} fullWidth />}
       renderOption={(props, option) => {
         const { key, ...optionProps } = props
         const matches =
