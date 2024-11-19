@@ -77,9 +77,11 @@ function Characteristics() {
           error={errors.rental_value.hasError}
           helperText={errors.rental_value.message}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
-          aria-describedby="outlined-weight-helper-text"
           fullWidth
         />
+        <FormHelperText>
+          {errors.rental_value.hasError && errors.rental_value.message}
+        </FormHelperText>
       </FormControl>
 
       <FormControl variant="outlined">
@@ -93,9 +95,11 @@ function Characteristics() {
           error={errors.expenses_value.hasError}
           helperText={errors.expenses_value.message}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
-          variant="outlined"
           fullWidth
         />
+        <FormHelperText>
+          {errors.expenses_value.hasError && errors.expenses_value.message}
+        </FormHelperText>
       </FormControl>
 
       <Subtitle>Caracteristicas importantes</Subtitle>
@@ -130,7 +134,7 @@ function Characteristics() {
         />
       </FormControl>
 
-      <FormControl error={errors.location.hasError} >
+      <FormControl error={errors.location.hasError}>
         <FormLabel htmlFor="location">Ubicación en el edificio</FormLabel>
         <Autocomplete
           disablePortal

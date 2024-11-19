@@ -41,7 +41,7 @@ function SelectLocation() {
   return (
     <>
       <FormControl>
-        <FormControl error={errors.address.hasError}>
+        <FormControl>
           <FormLabel>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
@@ -52,7 +52,7 @@ function SelectLocation() {
           </FormHelperText>
         </FormControl>
       </FormControl>
-      <FormControl sx={{ pt: "30px" }} error={errors.neighborhood.hasError}>
+      <FormControl sx={{ pt: "30px" }}>
         <FormLabel>Barrio</FormLabel>
         <Autocomplete
           disablePortal

@@ -163,9 +163,30 @@ export const PublishPropertyProvider = ({ children }) => {
       }))
     }
 
+    if (!location || location === "" || location === null) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        location: {
+          hasError: true,
+          message: "La ubicación en el edificio es requerida",
+        },
+      }))
+      isValid = false
+      console.log("location invalid")
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        location: {
+          hasError: false,
+          message: "",
+        },
+      }))
+    }
+
     console.log(formData)
     return isValid
   }
+
 
   const nextStepFunction = [
     () => validateStep1(setErrors),
