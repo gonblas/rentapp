@@ -16,6 +16,8 @@ class Building(Base):
     __tablename__ = 'buildings'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    publisher_id = Column(Integer, ForeignKey('users.id'))
+    approved = Column(Boolean, default=False)
     address = Column(String(255))
     neighborhood_id = Column(Integer, ForeignKey('neighborhoods.id'))
     floors = Column(Integer)
@@ -48,8 +50,6 @@ class Property(Base):
     publication_date = Column(Date)
     approved = Column(Boolean, default=False)
     description = Column(Text)
-    address = Column(String(255))
-    neighborhood_id = Column(Integer, ForeignKey('neighborhoods.id'))
     rental_value = Column(Float)
     expenses_value = Column(Float)
     rooms = Column(Integer)
@@ -58,7 +58,7 @@ class Property(Base):
     backyard = Column(Boolean)
     garage = Column(Boolean)
     pet_friendly = Column(Boolean)
-    location = Column(Enum('front', 'back', 'internal', 'n/a'))
+    location = Column(Enum('front', 'back', 'internal'))
     publisher_id = Column(Integer, ForeignKey('users.id'))
     building_id = Column(Integer, ForeignKey('buildings.id'))
 

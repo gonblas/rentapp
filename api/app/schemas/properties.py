@@ -71,10 +71,6 @@ class FilterParams(BaseModel):
         0, alias="offset", title="Offset of postings", ge=0
     )
 
-class LocationInfo(BaseModel):
-    address: str
-    neighborhood_id: int
-
 class Features(BaseModel):
     rental_value: float
     expenses_value: float
@@ -95,23 +91,61 @@ class ContactInfo(BaseModel):
 
 class PublisherInfo(BaseModel):
     publisher_id: int
+    name : str
     is_real_estate: bool
     avatar : str
     contact: ContactInfo
+
+class BuildingInfo(BaseModel):
+    id : int
+    address : str
+    neighborhood_name : str
+    floors : int
+    apartments_per_floor : int
+    elevator: bool
+    pool: bool
+    gym: bool
+    terrace: bool
+    bike_rack: bool
+    laundry: bool
+
+# publicacion
+class PublicationResponse(BaseModel):
+    id : int
+    description : str
+    features : Features
+    publisher : PublisherInfo
+    building : BuildingInfo
+    images : List[str]
+
+class PropertyResponse(BaseModel):
+    id : int
+    description: str
+    features: Features
+    publisher: PublisherInfo
+    images: List[str]
+
+class BuildingSearch(BaseModel):
+    id : int
+    address : str
+    neighborhood_name : str
+    floors : int
+    apartments_per_floor : int
+    elevator: bool
+    pool: bool
+    gym: bool
+    terrace: bool
+    bike_rack: bool
+    laundry: bool
+    properties : List[PropertyResponse]
 
 class PaginationInfo(BaseModel):
     total_records: int
     total_pages: int
 
-class PropertyResponse(BaseModel):
-    id : int
-    description: str
-    location: LocationInfo
-    features: Features
-    publisher: PublisherInfo
-    building_id: int
-    images: List[str]
+class SearchResponse(BaseModel):
+    buildings : List[BuildingSearch]
 
 class PropertiesResponse(BaseModel):
-    properties: List[PropertyResponse]
+    properties : List[PropertyResponse]
     pagination: PaginationInfo

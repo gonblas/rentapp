@@ -5,6 +5,7 @@ class BuildingResponse(BaseModel):
     id: int
     address: str
     neighborhood_id: int
+    neighborhood_name: str
     floors: int
     apartments_per_floor: int
     elevator: bool
@@ -16,3 +17,15 @@ class BuildingResponse(BaseModel):
 
 class BuildingsResponse(BaseModel):
     buildings: list[BuildingResponse]
+
+class BuildingPost(BaseModel):
+    address: str
+    neighborhood_id: int
+    floors: int
+    apartments_per_floor: int
+    elevator: bool
+    pool: bool
+    gym: bool
+    terrace: bool
+    bike_rack: bool
+    laundry: bool
