@@ -2,7 +2,7 @@ import React from "react"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid2"
-import FeatureItem from "./FeatureItem"
+import FeatureItem from "../FeatureItem"
 import SensorDoorIcon from "@mui/icons-material/SensorDoor"
 import SquareFootIcon from "@mui/icons-material/SquareFoot"
 import PetsIcon from "@mui/icons-material/Pets"
@@ -18,6 +18,7 @@ function PropertyHeader({ property }) {
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        px: "0px!important",
         gap: "10px",
       }}
     >
@@ -33,7 +34,7 @@ function PropertyHeader({ property }) {
         <Typography variant="h4">
           ${property.features.rental_value.toLocaleString("es-ES")}
         </Typography>
-        <Typography variant="h4">{property.location.address}</Typography>
+        <Typography variant="h4">{property.building.address}</Typography>
       </Container>
 
       <Container
@@ -49,9 +50,29 @@ function PropertyHeader({ property }) {
           Expensas: ${property.features.expenses_value.toLocaleString("es-ES")}
         </Typography>
         <Typography variant="body2">
-          Neighborhood: {property.location.neighborhood_id}
+          {property.building.neighborhood_name}
         </Typography>
       </Container>
+      {property.description !== "" && (
+        <>
+          <Typography
+            variant="h6"
+            sx={{
+              mt: "1.5rem",
+            }}
+          >
+            Descripción
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
+            {property.description}
+          </Typography>
+        </>
+      )}
 
       <Typography
         variant="h6"
@@ -59,7 +80,7 @@ function PropertyHeader({ property }) {
           mt: "2.5rem",
         }}
       >
-        Caracteristicas generales
+        Caracteristicas de la propiedad
       </Typography>
       <Grid
         container

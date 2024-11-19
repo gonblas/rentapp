@@ -10,7 +10,7 @@ function WhatsAppButton({ phone }) {
       startIcon={<WhatsAppIcon />}
       size="small"
       sx={{
-        borderColor: "#D9D9D9",
+        border: "none",
         background: "#25D366",
         fontWeight: "600",
         textTransform: "none",
