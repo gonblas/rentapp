@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from typing import Annotated
 from ..database import db_dependency
 from ..models import Building, Neighborhood, User
-from ..schemas.buildings import BuildingsResponse, BuildingResponse
+from ..schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost
 from .auth import auth_dependency
 
 router = APIRouter(
@@ -93,3 +93,32 @@ def parse_buildings_response(buildings:dict):
     for building in buildings:
         response.append(parse_building_response(buildings))
     return response
+
+@router.post("/", response_model=BuildingResponse, status_code=status.HTTP_201_CREATED)
+async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
+    
+        neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()
+    
+        if neighborhood is None:
+            raise HTTPException(status_code=404, detail="Neighborhood not found")
+    
+        new_building = Building(
+            address=building.address,
+            publisher_id=user.id,
+            approved=False,
+            neighborhood_id=building.neighborhood_id,
+            floors=building.floors,
+            apartments_per_floor=building.apartments_per_floor,
+            elevator=building.elevator,
+            pool=building.pool,
+            gym=building.gym,
+            terrace=building.terrace,
+            bike_rack=building.bike_rack,
+            laundry=building.laundry
+        )
+    
+        db.add(new_building)
+        db.commit()
+        db.refresh(new_building)
+    
+        return parse_building_response((new_building, neighborhood.name))
