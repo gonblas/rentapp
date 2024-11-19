@@ -7,7 +7,7 @@ function Multimedia() {
   const [files, setFiles] = React.useState([])
 
   const onChange = (newFiles) => {
-    setFiles((prev) => [...prev, ...newFiles]);
+    setFiles((prev) => [...prev, ...newFiles])
   }
 
   useEffect(() => {

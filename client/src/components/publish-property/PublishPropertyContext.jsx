@@ -5,24 +5,20 @@ const PublishPropertyContext = createContext(undefined)
 
 // Crear el Provider para envolver tus componentes
 export const PublishPropertyProvider = ({ children }) => {
-  const [formData, setFormData] = useState([
-    {
-      address: "",
-      building_id: 1,
-    },
-    {
-      description: "",
-      rental_value: 0,
-      expenses_value: 0,
-      rooms: 0,
-      square_meters: 0,
-      location: "",
-      balconies: 0,
-      backyard: false,
-      garage: false,
-      pet_friendly: false,
-    },
-  ])
+  const [formData, setFormData] = useState({
+    address: "",
+    building_id: 1,
+    description: "",
+    rental_value: null,
+    expenses_value: null,
+    rooms: null,
+    square_meters: null,
+    location: null,
+    balconies: null,
+    backyard: false,
+    garage: false,
+    pet_friendly: false,
+  })
 
   const [errors, setErrors] = useState({
     building_id: { hasError: false, message: "" },
@@ -104,7 +100,7 @@ export const PublishPropertyProvider = ({ children }) => {
     }
 
     // Validación para `expenses_value`
-    if (!expenses_value) {
+    if (expenses_value < 0) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         expenses_value: {
@@ -163,16 +159,17 @@ export const PublishPropertyProvider = ({ children }) => {
       }))
     }
 
-    if (!location || location === "" || location === null) {
+    // Validación para `location`
+
+    if(formData.location === null){
       setErrors((prevErrors) => ({
         ...prevErrors,
         location: {
           hasError: true,
-          message: "La ubicación en el edificio es requerida",
+          message: "Debes seleccionar una ubicación",
         },
       }))
       isValid = false
-      console.log("location invalid")
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -186,7 +183,6 @@ export const PublishPropertyProvider = ({ children }) => {
     console.log(formData)
     return isValid
   }
-
 
   const nextStepFunction = [
     () => validateStep1(setErrors),

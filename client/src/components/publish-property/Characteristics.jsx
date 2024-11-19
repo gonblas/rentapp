@@ -77,6 +77,7 @@ function Characteristics() {
           error={errors.rental_value.hasError}
           helperText={errors.rental_value.message}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
+          type="number"
           fullWidth
         />
         <FormHelperText>
@@ -134,7 +135,7 @@ function Characteristics() {
         />
       </FormControl>
 
-      <FormControl error={errors.location.hasError}>
+      <FormControl>
         <FormLabel htmlFor="location">Ubicación en el edificio</FormLabel>
         <Autocomplete
           disablePortal
@@ -153,7 +154,7 @@ function Characteristics() {
             )
           }}
         />
-        <FormHelperText>
+        <FormHelperText sx={{ pt: 2 }}>
           {errors.location.hasError && errors.location.message}
         </FormHelperText>
       </FormControl>
