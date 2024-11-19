@@ -1,6 +1,0 @@
-id,name,is_real_estate,email,password,avatar
-1,John Doe,False,john.doe@example.com,securepass1,https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/1.jpeg
-2,Real Estate Co.,True,real.estate@example.com,securepass2,https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/1.jpeg
-3,Jane Smith,False,jane.smith@example.com,securepass3,https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/2.jpeg
-4,Another Real Estate Co.,True,hola@example.com,messiwc2022,https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/3.jpeg
-5,Yet Another Real Estate Co.,True,hola12@example.com,test123,https://rentapp-bucket.s3.sa-east-1.amazonaws.com/avatars/3.jpeg
