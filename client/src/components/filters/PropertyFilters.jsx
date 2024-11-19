@@ -57,6 +57,18 @@ function PropertyFilters({ filters, setFilters }) {
           step: 50,
         }}
       />
+      <ShowFilter
+        name="expenses"
+        label="Expensas"
+        type="slider"
+        filters={filters}
+        setFilters={setFilters}
+        options={{
+          min: 0,
+          max: 500000,
+          step: 50,
+        }}
+      />
     </Grid>
   )
 }

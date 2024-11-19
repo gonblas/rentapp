@@ -3,24 +3,17 @@ import React from "react"
 import ShowFilter from "./ShowFilter"
 
 function BuildingFilters({ filters, setFilters }) {
-  const services = ["Pileta", "Gimnasio", "Terraza", "Baulera", "Lavadero"]
+  const services = [
+    "Garaje",
+    "Ascensor",
+    "Pileta",
+    "Gimnasio",
+    "Terraza",
+    "Lavadero",
+  ]
 
   return (
     <Grid container spacing={2}>
-      <ShowFilter
-        name="hasGarage"
-        label="Garage"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-      />
-      <ShowFilter
-        name="hasElevator"
-        label="Ascensor"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-      />
       <ShowFilter
         name="services"
         label="Servicios"
@@ -33,20 +26,8 @@ function BuildingFilters({ filters, setFilters }) {
         }))}
       />
       <ShowFilter
-        name="neighborhood"
-        label="Barrio"
-        type="select"
-        filters={filters}
-        setFilters={setFilters}
-        options={[
-          { value: "st-ana", label: "St. Ana" },
-          { value: "el-peligro", label: "El Peligro" },
-          { value: "altos-lorenzo", label: "Altos de San Lorenzo" },
-        ]}
-      />
-      <ShowFilter
         name="floors"
-        label="Pisos"
+        label="Cantidad de Pisos"
         type="number"
         filters={filters}
         setFilters={setFilters}
@@ -59,16 +40,16 @@ function BuildingFilters({ filters, setFilters }) {
         setFilters={setFilters}
       />
       <ShowFilter
-        name="expenses"
-        label="Expensas"
-        type="slider"
+        name="neighborhood"
+        label="Barrio"
+        type="select"
         filters={filters}
         setFilters={setFilters}
-        options={{
-          min: 0,
-          max: 500000,
-          step: 50,
-        }}
+        options={[
+          { value: "st-ana", label: "St. Ana" },
+          { value: "el-peligro", label: "El Peligro" },
+          { value: "altos-lorenzo", label: "Altos de San Lorenzo" },
+        ]}
       />
     </Grid>
   )
