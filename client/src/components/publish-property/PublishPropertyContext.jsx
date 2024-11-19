@@ -18,6 +18,7 @@ export const PublishPropertyProvider = ({ children }) => {
     backyard: false,
     garage: false,
     pet_friendly: false,
+    images: [],
   })
 
   const [errors, setErrors] = useState({
@@ -32,6 +33,7 @@ export const PublishPropertyProvider = ({ children }) => {
     backyard: { hasError: false, message: "" },
     garage: { hasError: false, message: "" },
     pet_friendly: { hasError: false, message: "" },
+    images: { hasError: false, message: "" },
   })
 
   const validateStep1 = (setErrors) => {
@@ -161,7 +163,7 @@ export const PublishPropertyProvider = ({ children }) => {
 
     // Validación para `location`
 
-    if(formData.location === null){
+    if (formData.location === null) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         location: {
@@ -184,9 +186,38 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
+  const validateStep3 = (setErrors) => {
+    const { images } = formData
+    let isValid = true
+
+    // Validación para `images`
+    if (images.length < 5) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: {
+          hasError: true,
+          message: "Debes subir al menos 5 imágenes",
+        },
+      }))
+      isValid = false
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: {
+          hasError: false,
+          message: "",
+        },
+      }))
+    }
+
+    console.log(formData)
+    return isValid
+  }
+
   const nextStepFunction = [
     () => validateStep1(setErrors),
     () => validateStep2(setErrors),
+    () => validateStep3(setErrors),
   ]
 
   const handleOnChange = (event) => {
@@ -200,6 +231,13 @@ export const PublishPropertyProvider = ({ children }) => {
     }))
   }
 
+  const handleOnChangeImages = (files) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      images: [...(prevData.images || []), ...files],
+    }))
+  }
+
   return (
     <PublishPropertyContext.Provider
       value={{
@@ -209,6 +247,7 @@ export const PublishPropertyProvider = ({ children }) => {
         setErrors,
         nextStepFunction,
         handleOnChange,
+        handleOnChangeImages,
       }}
     >
       {children}
