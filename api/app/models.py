@@ -50,8 +50,6 @@ class Property(Base):
     publication_date = Column(Date)
     approved = Column(Boolean, default=False)
     description = Column(Text)
-    address = Column(String(255), unique=True)
-    neighborhood_id = Column(Integer, ForeignKey('neighborhoods.id'))
     rental_value = Column(Float)
     expenses_value = Column(Float)
     rooms = Column(Integer)

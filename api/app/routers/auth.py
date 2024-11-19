@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from typing import Annotated
 from fastapi import Cookie, Depends, HTTPException
 import jwt
 import os
@@ -39,3 +40,5 @@ def get_current_user(db : db_dependency, token: str = Cookie(None)):
         return user
     except jwt.PyJWTError:
         raise credentials_exception
+
+auth_dependency = Annotated[User, Depends(get_current_user)]

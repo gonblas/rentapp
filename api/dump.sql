@@ -361,8 +361,6 @@ CREATE TABLE `properties` (
   `publication_date` date DEFAULT NULL,
   `approved` tinyint(1) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `neighborhood_id` int(11) DEFAULT NULL,
   `rental_value` float DEFAULT NULL,
   `expenses_value` float DEFAULT NULL,
   `rooms` int(11) DEFAULT NULL,
@@ -375,10 +373,8 @@ CREATE TABLE `properties` (
   `publisher_id` int(11) DEFAULT NULL,
   `building_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `neighborhood_id` (`neighborhood_id`),
   KEY `publisher_id` (`publisher_id`),
   KEY `building_id` (`building_id`),
-  CONSTRAINT `properties_ibfk_1` FOREIGN KEY (`neighborhood_id`) REFERENCES `neighborhoods` (`id`),
   CONSTRAINT `properties_ibfk_2` FOREIGN KEY (`publisher_id`) REFERENCES `users` (`id`),
   CONSTRAINT `properties_ibfk_3` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -390,32 +386,32 @@ CREATE TABLE `properties` (
 
 LOCK TABLES `properties` WRITE;
 /*!40000 ALTER TABLE `properties` DISABLE KEYS */;
-INSERT INTO `properties` VALUES
-(1,'2024-11-01',1,'Departamento moderno con 3 habitaciones, balcón y cochera.','Calle Ficticia 123, La Plata',1,15000,2000,3,80,1,0,1,1,'front',1,1),
-(2,'2024-11-05',1,'Departamento de 2 habitaciones con excelente vista.','Avenida Siempre Viva 456, La Plata',2,8000,1000,2,60,1,0,0,0,'back',2,2),
-(3,'2024-11-07',0,'Departamento con 2 habitaciones, cocina independiente y balcón.','Calle Real 789, La Plata',3,10000,1200,2,65,1,0,1,1,'internal',3,3),
-(4,'2024-11-10',1,'Departamento de 3 habitaciones con balcón al frente y cochera.','Calle del Sol 123, La Plata',4,18000,2500,3,120,1,0,1,1,'front',4,4),
-(5,'2024-11-11',0,'Departamento en zona céntrica, con 1 habitación y vista panorámica.','Calle de la Luna 345, La Plata',5,9500,1100,1,50,1,0,0,1,'back',5,5),
-(6,'2024-11-12',1,'Departamento de 2 habitaciones con patio privado.','Avenida de los Lagos 890, La Plata',6,15000,1500,2,80,0,0,1,0,'front',6,6),
-(7,'2024-11-14',1,'Departamento en edificio nuevo, con amenities como gimnasio y piscina.','Avenida Libertador 234, La Plata',7,12000,1500,2,75,1,0,1,1,'front',7,7),
-(8,'2024-11-16',0,'Departamento ideal para oficina, en excelente ubicación.','Calle Comercio 567, La Plata',8,22000,3000,3,100,0,0,1,0,'internal',8,8),
-(9,'2024-11-18',1,'Departamento de 1 habitación, ideal para estudiantes.','Calle de la Estación 123, La Plata',9,6000,800,1,40,0,0,0,1,'front',9,9),
-(10,'2024-11-20',1,'Departamento con 2 habitaciones, ubicado en una zona tranquila.','Avenida de los Pinos 678, La Plata',10,11000,1500,2,70,1,0,1,0,'back',10,10),
-(11,'2024-11-22',0,'Departamento con terraza, ideal para reuniones al aire libre.','Calle Mayor 345, La Plata',11,14000,2000,2,85,1,0,1,1,'internal',11,11),
-(12,'2024-11-23',1,'Departamento con 3 habitaciones, en zona residencial.','Calle Pacifico 678, La Plata',12,10500,1300,3,90,1,0,0,1,'front',12,12),
-(13,'2024-11-24',1,'Departamento con cochera y balcón privado.','Calle Cerrada 123, La Plata',13,17000,2000,2,80,1,0,1,1,'back',13,13),
-(14,'2024-11-25',0,'Departamento en edificio moderno, con amenities exclusivos.','Avenida del Río 456, La Plata',14,15000,2000,2,85,0,0,1,1,'front',14,14),
-(15,'2024-11-26',1,'Departamento amplio con 3 habitaciones, en zona comercial.','Calle de la Paz 789, La Plata',15,13000,1500,3,110,1,0,1,0,'internal',15,15),
-(16,'2024-11-28',1,'Departamento con cochera, en zona céntrica de la ciudad.','Calle Verde 321, La Plata',16,17000,2000,2,95,1,0,1,1,'front',16,16),
-(17,'2024-11-30',1,'Departamento de 1 habitación, con amenities como pileta y gimnasio.','Avenida Libertador 123, La Plata',17,9500,1100,1,45,1,0,0,1,'internal',17,17),
-(18,'2024-12-01',1,'Departamento con 2 habitaciones, amplio balcón y cochera.','Calle del Bosque 456, La Plata',18,16000,2000,2,90,1,0,1,1,'back',18,18),
-(19,'2024-12-03',1,'Departamento moderno, con 2 habitaciones y 2 baños.','Avenida del Sol 789, La Plata',19,11000,1400,2,80,0,0,1,0,'front',19,19),
-(20,'2024-12-05',0,'Departamento de lujo, con balcón, vista al mar y cochera.','Calle Los Álamos 345, La Plata',20,21000,2500,3,100,1,0,1,1,'internal',20,20),
-(21,'2024-12-07',1,'Departamento con 2 habitaciones, en barrio tranquilo.','Calle Verde 789, La Plata',21,9500,1200,2,70,1,0,1,1,'back',21,21),
-(22,'2024-12-08',1,'Departamento moderno con cochera y amplio balcón.','Avenida Siempre Viva 123, La Plata',22,16000,2000,3,130,1,0,1,1,'front',22,22),
-(23,'2024-12-10',0,'Departamento en edificio moderno con piscina y gimnasio.','Calle del Mar 234, La Plata',23,14000,1700,2,75,1,0,1,1,'internal',23,23),
-(24,'2024-12-12',1,'Departamento de 2 habitaciones con cochera y amplio living.','Calle de las Flores 567, La Plata',24,18000,2200,2,95,1,0,1,1,'front',24,24),
-(25,'2024-12-15',1,'Departamento de 1 habitación, ideal para solteros o estudiantes.','Avenida de los Pinos 678, La Plata',25,7000,900,1,45,0,0,0,1,'front',25,25);
+INSERT INTO `properties` VALUES 
+(1,'2024-11-01',1,'Departamento moderno con 3 habitaciones, balcón y cochera.',15000,2000,3,80,1,0,1,1,'front',1,1),
+(2,'2024-11-05',1,'Departamento de 2 habitaciones con excelente vista.',8000,1000,2,60,1,0,0,0,'back',2,1),
+(3,'2024-11-07',0,'Departamento con 2 habitaciones, cocina independiente y balcón.',10000,1200,2,65,1,0,1,1,'internal',3,1),
+(4,'2024-11-10',1,'Departamento de 3 habitaciones con balcón al frente y cochera.',18000,2500,3,120,1,0,1,1,'front',4,2),
+(5,'2024-11-11',0,'Departamento en zona céntrica, con 1 habitación y vista panorámica.',9500,1100,1,50,1,0,0,1,'back',5,2),
+(6,'2024-11-12',1,'Departamento de 2 habitaciones con patio privado.',15000,1500,2,80,0,0,1,0,'front',6,2),
+(7,'2024-11-14',1,'Departamento en edificio nuevo, con amenities como gimnasio y piscina.',12000,1500,2,75,1,0,1,1,'front',7,2),
+(8,'2024-11-16',0,'Departamento ideal para oficina, en excelente ubicación.',22000,3000,3,100,0,0,1,0,'internal',8,8),
+(9,'2024-11-18',1,'Departamento de 1 habitación, ideal para estudiantes.',6000,800,1,40,0,0,0,1,'front',9,9),
+(10,'2024-11-20',1,'Departamento con 2 habitaciones, ubicado en una zona tranquila.',11000,1500,2,70,1,0,1,0,'back',10,3),
+(11,'2024-11-22',0,'Departamento con terraza, ideal para reuniones al aire libre.',14000,2000,2,85,1,0,1,1,'internal',11,3),
+(12,'2024-11-23',1,'Departamento con 3 habitaciones, en zona residencial.',10500,1300,3,90,1,0,0,1,'front',12,3),
+(13,'2024-11-24',1,'Departamento con cochera y balcón privado.',17000,2000,2,80,1,0,1,1,'back',13,3),
+(14,'2024-11-25',0,'Departamento en edificio moderno, con amenities exclusivos.',15000,2000,2,85,0,0,1,1,'front',14,14),
+(15,'2024-11-26',1,'Departamento amplio con 3 habitaciones, en zona comercial.',13000,1500,3,110,1,0,1,0,'internal',15,15),
+(16,'2024-11-28',1,'Departamento con cochera, en zona céntrica de la ciudad.',17000,2000,2,95,1,0,1,1,'front',16,5),
+(17,'2024-11-30',1,'Departamento de 1 habitación, con amenities como pileta y gimnasio.',9500,1100,1,45,1,0,0,1,'internal',17,5),
+(18,'2024-12-01',1,'Departamento con 2 habitaciones, amplio balcón y cochera.',16000,2000,2,90,1,0,1,1,'back',18,5),
+(19,'2024-12-03',1,'Departamento moderno, con 2 habitaciones y 2 baños.',11000,1400,2,80,0,0,1,0,'front',19,19),
+(20,'2024-12-05',0,'Departamento de lujo, con balcón, vista al mar y cochera.',21000,2500,3,100,1,0,1,1,'internal',20,20),
+(21,'2024-12-07',1,'Departamento con 2 habitaciones, en barrio tranquilo.',9500,1200,2,70,1,0,1,1,'back',21,21),
+(22,'2024-12-08',1,'Departamento moderno con cochera y amplio balcón.',16000,2000,3,130,1,0,1,1,'front',22,22),
+(23,'2024-12-10',0,'Departamento en edificio moderno con piscina y gimnasio.',14000,1700,2,75,1,0,1,1,'internal',23,23),
+(24,'2024-12-12',1,'Departamento de 2 habitaciones con cochera y amplio living.',18000,2200,2,95,1,0,1,1,'front',24,24),
+(25,'2024-12-15',1,'Departamento de 1 habitación, ideal para solteros o estudiantes.',7000,900,1,45,0,0,0,1,'front',25,25);
 /*!40000 ALTER TABLE `properties` ENABLE KEYS */;
 UNLOCK TABLES;
 

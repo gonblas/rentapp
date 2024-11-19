@@ -1,19 +1,15 @@
-from datetime import datetime, timedelta, timezone
-import os
-from fastapi import APIRouter, Depends, HTTPException, status, Cookie, Form, File, UploadFile
+from datetime import datetime
+from fastapi import APIRouter, HTTPException, status, Form, File, UploadFile
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
 from typing import Annotated
 from ..database import db_dependency
-import jwt
-from passlib.context import CryptContext
 from ..models import User, Property, Image
 from ..schemas.users import UserResponse
 from ..bucket import upload_avatar
 from ..schemas.properties import PropertyResponse, PropertiesResponse
 from .property import parse_properties_response
 from sqlalchemy import func
-from . import auth
+from .auth import auth_dependency, auth_context, generate_user_token
 
 router = APIRouter(
     prefix="/user",
@@ -32,7 +28,7 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
     if not check_user_password(password, usr.password):
         raise HTTPException(status_code=404, detail="Invalid password")
 
-    token = auth.generate_user_token(usr.id, usr.email, usr.is_real_estate)
+    token = generate_user_token(usr.id, usr.email, usr.is_real_estate)
 
     response = JSONResponse(
         content=parse_user_response(usr)
@@ -48,7 +44,7 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
 
 
 def check_user_password(plain_password : str, hashed_password : str):
-    return auth.auth_context.verify(plain_password, hashed_password)
+    return auth_context.verify(plain_password, hashed_password)
     
 def check_user_exists(email:str, db: db_dependency):
     return db.query(User).filter(User.email == email).first()
@@ -86,7 +82,7 @@ async def register(
     if check_user_exists(email, db):
         raise HTTPException(status_code=404, detail="User already exists")
     
-    hashed_password = auth.auth_context.hash(password)
+    hashed_password = auth_context.hash(password)
 
     if avatar is None:
         avatar_url = ""
@@ -120,7 +116,7 @@ async def register(
 
 # returns the user logged in
 @router.get("/me", response_model=UserResponse, status_code=status.HTTP_200_OK)
-def read_user( db : db_dependency, user : User = Depends(auth.get_current_user)):
+def read_user( db : db_dependency, user : auth_dependency = None):
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -129,7 +125,7 @@ def read_user( db : db_dependency, user : User = Depends(auth.get_current_user))
 
 # returns all properties from a user
 @router.get("/publications", response_model=PropertiesResponse, status_code=status.HTTP_200_OK)
-def read_user_publications( db : db_dependency, user : User = Depends(auth.get_current_user)):
+def read_user_publications( db : db_dependency, user : auth_dependency = None):
 
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
