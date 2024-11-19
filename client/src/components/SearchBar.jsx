@@ -10,7 +10,7 @@ function SearchBar() {
   const navigate = useNavigate()
   const [filters, setFilters] = React.useState({
     property: {
-      neighborhood: "",
+      neighborhood: 0,
       minRentPrice: 0,
       maxRentPrice: 0,
       minExpenses: 0,
@@ -34,37 +34,27 @@ function SearchBar() {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const formData = new FormData(event.target)
-    // {
-    //   search: event.target.search.value,
-    //   ...filters.property,
-    //   ...filters.building,
-    // }
-    // formData.append("search", event.target.search.value)
-    formData.append("neighborhood", filters.property.neighborhood)
-    formData.append("minRentPrice", filters.property.minRentPrice)
-    formData.append("maxRentPrice", filters.property.maxRentPrice)
-    formData.append("minExpenses", filters.property.minExpenses)
-    formData.append("maxExpenses", filters.property.maxExpenses)
-    formData.append("rooms", filters.property.rooms)
-    formData.append("surface", filters.property.surface)
-    formData.append("balconies", filters.property.balconies)
-    formData.append("hasBackyard", filters.property.hasBackyard)
-    formData.append("hasGarage", filters.property.hasGarage)
-    formData.append("petfriendly", filters.property.petfriendly)
-    formData.append("location", filters.property.location)
-    formData.append("services", filters.building.services)
-    formData.append("floors", filters.building.floors)
-    formData.append("apartmentsPerFloor", filters.building.apartmentsPerFloor)
-    formData.append("hasElevator", filters.building.hasElevator)
+    const URLdata = new URLSearchParams({
+      neighborhood_id: filters.property.neighborhood,
+      min_rental_value: filters.property.minRentPrice,
+      max_rental_value: filters.property.maxRentPrice,
+      min_expenses_value: filters.property.minExpenses,
+      max_expenses_value: filters.property.maxExpenses,
+      rooms: filters.property.rooms,
+      square_meters: filters.property.surface,
+      balconies: filters.property.balconies,
+      backyard: filters.property.hasBackyard,
+      garage: filters.property.hasGarage,
+      pet_friendly: filters.property.petfriendly,
+      location: filters.property.location,
+      // {gym, pool, terrace, laundry, elevator, bike_rack} = filters.building.services,
+      floors: filters.building.floors,
+      apartmentsPerFloor: filters.building.apartmentsPerFloor,
+      hasElevator: filters.building.hasElevator,
+    })
 
-    console.log("Submitted data:", formData.entries)
-
-    console.log("Submitted data:", formData)
-
-    fetch("http://localhost:8000/search/", {
-      method: "POST",
-      body: formData,
+    fetch("http://localhost:8000/property/" + URLdata, {
+      method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
@@ -78,6 +68,8 @@ function SearchBar() {
 
   return (
     <Container
+      component="form"
+      onSubmit={handleSubmit}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -89,7 +81,7 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      {/* Form wrapper */}
+      {/* Form wrapper
       <form
         onSubmit={handleSubmit}
         style={{
@@ -98,33 +90,33 @@ function SearchBar() {
           width: "100%",
           gap: "10px",
         }}
+      > */}
+      <TextField
+        id="search"
+        name="search"
+        label="Search field"
+        type="search"
+        sx={{
+          flexGrow: 1,
+        }}
+      />
+      <FilterList
+        filters={filters}
+        setFilters={setFilters}
+        style={{
+          flexShrink: 0,
+        }}
+      />
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          width: "10px",
+        }}
       >
-        <TextField
-          id="search"
-          name="search"
-          label="Search field"
-          type="search"
-          sx={{
-            flexGrow: 1,
-          }}
-        />
-        <FilterList
-          filters={filters}
-          setFilters={setFilters}
-          style={{
-            flexShrink: 0,
-          }}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{
-            width: "10px",
-          }}
-        >
-          <SearchIcon />
-        </Button>
-      </form>
+        <SearchIcon />
+      </Button>
+      {/* </form> */}
     </Container>
   )
 }
