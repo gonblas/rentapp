@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, HTTPException, Query, status
 from typing import Annotated
 from ..database import db_dependency
 from ..models import Building, Neighborhood, User
 from ..schemas.buildings import BuildingsResponse, BuildingResponse
-from fastapi import Cookie
-from . import auth
+from .auth import auth_dependency
 
 router = APIRouter(
     prefix="/building",
@@ -47,7 +46,7 @@ def read_building(building_id: int, db : db_dependency):
 
 # returns a building by address, only if it is approved or the user is the publisher
 @router.get("/search/", response_model=BuildingResponse, status_code=status.HTTP_200_OK)
-def search_building(db: db_dependency, address : Annotated[str, Query()], user : User = Depends(auth.get_current_user)):
+def search_building(db: db_dependency, address : Annotated[str, Query()], user : auth_dependency = None):
 
     query = (
         db.query(Building, Neighborhood.name)
