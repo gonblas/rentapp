@@ -35,7 +35,7 @@ def read_building(building_id: int, db : db_dependency):
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.id == building, Building.approved == True)
+        .filter(Building.id == building_id, Building.approved == True)
     )
 
     building = query.first()
