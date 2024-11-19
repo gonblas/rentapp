@@ -7,7 +7,8 @@ import GoogleMaps from "../GoogleMaps"
 import FormHelperText from "@mui/material/FormHelperText"
 import Autocomplete from "@mui/material/Autocomplete"
 import TextField from "@mui/material/TextField"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
+import axios from "axios"
 
 function SelectLocation() {
   const { errors, handleOnChange, formData } = useContext(
@@ -15,28 +16,47 @@ function SelectLocation() {
   )
   const [neighborhoods, setNeighborhoods] = useState([])
 
-  useEffect(() => {
-    fetch("http://localhost:8000/neighborhood/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al obtener los barrios")
-        }
-        return response.json()
-      })
-      .then((data) => {
+  const fetchNeighborhoodsList = useMemo(
+    () => async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/neighborhood/")
         setNeighborhoods(
-          data.neighborhoods.map((neighborhood) => neighborhood.name),
+          response.data.neighborhoods.map((neighborhood) => neighborhood.name),
         )
-      })
-      .catch((error) => {
-        console.error(error.message)
-      })
-  }, [])
+      } catch (error) {
+        console.log("Error al obtener los barrios:", error)
+      }
+    },
+    [],
+  )
+
+  useEffect(() => {
+    fetchNeighborhoodsList()
+  }, [fetchNeighborhoodsList])
+
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/neighborhood/", {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //     },
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Error al obtener los barrios")
+  //       }
+  //       return response.json()
+  //     })
+  //     .then((data) => {
+  //       setNeighborhoods(
+  //         data.neighborhoods.map((neighborhood) => neighborhood.name),
+  //         console.log(data.neighborhoods),
+  //       )
+  //     })
+  //     .catch((error) => {
+  //       console.error(error.message)
+  //     })
+  // }, [])
 
   return (
     <>
