@@ -1,75 +1,75 @@
 import React, { createContext, useState } from "react"
 
-// Crear el Contexto
 const PublishBuildingContext = createContext(undefined)
 
-// Crear el Provider para envolver tus componentes
 export const PublishBuildingProvider = ({ children }) => {
-  const [formData, setFormData] = useState([
-    {
-      building_address: "",
-    },
-    {
-      description: "",
-      rental_value: 0,
-      expenses_value: 0,
-      rooms: 0,
-      square_meters: 0,
-      location: "",
-      balconies: 0,
-      backyard: false,
-      garage: false,
-      pet_friendly: false,
-    },
-  ])
+  const [formData, setFormData] = useState({
+    address: "",
+    neighborhood: "",
+    floors: 0,
+    apartments_per_floor: 0,
+    elevator: false,
+    pool: false,
+    gym: false,
+    terrace: false,
+    bike_rack: false,
+    laundry: false,
+  })
 
-  const [errors, setErrors] = useState([
-    {
-      building_address: { hasError: false, message: "" },
-    },
-    {
-      description: { hasError: false, message: "" },
-      rental_value: { hasError: false, message: "" },
-      expenses_value: { hasError: false, message: "" },
-      rooms: { hasError: false, message: "" },
-      square_meters: { hasError: false, message: "" },
-      location: { hasError: false, message: "" },
-      balconies: { hasError: false, message: "" },
-      backyard: { hasError: false, message: "" },
-      garage: { hasError: false, message: "" },
-      pet_friendly: { hasError: false, message: "" },
-    },
-  ])
+  const [errors, setErrors] = useState({
+    address: { hasError: false, message: "" },
+    neighborhood: { hasError: false, message: "" },
+    floors: { hasError: false, message: "" },
+    apartments_per_floor: { hasError: false, message: "" },
+    elevator: { hasError: false, message: "" },
+    pool: { hasError: false, message: "" },
+    gym: { hasError: false, message: "" },
+    terrace: { hasError: false, message: "" },
+    bike_rack: { hasError: false, message: "" },
+    laundry: { hasError: false, message: "" },
+  })
 
-  const validateStep1 = (setErrors, formData) => {
-    const { building_address } = formData
+  const validateStep1 = (setErrors) => {
+    const { neighborhood, address } = formData
     let isValid = true
 
-    if (!building_address) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[0] = {
-          ...updatedErrors[0],
-          building_address: {
-            hasError: true,
-            message: "Selecciona una dirección válida",
-          },
-        }
-        return updatedErrors
-      })
+    if (!address) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        address: {
+          hasError: true,
+          message: "Selecciona una dirección válida",
+        },
+      }))
       isValid = false
     } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[0] = {
-          ...updatedErrors[0],
-          building_address: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        address: {
+          hasError: false,
+          message: "",
+        },
+      }))
+    }
+
+    // Validación para `neighborhood`
+    if (!neighborhood || neighborhood === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        neighborhood: {
+          hasError: true,
+          message: "Selecciona un barrio",
+        },
+      }))
+      isValid = false
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        neighborhood: {
+          hasError: false,
+          message: "",
+        },
+      }))
     }
 
     console.log(isValid)
@@ -77,140 +77,74 @@ export const PublishBuildingProvider = ({ children }) => {
     return isValid
   }
 
-  const validateStep2 = (setErrors, formData) => {
-    const { rental_value, expenses_value, rooms, square_meters } = formData
+  const validateStep2 = (setErrors) => {
+    const { floors, apartments_per_floor } = formData
     let isValid = true
 
-    if (!rental_value || rental_value <= 0) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rental_value: {
-            hasError: true,
-            message: "El valor del alquiler debe ser mayor a 0",
-          },
-        }
-        return updatedErrors
-      })
+    // Validación para `floors`
+    if (!floors || floors < 1) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        floors: {
+          hasError: true,
+          message: "Selecciona un número de pisos válido",
+        },
+      }))
       isValid = false
     } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rental_value: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        floors: {
+          hasError: false,
+          message: "",
+        },
+      }))
     }
 
-    if (!expenses_value) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          expenses_value: {
-            hasError: true,
-            message: "El valor de las expensas debe ser mayor o igual a 0",
-          },
-        }
-        return updatedErrors
-      })
+    // Validación para `apartments_per_floor`
+    if (!apartments_per_floor || apartments_per_floor < 1) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        apartments_per_floor: {
+          hasError: true,
+          message: "Selecciona un número de apartamentos válido",
+        },
+      }))
       isValid = false
     } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          expenses_value: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        apartments_per_floor: {
+          hasError: false,
+          message: "",
+        },
+      }))
     }
 
-    if (!rooms || rooms <= 0) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rooms: {
-            hasError: true,
-            message: "La cantidad de habitaciones debe ser mayor a 0",
-          },
-        }
-        return updatedErrors
-      })
-      isValid = false
-    } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          rooms: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
-    }
-
-    if (!square_meters || square_meters <= 0) {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          square_meters: {
-            hasError: true,
-            message: "Los metros cuadrados deben ser mayor a 0",
-          },
-        }
-        return updatedErrors
-      })
-      isValid = false
-    } else {
-      setErrors((prevErrors) => {
-        const updatedErrors = [...prevErrors]
-        updatedErrors[1] = {
-          ...updatedErrors[1],
-          square_meters: {
-            hasError: false,
-            message: "",
-          },
-        }
-        return updatedErrors
-      })
-    }
-
+    console.log(isValid)
     console.log(formData)
     return isValid
+  }
+
+  const submitForm = () => {
+    console.log(formData)
   }
 
   const nextStepFunction = [
     () => validateStep1(setErrors, formData[0]),
     () => validateStep2(setErrors, formData[1]),
+    () => submitForm(),
   ]
 
-  const handleOnChange = (event, index) => {
+  const handleOnChange = (event) => {
     const { name, value, type, checked } = event.target
 
     const newValue = type === "checkbox" ? checked : value
 
-    setFormData((prevData) => {
-      const updatedData = [...prevData]
-      updatedData[index] = {
-        ...updatedData[index],
-        [name]: newValue,
-      }
-      return updatedData
-    })
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }))
   }
 
   return (

@@ -24,8 +24,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null }
 
-export default function GoogleMaps({ handleOnChange }) {
-  const [value, setValue] = React.useState(null)
+export default function GoogleMaps({ handleOnChange, value }) {
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState([])
   const loaded = React.useRef(false)
@@ -102,11 +101,10 @@ export default function GoogleMaps({ handleOnChange }) {
       noOptionsText="Sin resultados"
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
-        setValue(newValue)
         console.log(newValue.description)
         handleOnChange(
           {
-            target: { name: "building_address", value: newValue.description },
+            target: { name: "address", value: newValue.description },
           },
           0,
         )
@@ -114,9 +112,7 @@ export default function GoogleMaps({ handleOnChange }) {
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
       }}
-      renderInput={(params) => (
-        <TextField {...params} label="Agrega una ubicación" fullWidth />
-      )}
+      renderInput={(params) => <TextField {...params} fullWidth />}
       renderOption={(props, option) => {
         const { key, ...optionProps } = props
         const matches =

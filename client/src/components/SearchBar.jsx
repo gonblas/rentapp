@@ -1,40 +1,74 @@
+import React from "react"
 import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
-import React from "react"
 import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
+import { useNavigate } from "react-router-dom"
 
 function SearchBar() {
+  const navigate = useNavigate()
   const [filters, setFilters] = React.useState({
     property: {
-      ambients: 0,
+      neighborhood: 0,
+      minRentPrice: 0,
+      maxRentPrice: 0,
+      minExpenses: 0,
+      maxExpenses: 0,
+      rooms: 0,
       surface: 0,
+      balconies: 0,
       hasBackyard: false,
-      hasBalcony: false,
-      position: "",
-      rentPrice: 0,
+      hasGarage: false,
       petfriendly: false,
+      location: "",
     },
     building: {
       services: [],
-      hasGarage: false,
-      neighborhood: "",
-      expenses: 0,
       floors: 0,
       apartmentsPerFloor: 0,
       hasElevator: false,
     },
   })
-
+  console.log("Filters:", filters)
   const handleSubmit = (event) => {
     event.preventDefault()
-    const formData = new FormData()
-    formData.append("search", event.target.search.value)
+
+    const URLdata = new URLSearchParams({
+      neighborhood_id: filters.property.neighborhood,
+      min_rental_value: filters.property.minRentPrice,
+      max_rental_value: filters.property.maxRentPrice,
+      min_expenses_value: filters.property.minExpenses,
+      max_expenses_value: filters.property.maxExpenses,
+      rooms: filters.property.rooms,
+      square_meters: filters.property.surface,
+      balconies: filters.property.balconies,
+      backyard: filters.property.hasBackyard,
+      garage: filters.property.hasGarage,
+      pet_friendly: filters.property.petfriendly,
+      location: filters.property.location,
+      // {gym, pool, terrace, laundry, elevator, bike_rack} = filters.building.services,
+      floors: filters.building.floors,
+      apartmentsPerFloor: filters.building.apartmentsPerFloor,
+      hasElevator: filters.building.hasElevator,
+    })
+
+    fetch("http://localhost:8000/property/" + URLdata, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data)
+        navigate("/search", { state: { data } })
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
   }
 
   return (
     <Container
+      component="form"
       onSubmit={handleSubmit}
       sx={{
         display: "flex",
@@ -47,8 +81,19 @@ function SearchBar() {
         gap: "10px",
       }}
     >
+      {/* Form wrapper
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          gap: "10px",
+        }}
+      > */}
       <TextField
-        id="outlined-search"
+        id="search"
+        name="search"
         label="Search field"
         type="search"
         sx={{
@@ -65,13 +110,13 @@ function SearchBar() {
       <Button
         type="submit"
         variant="contained"
-        href="/search"
         sx={{
           width: "10px",
         }}
       >
         <SearchIcon />
       </Button>
+      {/* </form> */}
     </Container>
   )
 }

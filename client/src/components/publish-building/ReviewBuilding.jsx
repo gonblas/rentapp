@@ -1,7 +1,13 @@
+import { useContext } from "react"
+import BuildingHeader from "../BuildingHeader"
+import PublishBuildingContext from "./PublishBuildingContext"
+
 function ReviewBuilding() {
+  const { formData } = useContext(PublishBuildingContext)
+
   return (
     <div>
-      <h1>Review</h1>
+      <BuildingHeader building={formData} />
     </div>
   )
 }

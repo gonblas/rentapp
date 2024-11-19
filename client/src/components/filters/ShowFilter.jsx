@@ -10,29 +10,35 @@ import {
   Slider,
 } from "@mui/material"
 
-function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
+function ShowFilter({
+  name,
+  label,
+  type,
+  filters,
+  setFilters,
+  scope,
+  options = {},
+}) {
   const handleOnChange = (event) => {
-    const { name, value, checked } = event.target
+    const { name, value, type, checked } = event.target
 
-    if (name === "services") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        services: checked
-          ? [...prevFilters.services, value]
-          : prevFilters.services.filter((service) => service !== value),
-      }))
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: value,
-      }))
-    }
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [scope]: {
+        ...prevFilters[scope],
+        [name]: type === "checkbox" ? checked : value, // Update the specific field in the correct scope
+      },
+    }))
   }
 
   const handleSliderChange = (event, newValue) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: newValue,
+      [scope]: {
+        ...prevFilters[scope],
+        [`min${name}`]: newValue[0], // Update min value
+        [`max${name}`]: newValue[1], // Update max value
+      },
     }))
   }
 
@@ -40,20 +46,15 @@ function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
     case "checkbox":
       return (
         <FormControl>
-          <FormLabel htmlFor={name} color="black">
-            {label}
-          </FormLabel>
           <FormControlLabel
             control={
               <Checkbox
-                checked={filters[name] || false}
+                checked={filters[scope][name] || false}
                 onChange={handleOnChange}
                 name={name}
-                slotProps={{ checked: filters[name] || false }}
               />
             }
             label={label}
-            labelPlacement="end"
           />
         </FormControl>
       )
@@ -67,40 +68,9 @@ function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
           <TextField
             id={name}
             name={name}
-            value={filters[name]}
+            value={filters[scope][name] || ""}
             onChange={handleOnChange}
-            slotProps={{
-              input: { value: filters[name], onChange: handleOnChange },
-            }}
           />
-        </FormControl>
-      )
-
-    case "select":
-      return (
-        <FormControl>
-          <FormLabel htmlFor={name} color="black">
-            {label}
-          </FormLabel>
-          <Select
-            id={name}
-            name={name}
-            value={filters[name] || ""}
-            onChange={handleOnChange}
-            displayEmpty
-            slotProps={{
-              select: { value: filters[name] || "", onChange: handleOnChange },
-            }}
-          >
-            <MenuItem value="">
-              <em>Seleccionar...</em>
-            </MenuItem>
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
         </FormControl>
       )
 
@@ -114,15 +84,34 @@ function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
             id={name}
             name={name}
             type="number"
-            value={filters[name]}
+            value={filters[scope][name] || ""}
             onChange={handleOnChange}
-            slotProps={{
-              htmlInput: {
-                min: options?.min || 0,
-                max: options?.max || 100,
-              },
-            }}
           />
+        </FormControl>
+      )
+
+    case "select":
+      return (
+        <FormControl>
+          <FormLabel htmlFor={name} color="black">
+            {label}
+          </FormLabel>
+          <Select
+            id={name}
+            name={name}
+            value={filters[scope][name] || ""}
+            onChange={handleOnChange}
+            displayEmpty
+          >
+            <MenuItem value="">
+              <em>Select...</em>
+            </MenuItem>
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
       )
 
@@ -138,13 +127,28 @@ function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
                 key={option.value}
                 control={
                   <Checkbox
-                    checked={filters[name]?.includes(option.value) || false}
-                    onChange={handleOnChange}
+                    checked={
+                      filters[scope][name]?.includes(option.value) || false
+                    }
+                    onChange={(event) => {
+                      const { checked } = event.target
+                      setFilters((prevFilters) => ({
+                        ...prevFilters,
+                        [scope]: {
+                          ...prevFilters[scope],
+                          [name]: checked
+                            ? [
+                                ...(prevFilters[scope][name] || []),
+                                option.value,
+                              ]
+                            : prevFilters[scope][name].filter(
+                                (item) => item !== option.value,
+                              ),
+                        },
+                      }))
+                    }}
                     name={name}
                     value={option.value}
-                    slotProps={{
-                      checked: filters[name]?.includes(option.value) || false,
-                    }}
                   />
                 }
                 label={option.label}
@@ -161,32 +165,51 @@ function ShowFilter({ name, label, type, filters, setFilters, options = {} }) {
             {label}
           </FormLabel>
           <Slider
-            value={filters[name] || 0}
+            value={[
+              filters[scope][`min${name}`] || options?.min || 0,
+              filters[scope][`max${name}`] || options?.max || 100,
+            ]}
             onChange={handleSliderChange}
-            name={name}
             min={options?.min || 0}
             max={options?.max || 100}
             step={options?.step || 1}
             valueLabelDisplay="auto"
-            valueLabelFormat={(value) => value}
-            sx={{
-              color: "primary.dark", // Set the color of the slider to primary.dark
-              width: "300px", // Custom width for the slider
-            }}
+            sx={{ color: "primary.dark", width: "300px" }}
           />
-          <TextField
-            type="number"
-            value={filters[name] || 0}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, [name]: e.target.value }))
-            }
-            slotProps={{
-              htmlInput: {
-                min: options?.min || 0,
-                max: options?.max || 100,
-              },
-            }}
-          />
+          <div style={{ display: "flex", gap: "10px" }}>
+            <TextField
+              label="Min"
+              type="number"
+              value={filters[scope][`min${name}`] || ""}
+              onChange={(e) => {
+                const minValue = Number(e.target.value)
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  [scope]: {
+                    ...prevFilters[scope],
+                    [`min${name}`]: minValue,
+                  },
+                }))
+              }}
+              sx={{ width: "100px" }}
+            />
+            <TextField
+              label="Max"
+              type="number"
+              value={filters[scope][`max${name}`] || ""}
+              onChange={(e) => {
+                const maxValue = Number(e.target.value)
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  [scope]: {
+                    ...prevFilters[scope],
+                    [`max${name}`]: maxValue,
+                  },
+                }))
+              }}
+              sx={{ width: "100px" }}
+            />
+          </div>
         </FormControl>
       )
 

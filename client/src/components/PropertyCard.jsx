@@ -324,9 +324,7 @@ function PropertyCard({ property }) {
             border: "none",
           }}
         >
-          <InfoTag>
-            {property.features.square_meters} m<sup>2</sup>
-          </InfoTag>
+          <InfoTag>`${property.features.square_meters} m²`</InfoTag>
           <InfoTag>{property.features.rooms} amb</InfoTag>
           <InfoTag>
             {property.features.location === "front"

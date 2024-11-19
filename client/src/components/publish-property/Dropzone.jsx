@@ -54,9 +54,18 @@ function ImagePreview({ file }) {
 function Dropzone({ files, onChange }) {
   const onDrop = useCallback(
     (acceptedFiles) => {
-      if (acceptedFiles.length > 10) {
-        console.error("No puedes subir más de 10 archivos")
-        return
+      const totalFiles = files.length + acceptedFiles.length
+
+      if (totalFiles > 10) {
+        const remainingSlots = 10 - files.length
+
+        if (remainingSlots <= 0) {
+          console.error("No puedes subir más de 10 archivos")
+          return
+        }
+
+        console.warn(`Solo puedes subir ${remainingSlots} archivo(s) más.`)
+        acceptedFiles = acceptedFiles.slice(0, remainingSlots)
       }
 
       const filteredFiles = acceptedFiles.filter(
@@ -132,8 +141,8 @@ function Dropzone({ files, onChange }) {
           py: "20px",
         }}
       >
-        {files.map((file, index) => (
-          <ImagePreview key={index} file={file} />
+        {files.map((file) => (
+          <ImagePreview key={file.name} file={file} />
         ))}
       </Grid>
     </>

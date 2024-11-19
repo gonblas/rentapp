@@ -3,16 +3,21 @@ import React from "react"
 import ShowFilter from "./ShowFilter"
 
 function BuildingFilters({ filters, setFilters }) {
-  const services = ["Pileta", "Gimnasio", "Terraza", "Baulera", "Lavadero"]
+  const services = ["Ascensor", "Pileta", "Gimnasio", "Terraza", "Lavadero"]
 
   return (
     <Grid container spacing={2}>
       <ShowFilter
-        name="hasGarage"
-        label="Garage"
-        type="checkbox"
+        name="services"
+        label="Servicios"
+        type="multiselect"
         filters={filters}
         setFilters={setFilters}
+        scope="building"
+        options={services.map((service) => ({
+          value: service,
+          label: service,
+        }))}
       />
       <ShowFilter
         name="hasElevator"
@@ -20,36 +25,15 @@ function BuildingFilters({ filters, setFilters }) {
         type="checkbox"
         filters={filters}
         setFilters={setFilters}
-      />
-      <ShowFilter
-        name="services"
-        label="Servicios"
-        type="multiselect"
-        filters={filters}
-        setFilters={setFilters}
-        options={services.map((service) => ({
-          value: service,
-          label: service,
-        }))}
-      />
-      <ShowFilter
-        name="neighborhood"
-        label="Barrio"
-        type="select"
-        filters={filters}
-        setFilters={setFilters}
-        options={[
-          { value: "st-ana", label: "St. Ana" },
-          { value: "el-peligro", label: "El Peligro" },
-          { value: "altos-lorenzo", label: "Altos de San Lorenzo" },
-        ]}
+        scope="building"
       />
       <ShowFilter
         name="floors"
-        label="Pisos"
+        label="Cantidad de Pisos"
         type="number"
         filters={filters}
         setFilters={setFilters}
+        scope="building"
       />
       <ShowFilter
         name="apartmentsPerFloor"
@@ -57,18 +41,7 @@ function BuildingFilters({ filters, setFilters }) {
         type="number"
         filters={filters}
         setFilters={setFilters}
-      />
-      <ShowFilter
-        name="expenses"
-        label="Expensas"
-        type="slider"
-        filters={filters}
-        setFilters={setFilters}
-        options={{
-          min: 0,
-          max: 500000,
-          step: 50,
-        }}
+        scope="building"
       />
     </Grid>
   )

@@ -1,5 +1,9 @@
 import React from "react"
-import Carousel from "./Carousel"
+import BuildingFeatures from "../BuildingFeatures"
+import PropertyHeader from "./PropertyHeader"
+import PublisherInfo from "./PublisherInfo"
+import Container from "@mui/material/Container"
+import Carousel from "../Carousel"
 // import ImageList from "@mui/material/ImageList"
 // import ImageListItem from "@mui/material/ImageListItem"
 // import Box from "@mui/material/Box"
@@ -37,17 +41,29 @@ import Carousel from "./Carousel"
 
 function Property({ property }) {
   return (
-    <div>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        gap: "30px",
+      }}
+    >
       <Carousel
         data={property.images}
         style={{
-          width: "auto",
-          maxHeight: "50px!important",
+          width: "100%",
+          height: "448px!important",
           mb: "30px!important",
+          overflow: "hidden",
         }}
       />
-      {/* <MasonryImageList images={property.images} /> */}
-    </div>
+      <PropertyHeader property={property} />
+      <BuildingFeatures building={property.building} />
+      <PublisherInfo publisher={property.publisher} />
+    </Container>
   )
 }
 

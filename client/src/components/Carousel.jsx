@@ -21,8 +21,6 @@ function Carousel({ data }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
-        height: "100%",
         p: "0!important",
       }}
     >
@@ -51,6 +49,7 @@ function Carousel({ data }) {
             style={{
               width: "100%",
               height: "100%",
+              objectFit: "contain",
             }}
           />
         ) : (

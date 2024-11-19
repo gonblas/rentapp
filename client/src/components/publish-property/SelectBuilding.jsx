@@ -9,15 +9,20 @@ import Typography from "@mui/material/Typography"
 import Link from "@mui/material/Link"
 
 function SelectBuilding() {
-  const { errors, handleOnChange } = useContext(PublishPropertyContext)
+  const { errors, handleOnChange, formData } = useContext(
+    PublishPropertyContext,
+  )
   return (
     <>
       <FormControl>
-        <FormControl error={errors[0].building_id.hasError}>
+        <FormControl error={errors.building_id.hasError}>
           <FormLabel>Ubicación del edificio</FormLabel>
-          <GoogleMaps handleOnChange={handleOnChange} />
+          <GoogleMaps
+            handleOnChange={handleOnChange}
+            value={formData.address}
+          />
           <FormHelperText>
-            {errors[0].building_id.hasError && errors[0].building_id.message}
+            {errors.building_id.hasError && errors.building_id.message}
           </FormHelperText>
         </FormControl>
       </FormControl>
