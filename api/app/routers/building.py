@@ -23,7 +23,7 @@ def read_buildings(db: db_dependency):
     buildings = query.all()
 
     if buildings is None:
-        raise HTTPException(status_code=404, detail="Buildings not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Buildings not found")
 
     return parse_buildings_response(buildings)
 
@@ -40,7 +40,7 @@ def read_building(building_id: int, db : db_dependency):
     building = query.first()
 
     if building is None:
-        raise HTTPException(status_code=404, detail="Building not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
     
     return parse_building_response(building)
 
@@ -61,7 +61,7 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
     building = query.first()
 
     if building is None:
-        raise HTTPException(status_code=404, detail="Building not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
 
     return parse_building_response(building)
 
@@ -94,31 +94,37 @@ def parse_buildings_response(buildings:dict):
         response.append(parse_building_response(buildings))
     return response
 
+def check_address_exists(db: db_dependency, address: str):
+    return db.query(Building).filter(Building.address == address).first()
+
 @router.post("/", response_model=BuildingResponse, status_code=status.HTTP_201_CREATED)
 async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
+
+    if check_address_exists(db, building.address):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Building already exists")
     
-        neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()
-    
-        if neighborhood is None:
-            raise HTTPException(status_code=404, detail="Neighborhood not found")
-    
-        new_building = Building(
-            address=building.address,
-            publisher_id=user.id,
-            approved=False,
-            neighborhood_id=building.neighborhood_id,
-            floors=building.floors,
-            apartments_per_floor=building.apartments_per_floor,
-            elevator=building.elevator,
-            pool=building.pool,
-            gym=building.gym,
-            terrace=building.terrace,
-            bike_rack=building.bike_rack,
-            laundry=building.laundry
-        )
-    
-        db.add(new_building)
-        db.commit()
-        db.refresh(new_building)
-    
-        return parse_building_response((new_building, neighborhood.name))
+    neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()
+
+    if neighborhood is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Neighborhood not found")
+
+    new_building = Building(
+        address=building.address,
+        publisher_id=user.id,
+        approved=False,
+        neighborhood_id=building.neighborhood_id,
+        floors=building.floors,
+        apartments_per_floor=building.apartments_per_floor,
+        elevator=building.elevator,
+        pool=building.pool,
+        gym=building.gym,
+        terrace=building.terrace,
+        bike_rack=building.bike_rack,
+        laundry=building.laundry
+    )
+
+    db.add(new_building)
+    db.commit()
+    db.refresh(new_building)
+
+    return parse_building_response((new_building, neighborhood.name))
