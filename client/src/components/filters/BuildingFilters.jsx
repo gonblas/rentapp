@@ -3,14 +3,7 @@ import React from "react"
 import ShowFilter from "./ShowFilter"
 
 function BuildingFilters({ filters, setFilters }) {
-  const services = [
-    "Garaje",
-    "Ascensor",
-    "Pileta",
-    "Gimnasio",
-    "Terraza",
-    "Lavadero",
-  ]
+  const services = ["Ascensor", "Pileta", "Gimnasio", "Terraza", "Lavadero"]
 
   return (
     <Grid container spacing={2}>
@@ -20,10 +13,19 @@ function BuildingFilters({ filters, setFilters }) {
         type="multiselect"
         filters={filters}
         setFilters={setFilters}
+        scope="building"
         options={services.map((service) => ({
           value: service,
           label: service,
         }))}
+      />
+      <ShowFilter
+        name="hasElevator"
+        label="Ascensor"
+        type="checkbox"
+        filters={filters}
+        setFilters={setFilters}
+        scope="building"
       />
       <ShowFilter
         name="floors"
@@ -31,6 +33,7 @@ function BuildingFilters({ filters, setFilters }) {
         type="number"
         filters={filters}
         setFilters={setFilters}
+        scope="building"
       />
       <ShowFilter
         name="apartmentsPerFloor"
@@ -38,18 +41,7 @@ function BuildingFilters({ filters, setFilters }) {
         type="number"
         filters={filters}
         setFilters={setFilters}
-      />
-      <ShowFilter
-        name="neighborhood"
-        label="Barrio"
-        type="select"
-        filters={filters}
-        setFilters={setFilters}
-        options={[
-          { value: "st-ana", label: "St. Ana" },
-          { value: "el-peligro", label: "El Peligro" },
-          { value: "altos-lorenzo", label: "Altos de San Lorenzo" },
-        ]}
+        scope="building"
       />
     </Grid>
   )
