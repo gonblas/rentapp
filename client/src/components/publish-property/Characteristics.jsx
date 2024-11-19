@@ -5,6 +5,11 @@ import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
+import Container from "@mui/material/Container"
+import InputAdornment from "@mui/material/InputAdornment"
+import OutlinedInput from "@mui/material/OutlinedInput"
+import FormHelperText from "@mui/material/FormHelperText"
+import Autocomplete from "@mui/material/Autocomplete"
 
 function Subtitle({ children }) {
   return (
@@ -26,8 +31,17 @@ function Characteristics() {
     PublishPropertyContext,
   )
 
+  const positions = ["Frente", "Contrafrente", "Interno", "Lateral"]
+
   return (
-    <>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        padding: 0,
+        gap: 2,
+      }}
+    >
       <FormHeader
         title="Características"
         description="Agrega características detalladas para describir mejor el inmueble que estás publicando. No son obligatorias, pero ayudan a los usuarios a encontrar tu inmueble más fácilmente."
@@ -51,10 +65,10 @@ function Characteristics() {
       </FormControl>
 
       <Subtitle>Precio</Subtitle>
-      {/* hacer el rental_value y expenses_value */}
-      <FormControl>
+
+      <FormControl variant="outlined">
         <FormLabel htmlFor="rental_value">Valor de alquiler</FormLabel>
-        <TextField
+        <OutlinedInput
           id="rental_value"
           name="rental_value"
           placeholder="Ej: 10000"
@@ -62,14 +76,15 @@ function Characteristics() {
           onChange={(e) => handleOnChange(e)}
           error={errors.rental_value.hasError}
           helperText={errors.rental_value.message}
-          type="number"
-          variant="outlined"
+          endAdornment={<InputAdornment position="end">$</InputAdornment>}
+          aria-describedby="outlined-weight-helper-text"
           fullWidth
         />
       </FormControl>
-      <FormControl>
+
+      <FormControl variant="outlined">
         <FormLabel htmlFor="expenses_value">Expensas</FormLabel>
-        <TextField
+        <OutlinedInput
           id="expenses_value"
           name="expenses_value"
           placeholder="Ej: 5000"
@@ -77,7 +92,7 @@ function Characteristics() {
           onChange={(e) => handleOnChange(e)}
           error={errors.expenses_value.hasError}
           helperText={errors.expenses_value.message}
-          type="number"
+          endAdornment={<InputAdornment position="end">$</InputAdornment>}
           variant="outlined"
           fullWidth
         />
@@ -115,19 +130,28 @@ function Characteristics() {
         />
       </FormControl>
 
-      <FormControl>
+      <FormControl error={errors.location.hasError} >
         <FormLabel htmlFor="location">Ubicación en el edificio</FormLabel>
-        <TextField
-          id="location"
-          name="location"
-          placeholder="Ej: Av. Siempre Viva 123"
+        <Autocomplete
+          disablePortal
+          autoComplete
           value={formData.location}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.location.hasError}
-          helperText={errors.location.message}
-          variant="outlined"
-          fullWidth
+          noOptionsText="Sin resultados"
+          options={positions}
+          sx={{ height: "40px!important" }}
+          renderInput={(params) => <TextField {...params} />}
+          onChange={(event, newValue) => {
+            handleOnChange(
+              {
+                target: { name: "location", value: newValue },
+              },
+              0,
+            )
+          }}
         />
+        <FormHelperText>
+          {errors.location.hasError && errors.location.message}
+        </FormHelperText>
       </FormControl>
 
       <Subtitle>Caracteristicas extra</Subtitle>
@@ -146,40 +170,51 @@ function Characteristics() {
           fullWidth
         />
       </FormControl>
-      <FormControlLabel
-        id="backyard"
-        control={
-          <Checkbox
-            checked={formData.backyard}
-            onChange={(e) => handleOnChange(e)}
-            name="backyard"
-          />
-        }
-        label="Patio"
-      />
-      <FormControlLabel
-        id="garage"
-        control={
-          <Checkbox
-            checked={formData.garage}
-            onChange={(e) => handleOnChange(e)}
-            name="garage"
-          />
-        }
-        label="Garage"
-      />
-      <FormControlLabel
-        id="pet_friendly"
-        control={
-          <Checkbox
-            checked={formData.pet_friendly}
-            onChange={(e) => handleOnChange(e)}
-            name="pet_friendly"
-          />
-        }
-        label="Apto mascotas"
-      />
-    </>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "75%",
+          gap: 2,
+          py: 4,
+        }}
+      >
+        <FormControlLabel
+          id="backyard"
+          control={
+            <Checkbox
+              checked={formData.backyard}
+              onChange={(e) => handleOnChange(e)}
+              name="backyard"
+            />
+          }
+          label="Patio"
+        />
+        <FormControlLabel
+          id="garage"
+          control={
+            <Checkbox
+              checked={formData.garage}
+              onChange={(e) => handleOnChange(e)}
+              name="garage"
+            />
+          }
+          label="Garage"
+        />
+        <FormControlLabel
+          id="pet_friendly"
+          control={
+            <Checkbox
+              checked={formData.pet_friendly}
+              onChange={(e) => handleOnChange(e)}
+              name="pet_friendly"
+            />
+          }
+          label="Apto mascotas"
+        />
+      </Container>
+    </Container>
   )
 }
 

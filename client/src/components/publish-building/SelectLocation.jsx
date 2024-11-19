@@ -48,8 +48,7 @@ function SelectLocation() {
             value={formData.address}
           />
           <FormHelperText>
-            {errors.address.hasError &&
-              errors.address.message}
+            {errors.address.hasError && errors.address.message}
           </FormHelperText>
         </FormControl>
       </FormControl>
