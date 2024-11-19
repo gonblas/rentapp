@@ -26,13 +26,16 @@ class User(BaseModel):
     email : str
     is_real_estate : bool
 
-class UserResponse(BaseModel):
-    id: int
-    name : str
+class ContactInfo(BaseModel):
     email : str
-    is_real_estate : bool
     phone_number: str
     has_phone_number: bool
     whatsapp_number: str
     has_whatsapp_number: bool
+
+class UserResponse(BaseModel):
+    id: int
+    name : str
+    is_real_estate : bool
     avatar: str
+    contact_info: ContactInfo
