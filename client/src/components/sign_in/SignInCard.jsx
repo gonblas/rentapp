@@ -183,10 +183,6 @@ export default function SignInCard() {
             fullWidth
           />
         </FormControl>
-        {/* <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Recordarme"
-        /> */}
         <ForgotPassword open={open} handleClose={handleClose} />
         <Button
           type="submit"

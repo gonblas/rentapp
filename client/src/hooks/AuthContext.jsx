@@ -77,6 +77,20 @@ export const AuthProvider = ({ children }) => {
       })
   }
 
+  function handleLogout() {
+    fetch("http://localhost:8000/user/logout", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(() => {
+        setUserData(null)
+        navigate("/")
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
+  }
+
   useLayoutEffect(() => {
     fetch("http://localhost:8000/user/me", {
       method: "GET",
@@ -100,6 +114,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         handleLogin,
         handleSignup,
+        handleLogout,
       }}
     >
       {children}
