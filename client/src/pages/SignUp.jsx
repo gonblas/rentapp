@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
+import FormHelperText from "@mui/material/FormHelperText"
 import axios from "axios"
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -61,7 +62,7 @@ export default function SignUp(props) {
     phone: { hasError: false, message: "" },
     whatsapp: { hasError: false, message: "" },
     date: { hasError: false, message: "" },
-    back: { hasError: false, message: "" },
+    auth: { hasError: true, message: "Boca es un gran club de futbol" },
   })
 
   const [data, setData] = React.useState({
@@ -430,6 +431,9 @@ export default function SignUp(props) {
             >
               Registrarse
             </Button>
+            <FormHelperText sx={{ mx: "auto", color: "error.main" }}>
+              {errors.auth.hasError && errors.auth.message}
+            </FormHelperText>
           </Box>
           <Divider>
             <Typography sx={{ color: "text.secondary" }}>o</Typography>

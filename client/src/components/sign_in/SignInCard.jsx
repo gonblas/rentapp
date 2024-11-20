@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl"
 import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
+import FormHelperText from "@mui/material/FormHelperText"
 
 import { styled } from "@mui/material/styles"
 
@@ -34,6 +35,7 @@ export default function SignInCard() {
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
     password: { hasError: false, message: "" },
+    auth: { hasError: true, message: "Boca yo te amo" },
   })
 
   const [data, setData] = React.useState({
@@ -125,7 +127,12 @@ export default function SignInCard() {
   }
 
   return (
-    <Card variant="outlined">
+    <Card
+      variant="outlined"
+      sx={{
+        py: 8,
+      }}
+    >
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <Typography sx={{ display: "block" }}>
           <img src="../RentAppLogo.svg" alt="" height="50" />
@@ -200,9 +207,13 @@ export default function SignInCard() {
           fullWidth
           variant="contained"
           onClick={handleSubmit}
+          sx={{ mt: 2 }}
         >
           Ingresar
         </Button>
+        <FormHelperText sx={{ mx: "auto", color: "error.main" }}>
+          {errors.auth.hasError && errors.auth.message}
+        </FormHelperText>
         <Typography sx={{ textAlign: "center" }}>
           ¿No tienes una cuenta?{" "}
           <span>
