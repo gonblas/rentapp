@@ -1,7 +1,7 @@
 import React from "react"
 import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
-// import SearchBar from "../components/SearchBar"
+import SearchBar from "../components/SearchBar"
 import BuildingCard from "../components/cards/BuildingCard"
 import ListContainer from "../components/ListContainer"
 
@@ -39,7 +39,7 @@ const Home = () => {
 
   return (
     <ListContainer>
-      {/* <SearchBar /> */}
+      <SearchBar />
       <Typography
         variant="h5"
         component="h1"

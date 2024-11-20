@@ -104,9 +104,10 @@ function ShowFilter({
             displayEmpty
           >
             <MenuItem value="">
-              <em>Select...</em>
+              <em>Seleccionar...</em>
             </MenuItem>
             {options.map((option) => (
+              // console.log(option),
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
