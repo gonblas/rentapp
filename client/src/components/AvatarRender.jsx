@@ -5,7 +5,6 @@ function stringToColor(string) {
   let hash = 0
   let i
 
-  /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash)
   }
@@ -16,7 +15,6 @@ function stringToColor(string) {
     const value = (hash >> (i * 8)) & 0xff
     color += `00${value.toString(16)}`.slice(-2)
   }
-  /* eslint-enable no-bitwise */
 
   return color
 }
@@ -37,13 +35,17 @@ function stringAvatar(name) {
   }
 }
 
-function AvatarRender({ name, image }) {
+function AvatarRender({
+  name,
+  image,
+  style = { width: "40px", height: "40px", fontSize: "100%" },
+}) {
   return image ? (
-    <Avatar src={image} alt="Avatar" />
+    <Avatar src={image} alt={name} style={style} />
   ) : name ? (
-    <Avatar {...stringAvatar(name)} alt="Avatar" />
+    <Avatar {...stringAvatar(name)} alt={name} style={style} />
   ) : (
-    <Avatar alt="Avatar" />
+    <Avatar alt={name} style={style} />
   )
 }
 

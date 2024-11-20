@@ -135,7 +135,6 @@ function AvatarPublisher({ publisher }) {
         height: "100%",
       }}
     >
-      {console.log(publisher.name)}
       <AvatarRender name={publisher.name} image={publisher.avatar} />
       <Container
         sx={{

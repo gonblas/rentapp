@@ -7,6 +7,7 @@ import EmailButton from "./EmailButton"
 import PhoneButton from "./PhoneButton"
 import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
+import Container from "@mui/material/Container"
 
 function PublisherInfo({ publisher }) {
   return (
@@ -18,8 +19,7 @@ function PublisherInfo({ publisher }) {
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        margin: "3rem",
-        width: "100%",
+        mb: "3rem",
       }}
     >
       <Typography
@@ -31,28 +31,67 @@ function PublisherInfo({ publisher }) {
       >
         Contactá al publicante
       </Typography>
-      <AvatarRender name={publisher.name} image={publisher.avatar} />
-      {/* name: "Daniel Gomez",
-    is_real_estate: false,
-    avatar:  */}
-      <Typography>{publisher.name}</Typography>
-      <Typography>
-        {publisher.is_real_estate ? "Inmobiliaria" : "Propietario"}
-      </Typography>
-      <Stack
-        direction="row"
-        spacing={2}
-        divider={<Divider orientation="vertical" flexItem />}
-        useFlexGap
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          gap: "2rem",
+          px: "0px!important",
+        }}
       >
-        <EmailButton mail={publisher.contact.email} />
-        {publisher.contact.has_phone_number && (
-          <PhoneButton phone={publisher.contact.phone_number} />
-        )}
-        {publisher.contact.has_whatsapp_number && (
-          <WhatsAppButton phone={publisher.contact.whatsapp_number} />
-        )}
-      </Stack>
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "start",
+            alignItems: "center",
+            pr: "0px!important",
+            pl: "2rem",
+          }}
+        >
+          <AvatarRender
+            name={publisher.name}
+            image={publisher.avatar}
+            style={{ width: "100px", height: "100px", fontSize: "3em" }}
+          />
+          <Typography
+            sx={{
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "text.primary",
+            }}
+          >
+            {publisher.name}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "light",
+              color: "text.secondary",
+            }}
+          >
+            {publisher.is_real_estate ? "Inmobiliaria" : "Propietario"}
+          </Typography>
+        </Container>
+        <Stack
+          direction="column"
+          spacing={1}
+          divider={<Divider orientation="horizontal" flexItem />}
+          sx={{
+            minWidth: "300px",
+          }}
+        >
+          <EmailButton mail={publisher.contact.email} />
+          {publisher.contact.has_phone_number && (
+            <PhoneButton phone={publisher.contact.phone_number} />
+          )}
+          {publisher.contact.has_whatsapp_number && (
+            <WhatsAppButton phone={publisher.contact.whatsapp_number} />
+          )}
+        </Stack>
+      </Container>
     </Paper>
   )
 }
