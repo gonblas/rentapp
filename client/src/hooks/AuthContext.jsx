@@ -1,10 +1,11 @@
-import React, { createContext, useState } from "react"
+import { createContext, useLayoutEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 const AuthContext = createContext(undefined)
 
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   function handleSignup(data, setFieldError) {
@@ -76,11 +77,27 @@ export const AuthProvider = ({ children }) => {
       })
   }
 
+  useLayoutEffect(() => {
+    fetch("http://localhost:8000/user/me", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((data) => {
+        if (data.status == 422) return null
+        return data.json()
+      })
+      .then((user) => {
+        setUserData(user)
+      })
+      .catch(() => setUserData(null))
+      .finally(() => setLoading(false))
+  }, [])
+
   return (
     <AuthContext.Provider
       value={{
         userData,
-        setUserData,
+        loading,
         handleLogin,
         handleSignup,
       }}
