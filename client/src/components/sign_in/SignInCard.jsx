@@ -8,6 +8,7 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import FormHelperText from "@mui/material/FormHelperText"
+import AuthContext from "../../hooks/AuthContext"
 
 import { styled } from "@mui/material/styles"
 
@@ -31,6 +32,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 export default function SignInCard() {
   const [open, setOpen] = React.useState(false)
+  const { handleLogin } = React.useContext(AuthContext)
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
@@ -62,33 +64,7 @@ export default function SignInCard() {
     event.preventDefault()
     if (!validateInputs()) return
 
-    const URLdata = new URLSearchParams({
-      email: data.email,
-      password: data.password,
-    })
-
-    console.log(URLdata.toString())
-
-    fetch("http://localhost:8000/user/signin", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: URLdata.toString(),
-    })
-      .then((d) => d.json())
-      .then((data) => {
-        if (data.detail === "User not found") {
-          setFieldError("auth", true, "Correo electrónico no registrado.")
-        } else {
-          if (data.detail === "Invalid password") {
-            setFieldError("auth", true, "Contraseña incorrecta.")
-          } else {
-            console.log(data)
-          }
-        }
-      })
+    handleLogin(data, setFieldError)
   }
 
   const validateInputs = () => {
