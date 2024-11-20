@@ -55,6 +55,7 @@ def parse_user_response(user : User):
             "id" :user.id,
             "name" :user.name,
             "is_real_estate":user.is_real_estate,
+            "avatar":user.avatar,
             "contact_info":{
                 "email":user.email,
                 "phone_number":user.phone_number,
@@ -68,6 +69,7 @@ def parse_user_response(user : User):
 
 @router.post("/signup/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
+                db: db_dependency,
                 name: Annotated[str, Form()],
                 email: Annotated[str, Form()],
                 password: Annotated[str, Form()],
@@ -76,8 +78,8 @@ async def register(
                 has_phone_number: Annotated[bool, Form()],
                 whatsapp_number: Annotated[str, Form()],
                 has_whatsapp_number: Annotated[bool, Form()],
-                avatar: Annotated[UploadFile, File()],
-                db: db_dependency):
+                avatar: Annotated[UploadFile, File()] = None
+                ):
     
     if check_user_exists(email, db):
         raise HTTPException(status_code=404, detail="User already exists")
