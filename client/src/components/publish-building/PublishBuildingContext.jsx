@@ -5,6 +5,7 @@ const PublishBuildingContext = createContext(undefined)
 export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     address: "",
+    neighborhood_id: null,
     neighborhood: "",
     floors: null,
     apartments_per_floor: null,
@@ -18,7 +19,7 @@ export const PublishBuildingProvider = ({ children }) => {
 
   const [errors, setErrors] = useState({
     address: { hasError: false, message: "" },
-    neighborhood: { hasError: false, message: "" },
+    neighborhood_id: { hasError: false, message: "" },
     floors: { hasError: false, message: "" },
     apartments_per_floor: { hasError: false, message: "" },
     elevator: { hasError: false, message: "" },
@@ -30,7 +31,7 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const validateStep1 = (setErrors) => {
-    const { neighborhood, address } = formData
+    const { neighborhood_id, address } = formData
     let isValid = true
 
     if (!address) {
@@ -53,10 +54,10 @@ export const PublishBuildingProvider = ({ children }) => {
     }
 
     // Validación para `neighborhood`
-    if (!neighborhood || neighborhood === "") {
+    if (!neighborhood_id) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        neighborhood: {
+        neighborhood_id: {
           hasError: true,
           message: "Selecciona un barrio",
         },
@@ -65,7 +66,7 @@ export const PublishBuildingProvider = ({ children }) => {
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        neighborhood: {
+        neighborhood_id: {
           hasError: false,
           message: "",
         },
@@ -73,7 +74,7 @@ export const PublishBuildingProvider = ({ children }) => {
     }
 
     console.log(isValid)
-    console.log(formData)
+    console.log(formData.neighborhood_id)
     return isValid
   }
 
@@ -127,7 +128,22 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const submitForm = () => {
-    console.log(formData)
+    const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
+
+    fetch("http://localhost:8000/building/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filteredData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data)
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+      })
   }
 
   const nextStepFunction = [

@@ -13,7 +13,6 @@ import AuthContext from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import AvatarRender from "../AvatarRender"
 import { Link } from "react-router-dom"
-import Skeleton from "@mui/material/Skeleton"
 
 function AccountMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -109,7 +108,7 @@ function AccountMenu({ user }) {
   )
 }
 
-function SinginButton() {
+function SigninButton() {
   return (
     <Link to="/sign-in" key="sign-in">
       <Button
@@ -134,16 +133,16 @@ function SinginButton() {
 
 function UserMenu() {
   const { userData, loading } = React.useContext(AuthContext)
-  if (loading)
-    return (
-      <Skeleton
-        animation="wave"
-        variant="circular"
-        width="40px"
-        height="auto"
-      />
-    )
-  return <>{userData ? <AccountMenu user={userData} /> : <SinginButton />}</>
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <>
+      {userData === null ? <AccountMenu user={userData} /> : <SigninButton />}
+    </>
+  )
 }
 
 export default UserMenu

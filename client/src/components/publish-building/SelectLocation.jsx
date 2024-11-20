@@ -20,9 +20,7 @@ function SelectLocation() {
     () => async () => {
       try {
         const response = await axios.get("http://localhost:8000/neighborhood/")
-        setNeighborhoods(
-          response.data.neighborhoods.map((neighborhood) => neighborhood.name),
-        )
+        setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)
       }
@@ -34,30 +32,6 @@ function SelectLocation() {
     fetchNeighborhoodsList()
   }, [fetchNeighborhoodsList])
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/neighborhood/", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Error al obtener los barrios")
-  //       }
-  //       return response.json()
-  //     })
-  //     .then((data) => {
-  //       setNeighborhoods(
-  //         data.neighborhoods.map((neighborhood) => neighborhood.name),
-  //         console.log(data.neighborhoods),
-  //       )
-  //     })
-  //     .catch((error) => {
-  //       console.error(error.message)
-  //     })
-  // }, [])
-
   return (
     <>
       <FormControl>
@@ -67,7 +41,7 @@ function SelectLocation() {
             handleOnChange={handleOnChange}
             value={formData.address}
           />
-          <FormHelperText>
+          <FormHelperText sx={{ color: "error.main" }}>
             {errors.address.hasError && errors.address.message}
           </FormHelperText>
         </FormControl>
@@ -79,20 +53,23 @@ function SelectLocation() {
           autoComplete
           value={formData.neighborhood}
           noOptionsText="Sin resultados"
-          options={neighborhoods}
+          options={neighborhoods.map((neighborhood) => ({
+            value: neighborhood.id,
+            label: neighborhood.name,
+          }))}
           sx={{ width: "auto" }}
           renderInput={(params) => <TextField {...params} />}
           onChange={(event, newValue) => {
-            handleOnChange(
-              {
-                target: { name: "neighborhood", value: newValue },
-              },
-              0,
-            )
+            handleOnChange({
+              target: { name: "neighborhood_id", value: newValue.value },
+            })
+            handleOnChange({
+              target: { name: "neighborhood", value: newValue.label },
+            })
           }}
         />
-        <FormHelperText>
-          {errors.neighborhood.hasError && errors.neighborhood.message}
+        <FormHelperText sx={{ color: "error.main" }}>
+          {errors.neighborhood_id.hasError && errors.neighborhood_id.message}
         </FormHelperText>
       </FormControl>
     </>
