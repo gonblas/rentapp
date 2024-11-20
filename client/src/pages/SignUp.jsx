@@ -250,7 +250,7 @@ export default function SignUp(props) {
           setFieldError(
             "auth",
             true,
-            "El correo electrónico ya está registrado.",
+            "El correo electrónico ya se encuentra registrado.",
           )
         } else {
           setFieldError("auth", false, "")

@@ -35,7 +35,7 @@ export default function SignInCard() {
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
     password: { hasError: false, message: "" },
-    auth: { hasError: true, message: "Boca yo te amo" },
+    auth: { hasError: false, message: "" },
   })
 
   const [data, setData] = React.useState({
@@ -67,7 +67,9 @@ export default function SignInCard() {
       password: data.password,
     })
 
-    fetch("http://localhost:8000/signin", {
+    console.log(URLdata.toString())
+
+    fetch("http://localhost:8000/user/signin", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -76,8 +78,16 @@ export default function SignInCard() {
       body: URLdata.toString(),
     })
       .then((d) => d.json())
-      .then((d) => {
-        console.log(d)
+      .then((data) => {
+        if (data.detail === "User not found") {
+          setFieldError("auth", true, "Correo electrónico no registrado.")
+        } else {
+          if (data.detail === "Invalid password") {
+            setFieldError("auth", true, "Contraseña incorrecta.")
+          } else {
+            console.log(data)
+          }
+        }
       })
   }
 
