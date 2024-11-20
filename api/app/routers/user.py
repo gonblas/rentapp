@@ -54,13 +54,14 @@ def parse_user_response(user : User):
         {
             "id" :user.id,
             "name" :user.name,
-            "email":user.email,
             "is_real_estate":user.is_real_estate,
-            "phone_number":user.phone_number,
-            "has_phone_number":user.has_phone_number,
-            "whatsapp_number":user.whatsapp_number,
-            "has_whatsapp_number":user.has_whatsapp_number,
-            "avatar" :user.avatar
+            "contact_info":{
+                "email":user.email,
+                "phone_number":user.phone_number,
+                "has_phone_number":user.has_phone_number,
+                "whatsapp_number":user.whatsapp_number,
+                "has_whatsapp_number":user.has_whatsapp_number,
+            },
         }
     )
 
@@ -71,7 +72,6 @@ async def register(
                 email: Annotated[str, Form()],
                 password: Annotated[str, Form()],
                 is_real_estate: Annotated[bool, Form()],
-                birth_date: Annotated[datetime, Form()],
                 phone_number: Annotated[str, Form()],
                 has_phone_number: Annotated[bool, Form()],
                 whatsapp_number: Annotated[str, Form()],
