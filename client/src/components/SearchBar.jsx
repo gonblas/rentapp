@@ -10,7 +10,7 @@ import { useContext } from "react"
 
 function SearchBar() {
   const navigate = useNavigate()
-  const { filters, setFilters, setProperties } = useContext(SearchContext)
+  const { filters, setFilters, setBuildings } = useContext(SearchContext)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -70,7 +70,7 @@ function SearchBar() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data)
-        setProperties(data)
+        setBuildings(data)
         navigate("/search")
       })
       .catch((error) => {

@@ -1,22 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Container } from "@mui/material"
 import BuildingHeader from "../components/BuildingHeader"
+import SearchContext from "../components/SearchContext"
+import PropertyCard from "../components/cards/PropertyCard"
 
-const building = {
-  id: 0,
-  address: "Avenida Segurola al 4300 y Calle Habana",
-  neighborhood: "Villa Devoto",
-  floors: 10,
-  apartments_per_floor: 4,
-  elevator: true,
-  pool: true,
-  gym: true,
-  terrace: true,
-  bike_rack: true,
-  laundry: true,
-}
-
-const BuildingFullView = () => {
+function BuildingFullView() {
+  const { building } = useContext(SearchContext)
+  console.log(building)
   return (
     <Container
       sx={{
@@ -28,7 +18,14 @@ const BuildingFullView = () => {
         px: "0px!important",
       }}
     >
-      <BuildingHeader building={building}></BuildingHeader>
+      <BuildingHeader building={building} />
+      {building.properties.map((property) => (
+        <PropertyCard
+          key={property.id}
+          property={property}
+          address={building.address}
+        />
+      ))}
     </Container>
   )
 }

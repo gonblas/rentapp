@@ -26,9 +26,13 @@ export const SearchProvider = ({ children }) => {
     },
   })
 
+  const [building, setBuilding] = React.useState({})
+
+  const [property, setProperty] = React.useState({})
+
   // State for data fetched from the backend
-  const [properties, setProperties] = useState({
-    properties: [],
+  const [buildings, setBuildings] = useState({
+    buildings: [],
   })
 
   return (
@@ -36,8 +40,12 @@ export const SearchProvider = ({ children }) => {
       value={{
         filters,
         setFilters,
-        properties,
-        setProperties,
+        buildings,
+        setBuildings,
+        building,
+        setBuilding,
+        property,
+        setProperty,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ import YardIcon from "@mui/icons-material/Yard"
 import BalconyIcon from "@mui/icons-material/Balcony"
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed"
 
-function PropertyHeader({ property }) {
+function PropertyHeader({ property, building }) {
   return (
     <Container
       sx={{
@@ -34,7 +34,7 @@ function PropertyHeader({ property }) {
         <Typography variant="h4">
           ${property.features.rental_value.toLocaleString("es-ES")}
         </Typography>
-        <Typography variant="h4">{property.building.address}</Typography>
+        <Typography variant="h4">{building.address}</Typography>
       </Container>
 
       <Container
@@ -49,9 +49,7 @@ function PropertyHeader({ property }) {
         <Typography variant="body2">
           Expensas: ${property.features.expenses_value.toLocaleString("es-ES")}
         </Typography>
-        <Typography variant="body2">
-          {property.building.neighborhood_name}
-        </Typography>
+        <Typography variant="body2">{building.neighborhood_name}</Typography>
       </Container>
       {property.description !== "" && (
         <>
@@ -129,10 +127,5 @@ function PropertyHeader({ property }) {
     </Container>
   )
 }
-
-// features: {
-//   rental_value: 350000,
-//   expenses_value: 28000,
-// },
 
 export default PropertyHeader
