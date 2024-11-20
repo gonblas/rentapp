@@ -12,10 +12,12 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
 import AuthContext from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import AvatarRender from "../AvatarRender"
+import LogoutDialog from "./LogoutDialog"
 import { Link } from "react-router-dom"
 
 function AccountMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [openDialog, setOpenDialog] = React.useState(false)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -97,13 +99,25 @@ function AccountMenu({ user }) {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            setOpenDialog(true)
+            console.log("Cerrar Sesión")
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Cerrar Sesión
         </MenuItem>
       </Menu>
+      <LogoutDialog
+        open={openDialog}
+        handleClose={() => {
+          setOpenDialog(false)
+          console.log("Cerrar Sesión")
+        }}
+      />
     </React.Fragment>
   )
 }
