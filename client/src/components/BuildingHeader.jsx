@@ -12,6 +12,7 @@ function BuildingHeader({ building }) {
         width: "100%",
         px: "0px!important",
         gap: "10px",
+        py: "70px",
       }}
     >
       <Typography variant="h4">{building.address}</Typography>

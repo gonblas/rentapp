@@ -41,4 +41,7 @@ def get_current_user(db : db_dependency, token: str = Cookie(None)):
     except jwt.PyJWTError:
         raise credentials_exception
 
+def user_is_admin(user : User):
+    return user.is_admin
+
 auth_dependency = Annotated[User, Depends(get_current_user)]

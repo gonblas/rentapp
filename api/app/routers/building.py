@@ -73,8 +73,6 @@ def parse_building_response(data:dict):
     return {
         "id": building.id,
         "address": building.address,
-        "publisher_id": building.publisher_id,
-        "approved": building.approved,
         "neighborhood_id": building.neighborhood_id,
         "neighborhood_name": neighborhood_name,
         "floors": building.floors,
@@ -91,8 +89,10 @@ def parse_buildings_response(buildings:dict):
 
     response = []
     for building in buildings:
-        response.append(parse_building_response(buildings))
-    return response
+        response.append(parse_building_response(building))
+    return {
+        "buildings": response
+    }
 
 def check_address_exists(db: db_dependency, address: str):
     return db.query(Building).filter(Building.address == address).first()

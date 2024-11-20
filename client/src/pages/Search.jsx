@@ -6,13 +6,13 @@ import BuildingCard from "../components/cards/BuildingCard"
 import ListContainer from "../components/ListContainer"
 
 function Search() {
-  const { properties } = useContext(SearchContext)
-
+  const { buildings } = useContext(SearchContext)
+  console.log(buildings)
   return (
     <Fragment>
       <SearchBar />
       <ListContainer>
-        {properties.buildings.map((building) => (
+        {buildings.buildings.map((building) => (
           <BuildingCard key={building.id} building={building} />
         ))}
       </ListContainer>

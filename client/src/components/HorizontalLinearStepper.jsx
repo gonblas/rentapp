@@ -71,6 +71,9 @@ export default function HorizontalLinearStepper({
         activeStep={activeStep}
         alternativeLabel
         connector={<ColorlibConnector />}
+        sx={{
+          pt: 6,
+        }}
       >
         {steps.map((label) => {
           const stepProps = {}

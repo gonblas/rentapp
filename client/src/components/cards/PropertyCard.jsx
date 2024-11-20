@@ -7,17 +7,18 @@ import Button from "@mui/material/Button"
 import CardMedia from "@mui/material/CardMedia"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import Divider from "@mui/material/Divider"
-import Carousel from "./Carousel"
+import Carousel from "../Carousel"
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import React from "react"
+import React, { useContext } from "react"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
-import CopyToClipboardButton from "./CopyToClipboardButton"
-import AvatarRender from "./AvatarRender"
+import CopyToClipboardButton from "../CopyToClipboardButton"
+import AvatarRender from "../AvatarRender"
 import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
+import SearchContext from "../SearchContext"
 
 function ContactButton({ contact }) {
   const items = [
@@ -160,7 +161,13 @@ function AvatarPublisher({ publisher }) {
   )
 }
 
-function PropertyCard({ property }) {
+function PropertyCard({ property, address }) {
+  const { setProperty } = useContext(SearchContext)
+
+  const handleClick = () => {
+    setProperty(property)
+  }
+
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -178,7 +185,7 @@ function PropertyCard({ property }) {
   })()
 
   return (
-    <PublicationCard>
+    <PublicationCard path="/property-full-view" handleClick={handleClick}>
       <CardMedia
         image=""
         sx={{
@@ -259,7 +266,7 @@ function PropertyCard({ property }) {
               pt: "12px",
             }}
           >
-            {property.location.address}
+            {address}
           </Typography>
         </Container>
         <Container
@@ -271,7 +278,7 @@ function PropertyCard({ property }) {
             border: "none",
           }}
         >
-          <InfoTag>`${property.features.square_meters} m²`</InfoTag>
+          <InfoTag>{property.features.square_meters} m²</InfoTag>
           <InfoTag>{property.features.rooms} amb</InfoTag>
           <InfoTag>
             {property.features.location === "front"
@@ -323,7 +330,7 @@ function PropertyCard({ property }) {
               pb: "0px",
             }}
           >
-            <ContactButton contact={property.contact}></ContactButton>
+            <ContactButton contact={property.publisher.contact}></ContactButton>
           </CardActions>
         </Container>
       </Container>

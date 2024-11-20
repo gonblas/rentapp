@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
       credentials: "include",
     })
       .then((data) => {
-        if (data.status == 422) return null
+        if (data.status == 401) return null
         return data.json()
       })
       .then((user) => {

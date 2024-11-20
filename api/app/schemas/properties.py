@@ -64,12 +64,12 @@ class FilterParams(BaseModel):
     laundry: bool = Field(
         None, alias="laundry", title="Has laundry"
     )
-    limit: int = Field(
-        10, alias="limit", title="Limit of postings", ge=0
-    )
-    offset: int = Field(
-        0, alias="offset", title="Offset of postings", ge=0
-    )
+    # limit: int = Field(
+    #     10, alias="limit", title="Limit of postings", ge=0
+    # )
+    # offset: int = Field(
+    #     0, alias="offset", title="Offset of postings", ge=0
+    # )
 
 class Features(BaseModel):
     rental_value: float
@@ -125,6 +125,14 @@ class PropertyResponse(BaseModel):
     publisher: PublisherInfo
     images: List[str]
 
+class PropertyListResponse(BaseModel):
+    id : int
+    description: str
+    address: str
+    features: Features
+    publisher: PublisherInfo
+    images: List[str]
+
 class BuildingSearch(BaseModel):
     id : int
     address : str
@@ -142,10 +150,14 @@ class BuildingSearch(BaseModel):
 class PaginationInfo(BaseModel):
     total_records: int
     total_pages: int
+    current_page: int
 
 class SearchResponse(BaseModel):
     buildings : List[BuildingSearch]
 
 class PropertiesResponse(BaseModel):
     properties : List[PropertyResponse]
-    pagination: PaginationInfo
+
+class PropertiesListResponse(BaseModel):
+    properties : List[PropertyListResponse]
+    paging: PaginationInfo

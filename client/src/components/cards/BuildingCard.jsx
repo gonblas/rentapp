@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import PublicationCard from "./PublicationCard"
 import InfoTag from "./InfoTag"
 import Container from "@mui/material/Container"
@@ -6,6 +6,7 @@ import { Typography } from "@mui/material"
 import FavoriteButton from "./FavoriteButton"
 import ApartmentIcon from "@mui/icons-material/Apartment"
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline"
+import SearchContext from "../SearchContext"
 
 const TagTitle = {
   elevator: "Ascensor",
@@ -34,12 +35,18 @@ function FeatureItem({ icon, text }) {
 }
 
 function BuildingCard({ building }) {
+  const { setBuilding } = useContext(SearchContext)
+
+  const handleClick = () => {
+    setBuilding(building)
+  }
+
   const activeFeatures = Object.keys(TagTitle).filter(
     (key) => building[key] === true,
   )
 
   return (
-    <PublicationCard>
+    <PublicationCard path="/building-full-view" handleClick={handleClick}>
       <Container
         sx={{
           display: "flex",
@@ -120,13 +127,3 @@ function BuildingCard({ building }) {
 }
 
 export default BuildingCard
-
-//   "floors": 0,
-//   "apartments_per_floor": 0,
-//   "elevator": true,
-//   "pool": true,
-//   "gym": true,
-//   "terrace": true,
-//   "bike_rack": true,
-//   "laundry": true
-// }

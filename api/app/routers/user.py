@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, status, Form, File, UploadFile
 from fastapi.responses import JSONResponse
 from typing import Annotated
 from ..database import db_dependency
-from ..models import User, Property, Image
+from ..models import User, Property, Image, Building
 from ..schemas.users import UserResponse
 from ..bucket import upload_avatar
 from ..schemas.properties import PropertyResponse, PropertiesResponse
@@ -136,9 +136,11 @@ def read_user_publications( db : db_dependency, user : auth_dependency = None):
             db.query(
                 Property,
                 User,
+                Building.address,
                 func.group_concat(Image.url).label('images')  
             )
             .join(User, Property.publisher_id == User.id)
+            .join(Building, Property.building_id == Building.id)
             .outerjoin(Image, Property.id == Image.property_id)
             .group_by(Property.id, User.id)
         )
@@ -161,3 +163,13 @@ def read_user_publications( db : db_dependency, user : auth_dependency = None):
 
             }
         )
+
+@router.get("/logout", status_code=status.HTTP_200_OK)
+def logout():
+    response = JSONResponse(
+        content={"message":"User logged out"}
+    )
+
+    response.delete_cookie(key="token")
+
+    return response
