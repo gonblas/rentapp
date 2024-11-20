@@ -111,8 +111,6 @@ function AccountMenu() {
 }
 
 const navItems = [
-  { title: "Crear cuenta", path: "/sign-up" },
-  { title: "Iniciar Sesion", path: "/sign-in" },
   { title: "Inicio", path: "/" },
   { title: "Acerca de", path: "/" },
   { title: "Publicar", path: "/publish" },

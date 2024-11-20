@@ -15,9 +15,9 @@ import AppTheme from "../theme/AppTheme"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
-import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
 import FormHelperText from "@mui/material/FormHelperText"
+import AuthContext from "../hooks/AuthContext"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -51,7 +51,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }))
 
 export default function SignUp(props) {
-  const navigate = useNavigate()
+  const { handleSignup } = React.useContext(AuthContext)
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
@@ -225,41 +225,7 @@ export default function SignUp(props) {
     event.preventDefault()
     if (!validateInputs()) return
 
-    const formData = new FormData()
-    formData.append("name", data.name)
-    formData.append("email", data.email)
-    formData.append("password", data.password)
-    formData.append("is_real_estate", data.isRealEstate)
-    formData.append("phone_number", data.phone)
-    formData.append("has_phone_number", String(data.phone !== ""))
-    formData.append("whatsapp_number", data.whatsapp)
-    formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
-
-    if (data.avatar) {
-      formData.append("avatar", data.avatar)
-    }
-
-    fetch("http://localhost:8000/user/signup/", {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.detail === "User already exists") {
-          setFieldError(
-            "auth",
-            true,
-            "El correo electrónico ya se encuentra registrado.",
-          )
-        } else {
-          setFieldError("auth", false, "")
-          navigate("/sign-in")
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-      })
+    handleSignup(data, setFieldError)
   }
 
   return (
