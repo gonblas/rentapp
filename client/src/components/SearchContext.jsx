@@ -6,7 +6,8 @@ export const SearchProvider = ({ children }) => {
   // State for filters
   const [filters, setFilters] = React.useState({
     property: {
-      neighborhood: null,
+      neighborhood_id: null,
+      neighborhood_name: null,
       minRentPrice: null,
       maxRentPrice: null,
       minExpenses: null,
