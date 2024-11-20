@@ -22,11 +22,15 @@ function ShowFilter({
   const handleOnChange = (event) => {
     const { name, value, type, checked } = event.target
 
+    // Handle zero values and set them to null
+    const newValue = type === "checkbox" ? checked : value
+    const finalValue = newValue === "0" || newValue === 0 ? null : newValue
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [scope]: {
         ...prevFilters[scope],
-        [name]: type === "checkbox" ? checked : value, // Update the specific field in the correct scope
+        [name]: finalValue, // Update the specific field with null if it's 0
       },
     }))
   }
@@ -36,8 +40,8 @@ function ShowFilter({
       ...prevFilters,
       [scope]: {
         ...prevFilters[scope],
-        [`min${name}`]: newValue[0], // Update min value
-        [`max${name}`]: newValue[1], // Update max value
+        [`min${name}`]: newValue[0] === 0 ? null : newValue[0], // Set to null if zero
+        [`max${name}`]: newValue[1] === 0 ? null : newValue[1], // Set to null if zero
       },
     }))
   }
@@ -107,7 +111,6 @@ function ShowFilter({
               <em>Seleccionar...</em>
             </MenuItem>
             {options.map((option) => (
-              // console.log(option),
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -188,7 +191,7 @@ function ShowFilter({
                   ...prevFilters,
                   [scope]: {
                     ...prevFilters[scope],
-                    [`min${name}`]: minValue,
+                    [`min${name}`]: minValue === 0 ? null : minValue, // Set to null if zero
                   },
                 }))
               }}
@@ -204,7 +207,7 @@ function ShowFilter({
                   ...prevFilters,
                   [scope]: {
                     ...prevFilters[scope],
-                    [`max${name}`]: maxValue,
+                    [`max${name}`]: maxValue === 0 ? null : maxValue, // Set to null if zero
                   },
                 }))
               }}

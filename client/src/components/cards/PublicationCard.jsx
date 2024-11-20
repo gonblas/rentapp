@@ -6,13 +6,14 @@ function PublicationCard({ children }) {
     <Card
       sx={{
         borderRadius: "10px",
-        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+        boxShadow: "0px 0px 15px 0px rgba(0, 0, 0, 0.25)", // Darker shadow
         backgroundColor: "#ffffff",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         width: "100%!important",
         height: "300px",
+        mb: "30px",
       }}
     >
       {children}

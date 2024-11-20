@@ -4,25 +4,25 @@ const SearchContext = createContext(undefined)
 
 export const SearchProvider = ({ children }) => {
   // State for filters
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = React.useState({
     property: {
-      neighborhood: 0,
-      minRentPrice: 0,
-      maxRentPrice: 0,
-      minExpenses: 0,
-      maxExpenses: 0,
-      rooms: 0,
-      surface: 0,
-      balconies: 0,
-      hasBackyard: false,
-      hasGarage: false,
-      petfriendly: false,
-      location: "",
+      neighborhood: null,
+      minRentPrice: null,
+      maxRentPrice: null,
+      minExpenses: null,
+      maxExpenses: null,
+      rooms: null,
+      surface: null,
+      balconies: null,
+      hasBackyard: null,
+      hasGarage: null,
+      petfriendly: null,
+      location: null,
     },
     building: {
       services: [],
-      floors: 0,
-      apartmentsPerFloor: 0,
+      floors: null, // Set to null
+      apartmentsPerFloor: null,
     },
   })
 

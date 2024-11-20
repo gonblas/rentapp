@@ -15,30 +15,54 @@ function SearchBar() {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const URLdata = new URLSearchParams({
-      // neighborhood_id: filters.property.neighborhood,
-      neighborhood_id: 1,
-      min_rental_value: filters.property.minRentPrice,
-      max_rental_value: filters.property.maxRentPrice,
-      min_expenses_value: filters.property.minExpenses,
-      max_expenses_value: filters.property.maxExpenses,
-      rooms: filters.property.rooms,
-      square_meters: filters.property.surface,
-      balconies: filters.property.balconies,
-      backyard: filters.property.hasBackyard,
-      garage: filters.property.hasGarage,
-      pet_friendly: filters.property.petfriendly,
-      location: filters.property.location,
-      floors: filters.building.floors,
-      apartments_per_floor: filters.building.apartmentsPerFloor,
-      elevator: filters.building.services.includes("Ascensor"),
-      pool: filters.building.services.includes("Pileta"),
-      gym: filters.building.services.includes("Gimnasio"),
-      terrace: filters.building.services.includes("Terraza"),
-      bike_rack: filters.building.services.includes("Bicicletero"),
-      laundry: filters.building.services.includes("Lavadero"),
-    })
-    console.log("http://localhost:8000/property/?" + URLdata)
+    const URLdata = new URLSearchParams()
+
+    // Conditionally add each parameter if the value is not empty, null, or undefined
+    if (filters.property.neighborhood)
+      URLdata.append("neighborhood_id", filters.property.neighborhood)
+    if (filters.property.minRentPrice !== null)
+      URLdata.append("min_rental_value", filters.property.minRentPrice)
+    if (filters.property.maxRentPrice !== null)
+      URLdata.append("max_rental_value", filters.property.maxRentPrice)
+    if (filters.property.minExpenses !== null)
+      URLdata.append("min_expenses_value", filters.property.minExpenses)
+    if (filters.property.maxExpenses !== null)
+      URLdata.append("max_expenses_value", filters.property.maxExpenses)
+    if (filters.property.rooms !== null)
+      URLdata.append("rooms", filters.property.rooms)
+    if (filters.property.surface !== null)
+      URLdata.append("square_meters", filters.property.surface)
+    if (filters.property.balconies !== null)
+      URLdata.append("balconies", filters.property.balconies)
+    if (filters.property.hasBackyard !== null)
+      URLdata.append("backyard", filters.property.hasBackyard)
+    if (filters.property.hasGarage !== null)
+      URLdata.append("garage", filters.property.hasGarage)
+    if (filters.property.petfriendly !== null)
+      URLdata.append("pet_friendly", filters.property.petfriendly)
+    if (filters.property.location)
+      URLdata.append("location", filters.property.location)
+    if (filters.building.floors !== null)
+      URLdata.append("floors", filters.building.floors)
+    if (filters.building.apartmentsPerFloor !== null)
+      URLdata.append(
+        "apartments_per_floor",
+        filters.building.apartmentsPerFloor,
+      )
+
+    // Add services only if the service is selected (truthy)
+    if (filters.building.services.includes("Ascensor"))
+      URLdata.append("elevator", true)
+    if (filters.building.services.includes("Pileta"))
+      URLdata.append("pool", true)
+    if (filters.building.services.includes("Gimnasio"))
+      URLdata.append("gym", true)
+    if (filters.building.services.includes("Terraza"))
+      URLdata.append("terrace", true)
+    if (filters.building.services.includes("Bicicletero"))
+      URLdata.append("bike_rack", true)
+    if (filters.building.services.includes("Lavadero"))
+      URLdata.append("laundry", true)
 
     fetch("http://localhost:8000/property/?" + URLdata, {
       method: "GET",
@@ -69,16 +93,6 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      {/* Form wrapper
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          gap: "10px",
-        }}
-      > */}
       <TextField
         id="search"
         name="search"
@@ -104,7 +118,6 @@ function SearchBar() {
       >
         <SearchIcon />
       </Button>
-      {/* </form> */}
     </Container>
   )
 }
