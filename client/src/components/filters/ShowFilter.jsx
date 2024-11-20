@@ -90,6 +90,8 @@ function ShowFilter({
             type="number"
             value={filters[scope][name] || ""}
             onChange={handleOnChange}
+            // slotProps={htmlInput:{min="0"}}
+            slotProps={{ htmlInput: { min: "0" } }}
           />
         </FormControl>
       )
@@ -187,11 +189,15 @@ function ShowFilter({
               value={filters[scope][`min${name}`] || ""}
               onChange={(e) => {
                 const minValue = Number(e.target.value)
+                const clampedMin = Math.min(
+                  minValue,
+                  filters[scope][`max${name}`] || options?.max || 100,
+                )
                 setFilters((prevFilters) => ({
                   ...prevFilters,
                   [scope]: {
                     ...prevFilters[scope],
-                    [`min${name}`]: minValue === 0 ? null : minValue, // Set to null if zero
+                    [`min${name}`]: clampedMin === 0 ? null : clampedMin, // Set to null if zero
                   },
                 }))
               }}
@@ -203,11 +209,14 @@ function ShowFilter({
               value={filters[scope][`max${name}`] || ""}
               onChange={(e) => {
                 const maxValue = Number(e.target.value)
+                // Enforce max value constraint
+                const maxLimit = options?.max || 500000 // Default to 500000 if not provided
+                const clampedMax = Math.min(maxValue, maxLimit) // Ensure the max value does not exceed the slider's max
                 setFilters((prevFilters) => ({
                   ...prevFilters,
                   [scope]: {
                     ...prevFilters[scope],
-                    [`max${name}`]: maxValue === 0 ? null : maxValue, // Set to null if zero
+                    [`max${name}`]: clampedMax === 0 ? null : clampedMax, // Set to null if zero
                   },
                 }))
               }}

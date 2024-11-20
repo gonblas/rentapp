@@ -22,7 +22,7 @@ const App = () => {
     <SearchProvider>
       <CssBaseline />
       <AppTheme>
-        <NavBar />
+        {/* <NavBar /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
