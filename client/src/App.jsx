@@ -11,14 +11,15 @@ import {
   BuildingFullView,
   Admin,
 } from "./pages"
-import NavBar from "./components/NavBar"
+import NavBar from "./components/navbar/NavBar"
 import Footer from "./components/footer/Footer"
 import AppTheme from "./theme/AppTheme"
 import CssBaseline from "@mui/material/CssBaseline"
+import { SearchProvider } from "./components/SearchContext"
 
 const App = () => {
   return (
-    <>
+    <SearchProvider>
       <CssBaseline />
       <AppTheme>
         <NavBar />
@@ -35,7 +36,7 @@ const App = () => {
         </Routes>
         <Footer />
       </AppTheme>
-    </>
+    </SearchProvider>
   )
 }
 

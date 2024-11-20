@@ -1,26 +1,23 @@
 import React from "react"
 import Container from "@mui/material/Container"
+import { Typography } from "@mui/material"
 
-function ListContainer({ children }) {
+function ListContainer({ children, title }) {
   return (
-    <div
-      style={{
-        minWidth: "100vw",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Container
+    <Container>
+      <Typography
+        variant="h5"
+        component="h1"
+        gutterBottom
         sx={{
-          px: "150px!important",
+          mb: 3,
         }}
       >
-        {children}
-      </Container>
-    </div>
+        {" "}
+        {title}
+      </Typography>
+      {children}
+    </Container>
   )
 }
 

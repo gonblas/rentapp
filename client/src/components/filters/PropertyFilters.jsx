@@ -11,9 +11,7 @@ function PropertyFilters({ filters, setFilters }) {
     () => async () => {
       try {
         const response = await axios.get("http://localhost:8000/neighborhood/")
-        setNeighborhoods(
-          response.data.neighborhoods.map((neighborhood) => neighborhood.name),
-        )
+        setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)
       }
@@ -35,8 +33,8 @@ function PropertyFilters({ filters, setFilters }) {
         setFilters={setFilters}
         scope="property"
         options={neighborhoods.map((neighborhood) => ({
-          value: neighborhood,
-          label: neighborhood,
+          value: neighborhood.id,
+          label: neighborhood.name,
         }))}
       />
       <ShowFilter

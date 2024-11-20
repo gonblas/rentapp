@@ -1,10 +1,5 @@
-import * as React from "react"
-import AppBar from "@mui/material/AppBar"
+import React from "react"
 import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import Avatar from "@mui/material/Avatar"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
@@ -14,9 +9,13 @@ import Tooltip from "@mui/material/Tooltip"
 import Settings from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
+import AuthContext from "../../hooks/AuthContext"
+import Button from "@mui/material/Button"
+import AvatarRender from "../AvatarRender"
 import { Link } from "react-router-dom"
+import Skeleton from "@mui/material/Skeleton"
 
-function AccountMenu() {
+function AccountMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -45,7 +44,7 @@ function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
             style={{ border: "0px" }}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <AvatarRender name={user.name} image={user.avatar} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -110,42 +109,41 @@ function AccountMenu() {
   )
 }
 
-const navItems = [
-  { title: "Crear cuenta", path: "/sign-up" },
-  { title: "Iniciar Sesion", path: "/sign-in" },
-  { title: "Inicio", path: "/" },
-  { title: "Acerca de", path: "/" },
-  { title: "Publicar", path: "/publish" },
-]
-
-function NavBar() {
+function SinginButton() {
   return (
-    <Box sx={{ display: "flex", px: 10, mb: 8 }}>
-      <AppBar component="nav" sx={{ display: "flex", px: 8 }}>
-        <Toolbar>
-          <Typography
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", sm: "block" },
-              pt: 1,
-            }}
-          >
-            <img src="../RentAppLogo.svg" alt="" height="50" />
-          </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Link to={item.path} key={item.title}>
-                <Button sx={{ color: "text.primary", mr: 2 }}>
-                  {item.title}
-                </Button>
-              </Link>
-            ))}
-          </Box>
-          <AccountMenu></AccountMenu>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Link to="/sign-in" key="sign-in">
+      <Button
+        variant="contained"
+        size="small"
+        sx={{
+          borderColor: "#D9D9D9",
+          fontWeight: "600",
+          textTransform: "none",
+          border: "none",
+          height: "100%",
+          "&:hover": {
+            background: "#003080",
+          },
+        }}
+      >
+        Iniciar sesión
+      </Button>
+    </Link>
   )
 }
 
-export default NavBar
+function UserMenu() {
+  const { userData, loading } = React.useContext(AuthContext)
+  if (loading)
+    return (
+      <Skeleton
+        animation="wave"
+        variant="circular"
+        width="40px"
+        height="auto"
+      />
+    )
+  return <>{userData ? <AccountMenu user={userData} /> : <SinginButton />}</>
+}
+
+export default UserMenu

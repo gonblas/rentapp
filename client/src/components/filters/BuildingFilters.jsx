@@ -3,7 +3,14 @@ import React from "react"
 import ShowFilter from "./ShowFilter"
 
 function BuildingFilters({ filters, setFilters }) {
-  const services = ["Ascensor", "Pileta", "Gimnasio", "Terraza", "Lavadero"]
+  const services = [
+    "Ascensor",
+    "Pileta",
+    "Gimnasio",
+    "Terraza",
+    "Lavadero",
+    "Bicicletero",
+  ]
 
   return (
     <Grid container spacing={2}>
@@ -18,14 +25,6 @@ function BuildingFilters({ filters, setFilters }) {
           value: service,
           label: service,
         }))}
-      />
-      <ShowFilter
-        name="hasElevator"
-        label="Ascensor"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-        scope="building"
       />
       <ShowFilter
         name="floors"

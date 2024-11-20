@@ -8,6 +8,7 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import FormHelperText from "@mui/material/FormHelperText"
+import AuthContext from "../../hooks/AuthContext"
 
 import { styled } from "@mui/material/styles"
 
@@ -31,11 +32,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 export default function SignInCard() {
   const [open, setOpen] = React.useState(false)
+  const { handleLogin } = React.useContext(AuthContext)
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
     password: { hasError: false, message: "" },
-    auth: { hasError: true, message: "Boca yo te amo" },
+    auth: { hasError: false, message: "" },
   })
 
   const [data, setData] = React.useState({
@@ -62,23 +64,7 @@ export default function SignInCard() {
     event.preventDefault()
     if (!validateInputs()) return
 
-    const URLdata = new URLSearchParams({
-      email: data.email,
-      password: data.password,
-    })
-
-    fetch("http://localhost:8000/signin", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: URLdata.toString(),
-    })
-      .then((d) => d.json())
-      .then((d) => {
-        console.log(d)
-      })
+    handleLogin(data, setFieldError)
   }
 
   const validateInputs = () => {
