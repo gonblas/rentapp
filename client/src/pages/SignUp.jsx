@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import MuiCard from "@mui/material/Card"
-import { styled } from "@mui/material/styles"
+import { styled, useTheme } from "@mui/material/styles"
 import AppTheme from "../theme/AppTheme"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
@@ -227,7 +227,7 @@ export default function SignUp(props) {
 
     handleSignup(data, setFieldError)
   }
-
+  const theme = useTheme()
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
@@ -415,7 +415,17 @@ export default function SignUp(props) {
             <Typography
               sx={{ display: "flex!important", justifyContent: "center" }}
             >
-              ¿Ya tienes una cuenta? <Link to="/sign-in"> Ingresar</Link>
+              ¿Ya tienes una cuenta?{" "}
+              <Link
+                style={{
+                  marginLeft: "5px",
+                  color: theme.palette.grey[800],
+                  textDecoration: "none",
+                }}
+                to="/sign-in"
+              >
+                Ingresar
+              </Link>
             </Typography>
           </Box>
         </Card>
