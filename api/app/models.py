@@ -35,6 +35,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
     is_real_estate = Column(Boolean, default=False)
+    is_admin = Column(Boolean, default=False)
     email = Column(String(100), unique=True)
     password = Column(String(100))
     phone_number = Column(String(20))

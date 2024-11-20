@@ -1,13 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import building, neighborhood, property, user
+from .routers import building, neighborhood, property, user, admin
 from dotenv import load_dotenv
 from pathlib import Path
 
 load_dotenv()
-
-# Crear las tablas en la base de datos
-# Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -25,3 +22,4 @@ app.include_router(property.router)
 app.include_router(user.router)
 app.include_router(building.router)
 app.include_router(neighborhood.router)
+app.include_router(admin.router)
