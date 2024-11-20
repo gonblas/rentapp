@@ -5,37 +5,19 @@ import TextField from "@mui/material/TextField"
 import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
 import { useNavigate } from "react-router-dom"
+import SearchContext from "./SearchContext"
+import { useContext } from "react"
 
 function SearchBar() {
   const navigate = useNavigate()
-  const [filters, setFilters] = React.useState({
-    property: {
-      neighborhood: 0,
-      minRentPrice: 0,
-      maxRentPrice: 0,
-      minExpenses: 0,
-      maxExpenses: 0,
-      rooms: 0,
-      surface: 0,
-      balconies: 0,
-      hasBackyard: false,
-      hasGarage: false,
-      petfriendly: false,
-      location: "",
-    },
-    building: {
-      services: [],
-      floors: 0,
-      apartmentsPerFloor: 0,
-      hasElevator: false,
-    },
-  })
-  console.log("Filters:", filters)
+  const { filters, setFilters, setProperties } = useContext(SearchContext)
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const URLdata = new URLSearchParams({
-      neighborhood_id: filters.property.neighborhood,
+      // neighborhood_id: filters.property.neighborhood,
+      neighborhood_id: 1,
       min_rental_value: filters.property.minRentPrice,
       max_rental_value: filters.property.maxRentPrice,
       min_expenses_value: filters.property.minExpenses,
@@ -47,19 +29,25 @@ function SearchBar() {
       garage: filters.property.hasGarage,
       pet_friendly: filters.property.petfriendly,
       location: filters.property.location,
-      // {gym, pool, terrace, laundry, elevator, bike_rack} = filters.building.services,
       floors: filters.building.floors,
-      apartmentsPerFloor: filters.building.apartmentsPerFloor,
-      hasElevator: filters.building.hasElevator,
+      apartments_per_floor: filters.building.apartmentsPerFloor,
+      elevator: filters.building.services.includes("Ascensor"),
+      pool: filters.building.services.includes("Pileta"),
+      gym: filters.building.services.includes("Gimnasio"),
+      terrace: filters.building.services.includes("Terraza"),
+      bike_rack: filters.building.services.includes("Bicicletero"),
+      laundry: filters.building.services.includes("Lavadero"),
     })
+    console.log("http://localhost:8000/property/?" + URLdata)
 
-    fetch("http://localhost:8000/property/" + URLdata, {
+    fetch("http://localhost:8000/property/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data)
-        navigate("/search", { state: { data } })
+        setProperties(data)
+        navigate("/search")
       })
       .catch((error) => {
         console.error("Error:", error)
