@@ -56,6 +56,10 @@ def read_properties(filter_params: Annotated[FilterParams, Query()], db: db_depe
 #return list of properties
 @router.get("/list", response_model=PropertiesListResponse)
 def read_properties_list(db: db_dependency, page: Annotated[int, Query()] = 1):
+
+    if page < 1:
+        raise HTTPException(status_code=400, detail="Invalid page number")
+
     query = (
         db.query(
             Property,
@@ -68,9 +72,6 @@ def read_properties_list(db: db_dependency, page: Annotated[int, Query()] = 1):
         .outerjoin(Image, Property.id == Image.property_id)
         .group_by(Property.id, User.id)
     )
-
-    if page < 1:
-        raise HTTPException(status_code=400, detail="Invalid page number")
 
     all_properties = query.all()
 
