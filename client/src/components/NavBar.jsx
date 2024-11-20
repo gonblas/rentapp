@@ -120,7 +120,7 @@ const navItems = [
 
 function NavBar() {
   return (
-    <Box sx={{ display: "flex", px: 10, mb: 12 }}>
+    <Box sx={{ display: "flex", px: 10, mb: 8 }}>
       <AppBar component="nav" sx={{ display: "flex", px: 8 }}>
         <Toolbar>
           <Typography

@@ -3,6 +3,7 @@ import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
 // import SearchBar from "../components/SearchBar"
 import BuildingCard from "../components/cards/BuildingCard"
+import ListContainer from "../components/ListContainer"
 
 // import { useEffect } from "react"
 
@@ -37,53 +38,38 @@ const Home = () => {
   // }, [])
 
   return (
-    <div
-      style={{
-        minWidth: "100vw",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Container
+    <ListContainer>
+      {/* <SearchBar /> */}
+      <Typography
+        variant="h5"
+        component="h1"
+        gutterBottom
         sx={{
-          px: "150px!important",
+          mb: 3,
         }}
       >
-        {/* <SearchBar /> */}
-        <Typography
-          variant="h5"
-          component="h1"
-          gutterBottom
-          sx={{
-            mb: 3,
-          }}
-        >
-          {" "}
-          Propiedades Sugeridas
-        </Typography>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: 3,
-            p: "0px!important",
-            pb: "100px!important",
-            width: "100%!important",
-            margin: "0px!important",
-          }}
-        >
-          {/* {properties.map((property, index) => (
+        {" "}
+        Propiedades Sugeridas
+      </Typography>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 3,
+          p: "0px!important",
+          pb: "100px!important",
+          width: "100%!important",
+          margin: "0px!important",
+        }}
+      >
+        {/* {properties.map((property, index) => (
             <PropertyCard key={index} property={property} />
           ))} */}
-          <BuildingCard building={building} />
-        </Container>
+        <BuildingCard building={building} />
       </Container>
-    </div>
+    </ListContainer>
   )
 }
 

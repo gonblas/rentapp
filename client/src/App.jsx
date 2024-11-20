@@ -9,6 +9,7 @@ import {
   Search,
   PropertyFullView,
   BuildingFullView,
+  Admin,
 } from "./pages"
 import NavBar from "./components/NavBar"
 import Footer from "./components/footer/Footer"
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/property-full-view" element={<PropertyFullView />} />
           <Route path="/building-full-view" element={<BuildingFullView />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
       </AppTheme>

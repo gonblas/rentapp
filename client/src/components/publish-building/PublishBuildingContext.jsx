@@ -6,8 +6,8 @@ export const PublishBuildingProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     address: "",
     neighborhood: "",
-    floors: 0,
-    apartments_per_floor: 0,
+    floors: null,
+    apartments_per_floor: null,
     elevator: false,
     pool: false,
     gym: false,
