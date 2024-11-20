@@ -140,7 +140,7 @@ function UserMenu() {
 
   return (
     <>
-      {userData === null ? <AccountMenu user={userData} /> : <SigninButton />}
+      {userData === null ? <SigninButton /> : <AccountMenu user={userData} />}
     </>
   )
 }

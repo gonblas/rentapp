@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline"
 import Divider from "@mui/material/Divider"
 import FormLabel from "@mui/material/FormLabel"
 import FormControl from "@mui/material/FormControl"
-import Link from "@mui/material/Link"
+import { Link } from "react-router-dom"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
@@ -415,7 +415,7 @@ export default function SignUp(props) {
             <Typography
               sx={{ display: "flex!important", justifyContent: "center" }}
             >
-              ¿Ya tienes una cuenta? <Link href="/sign-in"> Ingresar</Link>
+              ¿Ya tienes una cuenta? <Link to="/sign-in"> Ingresar</Link>
             </Typography>
           </Box>
         </Card>

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button"
 import MuiCard from "@mui/material/Card"
 import FormLabel from "@mui/material/FormLabel"
 import FormControl from "@mui/material/FormControl"
-import Link from "@mui/material/Link"
+import { Link } from "react-router-dom"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import FormHelperText from "@mui/material/FormHelperText"
@@ -203,7 +203,14 @@ export default function SignInCard() {
         <Typography sx={{ textAlign: "center" }}>
           ¿No tienes una cuenta?{" "}
           <span>
-            <Link href="/sign-up" variant="body2" sx={{ alignSelf: "center" }}>
+            <Link
+              to="/sign-up"
+              style={{
+                alignSelf: "center",
+                underline: "none",
+                variant: "body2",
+              }}
+            >
               Regístrate
             </Link>
           </span>
