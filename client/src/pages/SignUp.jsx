@@ -17,7 +17,7 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import { useNavigate } from "react-router-dom"
 import AvatarRender from "../components/AvatarRender"
-import axios from "axios"
+import FormHelperText from "@mui/material/FormHelperText"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -61,7 +61,7 @@ export default function SignUp(props) {
     phone: { hasError: false, message: "" },
     whatsapp: { hasError: false, message: "" },
     date: { hasError: false, message: "" },
-    back: { hasError: false, message: "" },
+    auth: { hasError: false, message: "" },
   })
 
   const [data, setData] = React.useState({
@@ -234,11 +234,10 @@ export default function SignUp(props) {
     formData.append("has_phone_number", String(data.phone !== ""))
     formData.append("whatsapp_number", data.whatsapp)
     formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
-    
+
     if (data.avatar) {
       formData.append("avatar", data.avatar)
     }
-
 
     fetch("http://localhost:8000/user/signup/", {
       method: "POST",
@@ -248,9 +247,14 @@ export default function SignUp(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.detail === "User already exists") {
-          console.log("User already exists")
+          setFieldError(
+            "auth",
+            true,
+            "El correo electrónico ya está registrado.",
+          )
         } else {
-          console.log("Success:", data.detail)
+          setFieldError("auth", false, "")
+          navigate("/sign-in")
         }
       })
       .catch((error) => {
@@ -434,6 +438,9 @@ export default function SignUp(props) {
             >
               Registrarse
             </Button>
+            <FormHelperText sx={{ mx: "auto", color: "error.main" }}>
+              {errors.auth.hasError && errors.auth.message}
+            </FormHelperText>
           </Box>
           <Divider>
             <Typography sx={{ color: "text.secondary" }}>o</Typography>
