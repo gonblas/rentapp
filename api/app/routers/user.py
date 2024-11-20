@@ -163,3 +163,13 @@ def read_user_publications( db : db_dependency, user : auth_dependency = None):
 
             }
         )
+
+@router.get("/logout", status_code=status.HTTP_200_OK)
+def logout():
+    response = JSONResponse(
+        content={"message":"User logged out"}
+    )
+
+    response.delete_cookie(key="token")
+
+    return response
