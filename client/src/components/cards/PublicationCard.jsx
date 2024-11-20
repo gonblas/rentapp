@@ -1,8 +1,10 @@
 import React from "react"
 import Card from "@mui/material/Card"
+// import { Link } from "react-router-dom"
 
 function PublicationCard({ children }) {
   return (
+    // <Link to={item.path} key={item.title}>
     <Card
       sx={{
         borderRadius: "10px",
@@ -18,6 +20,7 @@ function PublicationCard({ children }) {
     >
       {children}
     </Card>
+    // </Link>
   )
 }
 
