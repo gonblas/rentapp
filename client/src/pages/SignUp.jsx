@@ -61,6 +61,7 @@ export default function SignUp(props) {
     phone: { hasError: false, message: "" },
     whatsapp: { hasError: false, message: "" },
     date: { hasError: false, message: "" },
+    back: { hasError: false, message: "" },
   })
 
   const [data, setData] = React.useState({
@@ -233,17 +234,20 @@ export default function SignUp(props) {
     formData.append("has_phone_number", String(data.phone !== ""))
     formData.append("whatsapp_number", data.whatsapp)
     formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
-    formData.append("birth_date", data.date)
     formData.append("avatar", data.avatar)
 
     fetch("http://localhost:8000/user/signup/", {
       method: "POST",
+      credentials: "include",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data)
-        navigate("/sign-in")
+        if (data.detail === "User already exists") {
+          console.log("User already exists")
+        } else {
+          console.log("Success:", data.detail)
+        }
       })
       .catch((error) => {
         console.error("Error:", error)
