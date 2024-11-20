@@ -1,25 +1,40 @@
 import React from "react"
-import PropertyCard from "../components/PropertyCard"
 import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
-import SearchBar from "../components/SearchBar"
+// import SearchBar from "../components/SearchBar"
+import BuildingCard from "../components/cards/BuildingCard"
 
-import { useState, useEffect } from "react"
+// import { useEffect } from "react"
+
+const building = {
+  id: 0,
+  address: "Av. Siempre Viva 742",
+  neighborhood_id: 20,
+  neighborhood_name: "Springfield",
+  floors: 3,
+  apartments_per_floor: 2,
+  elevator: true,
+  pool: true,
+  gym: true,
+  terrace: true,
+  bike_rack: true,
+  laundry: true,
+}
 
 const Home = () => {
-  const [properties, setProperties] = useState([])
+  // const [properties, setProperties] = useState([])
 
-  useEffect(() => {
-    fetch("http://localhost:8000/properties", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-        setProperties(response)
-      })
-      .catch((error) => console.error("Error fetching properties:", error))
-  }, [])
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/properties", {
+  //     method: "GET",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       console.log(response)
+  //       // setProperties(response)
+  //     })
+  //     .catch((error) => console.error("Error fetching properties:", error))
+  // }, [])
 
   return (
     <div
@@ -34,10 +49,10 @@ const Home = () => {
     >
       <Container
         sx={{
-          px: "50px!important",
+          px: "150px!important",
         }}
       >
-        <SearchBar />
+        {/* <SearchBar /> */}
         <Typography
           variant="h5"
           component="h1"
@@ -65,6 +80,7 @@ const Home = () => {
           {/* {properties.map((property, index) => (
             <PropertyCard key={index} property={property} />
           ))} */}
+          <BuildingCard building={building} />
         </Container>
       </Container>
     </div>

@@ -1,14 +1,10 @@
-import Card from "@mui/material/Card"
+import PublicationCard from "./PublicationCard"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
-import Chip from "@mui/material/Chip"
 import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined"
 import CardActions from "@mui/material/CardActions"
 import Button from "@mui/material/Button"
 import CardMedia from "@mui/material/CardMedia"
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import { useState } from "react"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import Divider from "@mui/material/Divider"
 import Carousel from "./Carousel"
@@ -20,6 +16,8 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import CopyToClipboardButton from "./CopyToClipboardButton"
 import AvatarRender from "./AvatarRender"
+import InfoTag from "./InfoTag"
+import FavoriteButton from "./FavoriteButton"
 
 function ContactButton({ contact }) {
   const items = [
@@ -125,46 +123,6 @@ function ContactButton({ contact }) {
   )
 }
 
-function FavoriteButton() {
-  const [favorite, setFavorite] = useState(false)
-
-  return (
-    <Button
-      variant="outlined"
-      size="small"
-      sx={{
-        borderColor: "#D9D9D9",
-        color: "#ff3d3d",
-        height: "100%!important",
-        py: "10px!important",
-        border: "0px!important",
-        m: "0px",
-      }}
-      onClick={() => setFavorite(!favorite)}
-    >
-      {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-    </Button>
-  )
-}
-
-function InfoTag(props) {
-  return (
-    <Chip
-      color="primary"
-      size="small"
-      label={props.children}
-      sx={{
-        fontSize: "15px",
-        fontWeight: 400,
-        borderRadius: "5px",
-        padding: "0.3rem",
-        backgroundColor: "#2c2c2c",
-        border: "none",
-      }}
-    />
-  )
-}
-
 function AvatarPublisher({ publisher }) {
   const typePublisher = publisher.is_real_estate ? "Inmobiliaria" : "Particular"
   return (
@@ -221,17 +179,7 @@ function PropertyCard({ property }) {
   })()
 
   return (
-    <Card
-      sx={{
-        borderRadius: "10px",
-        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%!important",
-        height: "300px",
-      }}
-    >
+    <PublicationCard>
       <CardMedia
         image=""
         sx={{
@@ -380,7 +328,7 @@ function PropertyCard({ property }) {
           </CardActions>
         </Container>
       </Container>
-    </Card>
+    </PublicationCard>
   )
 }
 
