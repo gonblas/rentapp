@@ -235,7 +235,11 @@ export default function SignUp(props) {
     formData.append("has_phone_number", String(data.phone !== ""))
     formData.append("whatsapp_number", data.whatsapp)
     formData.append("has_whatsapp_number", String(data.whatsapp !== ""))
-    formData.append("avatar", data.avatar)
+    
+    if (data.avatar) {
+      formData.append("avatar", data.avatar)
+    }
+
 
     fetch("http://localhost:8000/user/signup/", {
       method: "POST",
