@@ -79,7 +79,6 @@ function BuildingCard({ building }) {
             >
               {building.address}
             </Typography>
-            <FavoriteButton />
           </Container>
 
           <Typography
@@ -127,6 +126,7 @@ function BuildingCard({ building }) {
           </Container>
         </Container>
       </Link>
+      <FavoriteButton />
     </PublicationCard>
   )
 }
