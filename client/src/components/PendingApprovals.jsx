@@ -55,11 +55,11 @@ function PendingApprovals() {
 
   // Helper function to render apartments
   const renderApartments = () => {
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(data.properties)) {
       return <Typography>No data available for properties.</Typography>
     }
 
-    return data.map((item) => (
+    return data.properties.map((item) => (
       <Container key={item.id} sx={{ mb: 2 }}>
         <Box
           sx={{

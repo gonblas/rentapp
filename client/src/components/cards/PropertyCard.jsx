@@ -165,6 +165,8 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property, address }) {
+  console.log(property)
+  console.log(address)
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -331,7 +333,7 @@ function PropertyCard({ property, address }) {
               pb: "0px",
             }}
           >
-            <ContactButton contact={property.contact}></ContactButton>
+            <ContactButton contact={property.publisher.contact}></ContactButton>
           </CardActions>
         </Container>
       </Container>

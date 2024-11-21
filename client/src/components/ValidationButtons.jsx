@@ -3,8 +3,6 @@ import Button from "@mui/material/Button"
 import { Container } from "@mui/material"
 
 function ValidationButtons({ object, endpoint, refetchData }) {
-  console.log(object)
-
   const ApproveButton = () => {
     return (
       <Button

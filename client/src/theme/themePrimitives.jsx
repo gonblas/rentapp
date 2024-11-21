@@ -65,7 +65,7 @@ export const red = {
   600: "#ff3333",
   700: "#ff1a1a",
   800: "#ff0d0d",
-  900: "#e60000",
+  900: "#c00000",
 }
 
 export const colorSchemes = {
