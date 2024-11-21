@@ -1,11 +1,11 @@
 from typing import Annotated
-from fastapi import APIRouter, HTTPException, Query, Depends, status
+from fastapi import APIRouter, HTTPException, Query, Depends, status, Cookie
 from sqlalchemy import func
 from app.database import db_dependency
 from app.models import Property, User, Image, Building, Neighborhood
 from app.schemas.properties import PublicationResponse, SearchResponse, PropertyResponse, PropertiesResponse, PropertiesListResponse
 from app.utils.parser import parse_publication_response, parse_properties_response
-from app.utils.auth import auth_dependency
+from app.utils.auth import auth_dependency, get_current_user
 
 router = APIRouter(
     prefix="/property",
@@ -64,24 +64,35 @@ def read_properties_list(db: db_dependency, page: Annotated[int, Query()] = 1):
         status_code=status.HTTP_200_OK,
         summary="Full property publication information",
         )
-def read_property(property_id: int, db: db_dependency):
+def read_property(property_id: int, db: db_dependency, token : Annotated[str, Cookie()] = None):
+
+    try:
+        user = get_current_user(db, token)
+    except:
+        user = None
 
     query = (
-    db.query(
-        Property,
-        User,
-        Building,
-        Neighborhood.name,
-        func.group_concat(Image.url).label('images')  
-    )
-    .join(User, Property.publisher_id == User.id)
-    .outerjoin(Image, Property.id == Image.property_id)
-    .join(Building, Property.building_id == Building.id)
-    .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-    .group_by(Property.id, User.id)
+        db.query(
+            Property,
+            User,
+            Building,
+            Neighborhood.name,
+            func.group_concat(Image.url).label('images')  
+        )
+        .join(User, Property.publisher_id == User.id)
+        .outerjoin(Image, Property.id == Image.property_id)
+        .join(Building, Property.building_id == Building.id)
+        .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
+        .group_by(Property.id, User.id)
     )
 
-    property = query.filter(Property.id == property_id, Property.approved == True).first()
+    if user:
+        my_user = db.query(User).filter(User.id == user.id).first()
+
+    if user and my_user.is_admin:
+        property = query.filter(Property.id == property_id).first()
+    else:
+        property = query.filter(Property.id == property_id, Property.approved == True).first()
 
     if not property:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Property not found")

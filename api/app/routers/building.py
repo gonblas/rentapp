@@ -122,7 +122,7 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.address == address, Building.approved == True or Building.publisher_id == user.id)
+        .filter(Building.address == address, (Building.publisher_id == user.id) | (Building.approved == True))
     )
 
     building = query.first()
@@ -140,7 +140,7 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
             )
 async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
 
-    if db.query(Building).filter(Building.address == building.address).first():
+    if db.query(Building).filter(Building.address == building.address, Building.approved == True).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Building already exists")
     
     neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()
