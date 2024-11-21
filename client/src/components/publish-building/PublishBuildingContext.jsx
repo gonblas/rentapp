@@ -1,8 +1,11 @@
 import React, { createContext, useState } from "react"
+import { useNavigate } from 'react-router-dom';
 
 const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     address: "",
     neighborhood_id: null,
@@ -172,7 +175,7 @@ export const PublishBuildingProvider = ({ children }) => {
       body: JSON.stringify(dataExample),
     }).then((response) => {
       if (response.status === 201) {
-        console.log("Formulario enviado correctamente")
+        navigate("/")
       } else {
         console.log("Error al enviar el formulario")
       }
