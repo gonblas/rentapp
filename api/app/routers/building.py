@@ -122,12 +122,8 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.address == address)
+        .filter(Building.address == address, Building.approved == True or Building.publisher_id == user.id)
     )
-    if user:
-        query = query.filter(Building.publisher_id == user.id or Building.approved == True)
-    else:
-        query = query.filter(Building.approved == True)
 
     building = query.first()
 
@@ -135,9 +131,6 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
 
     return parse_building_response(building)
-
-def check_address_exists(db: db_dependency, address: str):
-    return db.query(Building).filter(Building.address == address).first()
 
 @router.post(
             "/",
@@ -147,7 +140,7 @@ def check_address_exists(db: db_dependency, address: str):
             )
 async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
 
-    if check_address_exists(db, building.address):
+    if db.query(Building).filter(Building.address == building.address).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Building already exists")
     
     neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()
