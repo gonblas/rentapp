@@ -30,7 +30,6 @@ const App = () => {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<SignIn />} />
           {/* Restricts access to unauthenticated users. */}
           <Route
             element={

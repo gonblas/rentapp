@@ -47,14 +47,7 @@ export const AuthProvider = ({ children }) => {
       })
   }
 
-  function handleLogin(
-    data,
-    setFieldError,
-    setUserData,
-    setLogued,
-    navigate,
-    setLoading,
-  ) {
+  function handleLogin(data, setFieldError) {
     const URLdata = new URLSearchParams({
       email: data.email,
       password: data.password,
@@ -91,7 +84,6 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.error("Error al hacer la solicitud:", error)
-        setFieldError("auth", true, "Error en la conexión. Intenta nuevamente.")
         setUserData(null)
         setLogued(false)
       })
@@ -119,7 +111,7 @@ export const AuthProvider = ({ children }) => {
       credentials: "include",
     })
       .then((data) => {
-        if (data.status == 401) return null
+        if (data.status == 401) throw new Error("401")
         return data.json()
       })
       .then((user) => {
