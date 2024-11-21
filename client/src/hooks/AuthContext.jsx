@@ -1,10 +1,11 @@
-import { createContext, useLayoutEffect, useState } from "react"
+import { createContext, useLayoutEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
-const AuthContext = createContext(undefined)
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
+  const [logued, setLogued] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -65,12 +66,14 @@ export const AuthProvider = ({ children }) => {
         if (data.detail === "User not found") {
           setFieldError("auth", true, "Correo electrónico no registrado.")
           setUserData(null)
+          setLogued(false)
         } else {
           if (data.detail === "Invalid password") {
             setFieldError("auth", true, "Contraseña incorrecta.")
             setUserData(null)
           } else {
             setUserData(data)
+            setLogued(true)
             navigate("/")
           }
         }
@@ -84,6 +87,7 @@ export const AuthProvider = ({ children }) => {
     })
       .then(() => {
         setUserData(null)
+        setLogued(false)
         navigate("/")
       })
       .catch((error) => {
@@ -102,8 +106,12 @@ export const AuthProvider = ({ children }) => {
       })
       .then((user) => {
         setUserData(user)
+        setLogued(true)
       })
-      .catch(() => setUserData(null))
+      .catch(() => {
+        setUserData(null)
+        setLogued(false)
+      })
       .finally(() => setLoading(false))
   }, [])
 
@@ -111,6 +119,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         userData,
+        logued,
         loading,
         handleLogin,
         handleSignup,
@@ -122,4 +131,10 @@ export const AuthProvider = ({ children }) => {
   )
 }
 
-export default AuthContext
+export default function useAuth() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context
+}

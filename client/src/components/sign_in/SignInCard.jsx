@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import FormHelperText from "@mui/material/FormHelperText"
-import AuthContext from "../../hooks/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 
 import { styled, useTheme } from "@mui/material/styles"
 
@@ -32,7 +32,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 export default function SignInCard() {
   const [open, setOpen] = React.useState(false)
-  const { handleLogin } = React.useContext(AuthContext)
+  const { handleLogin } = useAuth()
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },

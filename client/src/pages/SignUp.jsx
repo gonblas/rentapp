@@ -17,7 +17,7 @@ import Checkbox from "@mui/material/Checkbox"
 import InputFileUpload from "../components/sign_up/InputFileUpload"
 import AvatarRender from "../components/AvatarRender"
 import FormHelperText from "@mui/material/FormHelperText"
-import AuthContext from "../hooks/AuthContext"
+import useAuth from "../hooks/AuthContext"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -51,7 +51,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }))
 
 export default function SignUp(props) {
-  const { handleSignup } = React.useContext(AuthContext)
+  const { handleSignup } = useAuth()
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
