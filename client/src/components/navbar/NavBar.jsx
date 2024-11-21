@@ -25,7 +25,9 @@ function NavBar() {
               pt: 1,
             }}
           >
-            <img src="../RentAppLogo.svg" alt="" height="50" />
+            <Link to={"/"} key={"Inicio"}>
+              <img src="../RentAppLogo.svg" alt="" height="50" />
+            </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (

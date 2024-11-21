@@ -30,17 +30,6 @@ function FilterList({ filters, setFilters }) {
           vertical: "top",
           horizontal: "left",
         }}
-        // PaperProps={{
-        //   sx: {
-        //     p: "30px!important",
-        //     display: "flex",
-        //     flexDirection: "column",
-        //     gap: "20px",
-        //     backgroundColor: "white", // Optional background color
-        //     borderRadius: "4px", // Optional border radius
-        //     boxShadow: 3, // Optional shadow
-        //   },
-        // }}
       >
         <Container
           sx={{

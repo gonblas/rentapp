@@ -2,7 +2,6 @@ import PublicationCard from "./PublicationCard"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined"
-import CardActions from "@mui/material/CardActions"
 import Button from "@mui/material/Button"
 import CardMedia from "@mui/material/CardMedia"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
@@ -11,14 +10,13 @@ import Carousel from "../Carousel"
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import React, { useContext } from "react"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import CopyToClipboardButton from "../CopyToClipboardButton"
 import AvatarRender from "../AvatarRender"
 import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
-import SearchContext from "../SearchContext"
+import CardActions from "@mui/material/CardActions"
 
 function ContactButton({ contact }) {
   const items = [
@@ -29,12 +27,12 @@ function ContactButton({ contact }) {
     },
     {
       icon: <LocalPhoneIcon />,
-      text: contact.phone,
+      text: contact.phone_number,
       func: () => window.open(`tel:${contact.phone}`),
     },
     {
       icon: <WhatsAppIcon />,
-      text: contact.phone,
+      text: contact.whatsapp_number,
       func: () => window.open(`https://wa.me/${contact.phone}`),
       condition: contact.whatsapp_enabled,
     },
@@ -42,7 +40,7 @@ function ContactButton({ contact }) {
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
-        <React.Fragment>
+        <>
           <Button
             variant="contained"
             {...bindTrigger(popupState)}
@@ -56,6 +54,11 @@ function ContactButton({ contact }) {
               "&:hover": {
                 background: "#003080",
               },
+              ml: "auto",
+            }}
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
             }}
           >
             Contactar
@@ -118,7 +121,7 @@ function ContactButton({ contact }) {
               )
             })}
           </Menu>
-        </React.Fragment>
+        </>
       )}
     </PopupState>
   )
@@ -162,12 +165,6 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property, address }) {
-  const { setProperty } = useContext(SearchContext)
-
-  const handleClick = () => {
-    setProperty(property)
-  }
-
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -185,7 +182,10 @@ function PropertyCard({ property, address }) {
   })()
 
   return (
-    <PublicationCard path="/property-full-view" handleClick={handleClick}>
+    <PublicationCard
+      linkName={"/property-full-view"}
+      item={{ type: "property", data: property }}
+    >
       <CardMedia
         image=""
         sx={{
@@ -212,7 +212,7 @@ function PropertyCard({ property, address }) {
           pl: "0px!important",
           pr: "10px!important",
           padding: "1rem",
-          width: "70%",
+          width: "90%",
           minHeight: "100%!important",
         }}
       >
@@ -244,7 +244,7 @@ function PropertyCard({ property, address }) {
             >
               ${property.features.rental_value.toLocaleString("es-ES")}
             </Typography>
-            <FavoriteButton />
+            <FavoriteButton property={property} />
           </Container>
           <Typography
             variant="body1"
@@ -269,6 +269,7 @@ function PropertyCard({ property, address }) {
             {address}
           </Typography>
         </Container>
+
         <Container
           sx={{
             display: "flex",
@@ -330,7 +331,7 @@ function PropertyCard({ property, address }) {
               pb: "0px",
             }}
           >
-            <ContactButton contact={property.publisher.contact}></ContactButton>
+            <ContactButton contact={property.contact}></ContactButton>
           </CardActions>
         </Container>
       </Container>

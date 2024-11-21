@@ -35,18 +35,15 @@ function FeatureItem({ icon, text }) {
 }
 
 function BuildingCard({ building }) {
-  const { setBuilding } = useContext(SearchContext)
-
-  const handleClick = () => {
-    setBuilding(building)
-  }
-
   const activeFeatures = Object.keys(TagTitle).filter(
     (key) => building[key] === true,
   )
 
   return (
-    <PublicationCard path="/building-full-view" handleClick={handleClick}>
+    <PublicationCard
+      linkName={"building-full-view"}
+      item={{ type: "building", data: building }}
+    >
       <Container
         sx={{
           display: "flex",

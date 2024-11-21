@@ -8,9 +8,9 @@ import { Link } from "react-router-dom"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import FormHelperText from "@mui/material/FormHelperText"
-import AuthContext from "../../hooks/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 
-import { styled } from "@mui/material/styles"
+import { styled, useTheme } from "@mui/material/styles"
 
 import ForgotPassword from "./ForgotPassword"
 
@@ -32,7 +32,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 export default function SignInCard() {
   const [open, setOpen] = React.useState(false)
-  const { handleLogin } = React.useContext(AuthContext)
+  const { handleLogin } = useAuth()
 
   const [errors, setErrors] = React.useState({
     email: { hasError: false, message: "" },
@@ -111,7 +111,7 @@ export default function SignInCard() {
       [name]: value,
     }))
   }
-
+  const theme = useTheme()
   return (
     <Card
       variant="outlined"
@@ -162,7 +162,14 @@ export default function SignInCard() {
               type="button"
               onClick={handleClickOpen}
               variant="body2"
-              sx={{ alignSelf: "baseline" }}
+              sx={{
+                alignSelf: "baseline",
+                textDecoration: "none", // Ensure there's no underline
+                "&:hover": {
+                  textDecoration: "none", // Remove underline on hover
+                },
+                color: theme.palette.primary.dark, // Using theme color
+              }}
             >
               ¿Olvidaste tu contraseña?
             </Link>
@@ -202,9 +209,9 @@ export default function SignInCard() {
             <Link
               to="/sign-up"
               style={{
-                alignSelf: "center",
-                underline: "none",
-                variant: "body2",
+                marginLeft: "5px",
+                color: theme.palette.grey[800],
+                textDecoration: "none",
               }}
             >
               Regístrate

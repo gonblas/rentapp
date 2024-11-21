@@ -9,7 +9,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Settings from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
-import AuthContext from "../../hooks/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import AvatarRender from "../AvatarRender"
 import LogoutDialog from "./LogoutDialog"
@@ -146,17 +146,14 @@ function SigninButton() {
 }
 
 function UserMenu() {
-  const { userData, loading } = React.useContext(AuthContext)
-
+  const { logued, userData, loading } = useAuth()
+  console.log(logued)
+  console.log(userData)
   if (loading) {
     return null
   }
 
-  return (
-    <>
-      {userData === null ? <SigninButton /> : <AccountMenu user={userData} />}
-    </>
-  )
+  return <>{logued ? <AccountMenu user={userData} /> : <SigninButton />}</>
 }
 
 export default UserMenu

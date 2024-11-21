@@ -17,8 +17,13 @@ function FavoriteButton() {
         height: "100%!important",
         py: "10px!important",
         m: "0px",
+        zIndex: "1000!important",
       }}
-      onClick={() => setFavorite(!favorite)}
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        setFavorite(!favorite)
+      }}
     >
       {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
     </Button>

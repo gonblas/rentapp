@@ -1,20 +1,25 @@
 from fastapi import APIRouter, HTTPException, status
-from ..models import User, Property, Image, Building, Neighborhood
-from .auth import auth_dependency, user_is_admin
-from ..database import db_dependency
-from .property import parse_properties_response
-from ..schemas.properties import PropertyResponse
-from ..schemas.buildings import BuildingsResponse
-from typing import List
 from sqlalchemy import func
-from .building import parse_buildings_response
+from typing import List
+from app.models import User, Property, Image, Building, Neighborhood
+from app.utils.auth import auth_dependency, user_is_admin
+from app.database import db_dependency
+from app.routers.property import parse_properties_response
+from app.schemas.properties import PropertyResponse, PropertiesResponse
+from app.schemas.buildings import BuildingsResponse
+from app.routers.building import parse_buildings_response
 
 router = APIRouter(
     prefix="/admin",
     tags=["admin"],
 )
 
-@router.get("/property/pending", status_code=status.HTTP_200_OK, response_model=List[PropertyResponse])
+@router.get(
+            "/property/pending",
+            status_code=status.HTTP_200_OK,
+            response_model=PropertiesResponse,
+            summary = "List all pending properties",
+            )
 def list_pending_properties(db : db_dependency, user : auth_dependency):
 
     if not user_is_admin(user):
@@ -38,9 +43,16 @@ def list_pending_properties(db : db_dependency, user : auth_dependency):
     if all_properties is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Properties not found")
 
-    return parse_properties_response(all_properties)
+    return {
+        "properties": parse_properties_response(all_properties)
+    }
 
-@router.get("/building/pending", status_code=status.HTTP_200_OK, response_model=BuildingsResponse)
+@router.get(
+            "/building/pending",
+            status_code=status.HTTP_200_OK,
+            response_model=BuildingsResponse,
+            summary = "List all pending buildings",
+            )
 def list_pending_buildings(db : db_dependency, user : auth_dependency):
 
     if not user_is_admin(user):
@@ -61,7 +73,11 @@ def list_pending_buildings(db : db_dependency, user : auth_dependency):
 
     return parse_buildings_response(all_buildings)
 
-@router.put("/property/{property_id}/approve", status_code=status.HTTP_200_OK)
+@router.put(
+            "/property/{property_id}/approve",
+            status_code=status.HTTP_200_OK,
+            summary = "Approve a property",
+            )
 def approve_property(db : db_dependency, user : auth_dependency, property_id : int):
 
     if not user_is_admin(user):
@@ -78,7 +94,11 @@ def approve_property(db : db_dependency, user : auth_dependency, property_id : i
 
     return {"detail": f"Property {property_id} approved"}
 
-@router.delete("/property/{property_id}/reject", status_code=status.HTTP_200_OK)
+@router.delete(
+            "/property/{property_id}/reject",
+            status_code=status.HTTP_200_OK,
+            summary = "Reject (delete) a property"
+            )
 def reject_property(db : db_dependency, user : auth_dependency, property_id : int):
 
     if not user_is_admin(user):
@@ -98,7 +118,11 @@ def reject_property(db : db_dependency, user : auth_dependency, property_id : in
 
     return {"detail": f"Property {property_id} rejected"}
 
-@router.put("/building/{building_id}/approve", status_code=status.HTTP_200_OK)
+@router.put(
+            "/building/{building_id}/approve",
+            status_code=status.HTTP_200_OK,
+            summary = "Approve a building",
+            )
 def approve_building(db : db_dependency, user : auth_dependency, building_id : int):
 
     if not user_is_admin(user):
@@ -115,7 +139,11 @@ def approve_building(db : db_dependency, user : auth_dependency, building_id : i
 
     return {"detail": f"Building {building_id} approved"}
 
-@router.delete("/building/{building_id}/reject", status_code=status.HTTP_200_OK)
+@router.delete(
+            "/building/{building_id}/reject",
+            status_code=status.HTTP_200_OK,
+            summary = "Reject (delete) a building"
+            )
 def reject_building(db : db_dependency, user : auth_dependency, building_id : int):
 
     if not user_is_admin(user):

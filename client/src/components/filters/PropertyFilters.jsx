@@ -1,42 +1,10 @@
 import Grid from "@mui/material/Grid2"
 import React from "react"
 import ShowFilter from "./ShowFilter"
-import axios from "axios"
-import { useEffect, useState, useMemo } from "react"
 
 function PropertyFilters({ filters, setFilters }) {
-  const [neighborhoods, setNeighborhoods] = useState([])
-
-  const fetchNeighborhoodsList = useMemo(
-    () => async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/neighborhood/")
-        setNeighborhoods(response.data.neighborhoods)
-      } catch (error) {
-        console.log("Error al obtener los barrios:", error)
-      }
-    },
-    [],
-  )
-
-  useEffect(() => {
-    fetchNeighborhoodsList()
-  }, [fetchNeighborhoodsList])
-
   return (
     <Grid container spacing={2}>
-      <ShowFilter
-        name="neighborhood"
-        label="Barrio"
-        type="select"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-        options={neighborhoods.map((neighborhood) => ({
-          value: neighborhood.id,
-          label: neighborhood.name,
-        }))}
-      />
       <ShowFilter
         name="RentPrice"
         label="Precio de Alquiler"

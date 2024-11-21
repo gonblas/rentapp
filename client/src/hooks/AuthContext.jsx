@@ -1,10 +1,11 @@
-import { createContext, useLayoutEffect, useState } from "react"
+import { createContext, useLayoutEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
-const AuthContext = createContext(undefined)
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
+  const [logued, setLogued] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -60,21 +61,33 @@ export const AuthProvider = ({ children }) => {
       },
       body: URLdata.toString(),
     })
-      .then((d) => d.json())
-      .then((data) => {
-        if (data.detail === "User not found") {
-          setFieldError("auth", true, "Correo electrónico no registrado.")
-          setUserData(null)
-        } else {
-          if (data.detail === "Invalid password") {
+      .then((response) => {
+        if (!response.ok) {
+          if (data.detail === "User not found") {
+            setFieldError(
+              "auth",
+              true,
+              "El correo electrónico no se encuentra registrado.",
+            )
+          } else if (data.detail === "Invalid password") {
             setFieldError("auth", true, "Contraseña incorrecta.")
-            setUserData(null)
-          } else {
-            setUserData(data)
-            navigate("/")
           }
+          setUserData(null)
+          setLogued(false)
         }
+        return response.json()
       })
+      .then((user) => {
+        setUserData(user)
+        setLogued(true)
+        navigate("/")
+      })
+      .catch((error) => {
+        console.error("Error al hacer la solicitud:", error)
+        setUserData(null)
+        setLogued(false)
+      })
+      .finally(() => setLoading(false))
   }
 
   function handleLogout() {
@@ -84,6 +97,7 @@ export const AuthProvider = ({ children }) => {
     })
       .then(() => {
         setUserData(null)
+        setLogued(false)
         navigate("/")
       })
       .catch((error) => {
@@ -97,13 +111,17 @@ export const AuthProvider = ({ children }) => {
       credentials: "include",
     })
       .then((data) => {
-        if (data.status == 401) return null
+        if (data.status == 401) throw new Error("401")
         return data.json()
       })
       .then((user) => {
         setUserData(user)
+        setLogued(true)
       })
-      .catch(() => setUserData(null))
+      .catch(() => {
+        setUserData(null)
+        setLogued(false)
+      })
       .finally(() => setLoading(false))
   }, [])
 
@@ -111,6 +129,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         userData,
+        logued,
         loading,
         handleLogin,
         handleSignup,
@@ -122,4 +141,10 @@ export const AuthProvider = ({ children }) => {
   )
 }
 
-export default AuthContext
+export default function useAuth() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context
+}

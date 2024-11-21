@@ -65,21 +65,32 @@ export default function GoogleMaps({ handleOnChange, value }) {
       return undefined
     }
 
-    fetch({ input: inputValue }, (results) => {
-      if (active) {
-        let newOptions = []
+    fetch(
+      {
+        input: inputValue,
+        componentRestrictions: { country: "AR" },
+      },
+      (results) => {
+        if (active) {
+          let newOptions = []
 
-        if (value) {
-          newOptions = [value]
+          if (value) {
+            newOptions = [value]
+          }
+
+          if (results) {
+            newOptions = [
+              ...newOptions,
+              ...results.filter((option) =>
+                option.description.includes("Buenos Aires"),
+              ),
+            ];
+          }
+
+          setOptions(newOptions)
         }
-
-        if (results) {
-          newOptions = [...newOptions, ...results]
-        }
-
-        setOptions(newOptions)
-      }
-    })
+      },
+    )
 
     return () => {
       active = false

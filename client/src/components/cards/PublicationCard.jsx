@@ -1,13 +1,20 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import Card from "@mui/material/Card"
+import { Link } from "react-router-dom"
+import SearchContext from "../SearchContext"
+import { useContext } from "react"
 
-function PublicationCard({ path, handleClick, children }) {
+function PublicationCard({ linkName, item, children }) {
+  const { setBuilding, setProperty } = useContext(SearchContext)
   return (
     <Link
-      to={path}
-      onClick={handleClick}
-      style={{ textDecoration: "none", width: "100%" }}
+      to={linkName}
+      style={{ textDecoration: "none", width: "100%", color: "inherit" }}
+      onClick={
+        item.type === "property"
+          ? () => setProperty(item.data)
+          : () => setBuilding(item.data)
+      }
     >
       <Card
         sx={{

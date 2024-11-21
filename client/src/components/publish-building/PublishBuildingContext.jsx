@@ -1,8 +1,11 @@
 import React, { createContext, useState } from "react"
+import { useNavigate } from 'react-router-dom';
 
 const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     address: "",
     neighborhood_id: null,
@@ -31,9 +34,10 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const validateStep1 = (setErrors) => {
-    const { neighborhood_id, address } = formData
+    const { address, neighborhood_id } = formData
     let isValid = true
 
+    // Validación para `address`
     if (!address) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -44,16 +48,35 @@ export const PublishBuildingProvider = ({ children }) => {
       }))
       isValid = false
     } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        address: {
-          hasError: false,
-          message: "",
-        },
-      }))
+      const URLdata = new URLSearchParams()
+      URLdata.append("address", address)
+
+      fetch("http://localhost:8000/building/search/?" + URLdata, {
+        method: "GET",
+        credentials: "include",
+      }).then((response) => {
+        if (response.status === 200) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            address: {
+              hasError: true,
+              message: "La dirección ya se encuentra registrada.",
+            },
+          }))
+          isValid = false
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            address: {
+              hasError: false,
+              message: "",
+            },
+          }))
+        }
+      })
     }
 
-    // Validación para `neighborhood`
+    // Validación para `neighborhood_id`
     if (!neighborhood_id) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -74,7 +97,6 @@ export const PublishBuildingProvider = ({ children }) => {
     }
 
     console.log(isValid)
-    console.log(formData.neighborhood_id)
     return isValid
   }
 
@@ -129,21 +151,35 @@ export const PublishBuildingProvider = ({ children }) => {
 
   const submitForm = () => {
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
+    console.log(filteredData)
+
+    const dataExample = {
+      address: "strinadsdsasdadsg",
+      neighborhood_id: 10,
+      floors: "0",
+      apartments_per_floor: "0",
+      elevator: true,
+      pool: true,
+      gym: true,
+      terrace: true,
+      bike_rack: true,
+      laundry: true,
+    }
 
     fetch("http://localhost:8000/building/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(filteredData),
+      credentials: "include",
+      body: JSON.stringify(dataExample),
+    }).then((response) => {
+      if (response.status === 201) {
+        navigate("/")
+      } else {
+        console.log("Error al enviar el formulario")
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data)
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-      })
   }
 
   const nextStepFunction = [

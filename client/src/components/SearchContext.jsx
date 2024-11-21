@@ -6,7 +6,8 @@ export const SearchProvider = ({ children }) => {
   // State for filters
   const [filters, setFilters] = React.useState({
     property: {
-      neighborhood: null,
+      neighborhood_id: null,
+      neighborhood_name: null,
       minRentPrice: null,
       maxRentPrice: null,
       minExpenses: null,
@@ -27,7 +28,6 @@ export const SearchProvider = ({ children }) => {
   })
 
   const [building, setBuilding] = React.useState({})
-
   const [property, setProperty] = React.useState({})
 
   // State for data fetched from the backend
