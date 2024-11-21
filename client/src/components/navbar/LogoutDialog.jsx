@@ -5,10 +5,10 @@ import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
-import AuthContext from "../../hooks/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 
 function LogoutDialog({ open, handleClose }) {
-  const { handleLogout } = React.useContext(AuthContext)
+  const { handleLogout } = useAuth()
 
   return (
     <Dialog
