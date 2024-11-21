@@ -19,13 +19,15 @@ function BuildingFullView() {
       }}
     >
       <BuildingHeader building={building} />
-      {building.properties.map((property) => (
-        <PropertyCard
-          key={property.id}
-          property={property}
-          address={building.address}
-        />
-      ))}
+      {building.properties
+        ? building.properties.map((property) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+              address={building.address}
+            />
+          ))
+        : null}
     </Container>
   )
 }

@@ -2,7 +2,6 @@ import PublicationCard from "./PublicationCard"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined"
-import CardActions from "@mui/material/CardActions"
 import Button from "@mui/material/Button"
 import CardMedia from "@mui/material/CardMedia"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
@@ -19,6 +18,7 @@ import AvatarRender from "../AvatarRender"
 import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
 import SearchContext from "../SearchContext"
+import { Link } from "react-router-dom"
 
 function ContactButton({ contact }) {
   const items = [
@@ -29,12 +29,12 @@ function ContactButton({ contact }) {
     },
     {
       icon: <LocalPhoneIcon />,
-      text: contact.phone,
+      text: contact.phone_number,
       func: () => window.open(`tel:${contact.phone}`),
     },
     {
       icon: <WhatsAppIcon />,
-      text: contact.phone,
+      text: contact.whatsapp_number,
       func: () => window.open(`https://wa.me/${contact.phone}`),
       condition: contact.whatsapp_enabled,
     },
@@ -56,6 +56,7 @@ function ContactButton({ contact }) {
               "&:hover": {
                 background: "#003080",
               },
+              ml: "auto", // This pushes the button to the right
             }}
           >
             Contactar
@@ -164,10 +165,6 @@ function AvatarPublisher({ publisher }) {
 function PropertyCard({ property, address }) {
   const { setProperty } = useContext(SearchContext)
 
-  const handleClick = () => {
-    setProperty(property)
-  }
-
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -185,7 +182,7 @@ function PropertyCard({ property, address }) {
   })()
 
   return (
-    <PublicationCard path="/property-full-view" handleClick={handleClick}>
+    <PublicationCard>
       <CardMedia
         image=""
         sx={{
@@ -212,126 +209,131 @@ function PropertyCard({ property, address }) {
           pl: "0px!important",
           pr: "10px!important",
           padding: "1rem",
-          width: "70%",
+          width: "90%",
           minHeight: "100%!important",
         }}
       >
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.1rem",
-            marginBottom: "1rem",
+        <Link
+          to="/property-full-view"
+          onClick={() => {
+            setProperty(property)
+          }}
+          style={{
+            textDecoration: "none",
             width: "100%",
-            px: "0!important",
+            color: "inherit",
           }}
         >
           <Container
             sx={{
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              px: "0px!important",
+              flexDirection: "column",
+              gap: "0.1rem",
+              marginBottom: "1rem",
+              width: "100%",
+              px: "0!important",
             }}
           >
-            <Typography
-              variant="h3"
+            <Container
               sx={{
-                color: "text.main",
-                whiteSpace: "nowrap",
-                px: "0!important",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                px: "0px!important",
               }}
             >
-              ${property.features.rental_value.toLocaleString("es-ES")}
+              <Typography
+                variant="h3"
+                sx={{
+                  color: "text.main",
+                  whiteSpace: "nowrap",
+                  px: "0!important",
+                }}
+              >
+                ${property.features.rental_value.toLocaleString("es-ES")}
+              </Typography>
+            </Container>
+            <Typography
+              variant="body1"
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+              }}
+            >
+              ${property.features.expenses_value.toLocaleString("es-ES")}{" "}
+              expensas
             </Typography>
-            <FavoriteButton />
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "600",
+                margin: "0px",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                pt: "12px",
+              }}
+            >
+              {address}
+            </Typography>
+          </Container>
+
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "10px",
+              px: "0!important",
+              border: "none",
+            }}
+          >
+            <InfoTag>{property.features.square_meters} m²</InfoTag>
+            <InfoTag>{property.features.rooms} amb</InfoTag>
+            <InfoTag>
+              {property.features.location === "front"
+                ? "Frente"
+                : property.features.location === "back"
+                  ? "Contrafrente"
+                  : "Interno"}
+            </InfoTag>
+            {lastTag}
           </Container>
           <Typography
-            variant="body1"
+            variant="body2"
             sx={{
-              textOverflow: "ellipsis",
+              color: "text.secondary",
+              fontSize: "0.8rem",
+              fontWeight: "light",
+              px: "0px!important",
               overflow: "hidden",
-            }}
-          >
-            ${property.features.expenses_value.toLocaleString("es-ES")} expensas
-          </Typography>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "600",
-              margin: "0px",
               textOverflow: "ellipsis",
-              overflow: "hidden",
+              width: "100%",
+              pt: "10px",
               whiteSpace: "nowrap",
-              pt: "12px",
             }}
           >
-            {address}
+            {property.description}
           </Typography>
-        </Container>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "10px",
-            px: "0!important",
-            border: "none",
-          }}
-        >
-          <InfoTag>{property.features.square_meters} m²</InfoTag>
-          <InfoTag>{property.features.rooms} amb</InfoTag>
-          <InfoTag>
-            {property.features.location === "front"
-              ? "Frente"
-              : property.features.location === "back"
-                ? "Contrafrente"
-                : "Interno"}
-          </InfoTag>
-          {lastTag}
-        </Container>
-        <Typography
-          variant="body2"
-          sx={{
-            color: "text.secondary",
-            fontSize: "0.8rem",
-            fontWeight: "light",
-            px: "0px!important",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            width: "100%",
-            pt: "10px",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {property.description}
-        </Typography>
-        <Divider
-          sx={{
-            p: "0px!important",
-          }}
-        />
+          <Divider
+            sx={{
+              p: "0px!important",
+            }}
+          />
+          <AvatarPublisher publisher={property.publisher} />
+        </Link>
         <Container
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "end",
-            px: "0px!important",
-            height: "40px",
+            alignItems: "center",
+            gap: "10px",
+            pt: "10px",
+            pb: "0px",
+            marginTop: "auto",
           }}
         >
-          <AvatarPublisher publisher={property.publisher} />
-          <CardActions
-            sx={{
-              display: "flex",
-              alignItems: "end",
-              flexDirection: "row",
-              gap: "0.25rem",
-              px: "0px!important",
-              pb: "0px",
-            }}
-          >
-            <ContactButton contact={property.publisher.contact}></ContactButton>
-          </CardActions>
+          <ContactButton contact={property.publisher.contact} />
+          <FavoriteButton property={property} />
         </Container>
       </Container>
     </PublicationCard>
