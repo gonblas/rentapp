@@ -23,14 +23,5 @@ services:
     depends_on:
       - db
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    depends_on:
-      - api
-
 volumes:
   mysql_data:

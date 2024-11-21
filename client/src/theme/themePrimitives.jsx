@@ -38,8 +38,8 @@ export const green = {
   500: "#6aff6a",
   600: "#55ff55",
   700: "#33ff33",
-  800: "#1aff1a",
-  900: "#0dff0d",
+  800: "#0dff0d",
+  900: "#0dAA0d",
 }
 
 export const orange = {
@@ -94,12 +94,12 @@ export const colorSchemes = {
       error: {
         light: red[300],
         main: red[400],
-        dark: red[800],
+        dark: red[900],
       },
       success: {
         light: green[300],
         main: green[400],
-        dark: green[800],
+        dark: green[900],
       },
       grey: {
         ...gray,
