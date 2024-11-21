@@ -14,7 +14,7 @@ function PhoneButton({ phone }) {
         background: "##007BFF",
         fontWeight: "600",
         textTransform: "none",
-        height: "100%",
+        height: "40px",
         "&:hover": {
           background: "#0056b3",
         },

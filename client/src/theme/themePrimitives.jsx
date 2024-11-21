@@ -40,6 +40,7 @@ export const green = {
   700: "#33ff33",
   800: "#0dff0d",
   900: "#0dAA0d",
+  1000: "#0d770d",
 }
 
 export const orange = {
@@ -66,6 +67,7 @@ export const red = {
   700: "#ff1a1a",
   800: "#ff0d0d",
   900: "#c00000",
+  1000: "#770000",
 }
 
 export const colorSchemes = {
@@ -95,11 +97,13 @@ export const colorSchemes = {
         light: red[300],
         main: red[400],
         dark: red[900],
+        hover: red[1000],
       },
       success: {
         light: green[300],
         main: green[400],
         dark: green[900],
+        hover: green[1000],
       },
       grey: {
         ...gray,
