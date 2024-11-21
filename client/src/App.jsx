@@ -30,8 +30,14 @@ const App = () => {
           <Route path="/publish-property" element={<PublishProperty />} />
           <Route path="/publish-building" element={<PublishBuilding />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/property-full-view" element={<PropertyFullView />} />
-          <Route path="/building-full-view" element={<BuildingFullView />} />
+          <Route
+            path="/property-full-view/:propertyId"
+            element={<PropertyFullView />}
+          />
+          <Route
+            path="/building-full-view/:buildingId"
+            element={<BuildingFullView />}
+          />
           <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />

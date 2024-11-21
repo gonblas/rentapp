@@ -56,9 +56,6 @@ function SearchBar() {
     if (filters.property.rooms !== null) {
       URLdata.append("rooms", filters.property.rooms)
     }
-    if (filters.property.surface !== null) {
-      URLdata.append("square_meters", filters.property.surface)
-    }
     if (filters.property.balconies !== null) {
       URLdata.append("balconies", filters.property.balconies)
     }
@@ -107,8 +104,8 @@ function SearchBar() {
       URLdata.append("laundry", true)
     }
     // http://localhost:8000/property/?neighborhood_id=2&backyard=true
-    console.log("http://localhost:8000/property/?" + URLdata)
-    fetch("http://localhost:8000/property/?" + URLdata, {
+    console.log("http://localhost:8000/building/?" + URLdata)
+    fetch("http://localhost:8000/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())

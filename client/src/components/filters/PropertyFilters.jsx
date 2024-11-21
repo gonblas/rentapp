@@ -40,14 +40,6 @@ function PropertyFilters({ filters, setFilters }) {
         scope="property"
       />
       <ShowFilter
-        name="surface"
-        label="Superficie"
-        type="number"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
-      <ShowFilter
         name="balconies"
         label="Balcónes"
         type="number"

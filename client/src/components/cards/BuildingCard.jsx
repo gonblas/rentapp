@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import PublicationCard from "./PublicationCard"
 import InfoTag from "./InfoTag"
 import Container from "@mui/material/Container"
@@ -6,7 +6,6 @@ import { Typography } from "@mui/material"
 import FavoriteButton from "./FavoriteButton"
 import ApartmentIcon from "@mui/icons-material/Apartment"
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline"
-import SearchContext from "../SearchContext"
 
 const TagTitle = {
   elevator: "Ascensor",
@@ -41,8 +40,8 @@ function BuildingCard({ building }) {
 
   return (
     <PublicationCard
-      linkName={"building-full-view"}
-      item={{ type: "building", data: building }}
+      linkName={"/building-full-view"}
+      item={{ type: "building", id: building.id }}
     >
       <Container
         sx={{

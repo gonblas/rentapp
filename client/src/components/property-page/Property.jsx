@@ -39,7 +39,7 @@ import Carousel from "../Carousel"
 //   )
 // }
 
-function Property({ property, building }) {
+function Property({ property }) {
   return (
     <Container
       sx={{
@@ -60,8 +60,8 @@ function Property({ property, building }) {
           overflow: "hidden",
         }}
       />
-      <PropertyHeader property={property} building={building} />
-      <BuildingFeatures building={building} />
+      <PropertyHeader property={property} building={property.building} />
+      <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
     </Container>
   )
