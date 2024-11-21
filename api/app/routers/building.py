@@ -1,11 +1,11 @@
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, HTTPException, Query, status, Cookie
 from typing import Annotated
 from sqlalchemy import func
 from app.database import db_dependency
 from app.models import Building, Neighborhood, User, Property, Image
 from app.schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost, BuildingFilterParams
 from app.schemas.properties import PropertyFilterParams, PropertiesResponse
-from app.utils.auth import auth_dependency
+from app.utils.auth import auth_dependency, get_current_user
 from app.utils.search import get_building_filters, get_property_filters
 from app.utils.parser import parse_buildings_response, parse_building_response, parse_properties_response
 
@@ -96,15 +96,25 @@ def read_building_properties(building_id: int, db: db_dependency, filters : Anno
             status_code=status.HTTP_200_OK,
             summary="Returns a building info"
             )
-def read_building(building_id: int, db : db_dependency):
+def read_building(building_id: int, db : db_dependency, token : Annotated[str,Cookie()] = None):
+
+    try:
+        user = get_current_user(db, token)
+    except:
+        user = None
 
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.id == building_id, Building.approved == True)
     )
 
-    building = query.first()
+    if user:
+        my_user = db.query(User).filter(User.id == user.id).first()
+    
+    if user and my_user.is_admin:
+        building = query.filter(Building.id == building_id).first()
+    else:
+        building = query.filter(Building.id == building_id, Building.approved == True).first()
 
     if building is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
