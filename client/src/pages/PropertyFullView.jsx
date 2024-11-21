@@ -19,6 +19,7 @@ function PropertyFullView() {
           `http://localhost:8000/property/${propertyId}`,
           {
             method: "GET",
+            credentials: "include",
           },
         )
 

@@ -23,6 +23,7 @@ function BuildingFullView() {
           `http://localhost:8000/building/${buildingId}`,
           {
             method: "GET",
+            credentials: "include",
           },
         )
 
