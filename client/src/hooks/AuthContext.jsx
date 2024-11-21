@@ -47,7 +47,14 @@ export const AuthProvider = ({ children }) => {
       })
   }
 
-  function handleLogin(data, setFieldError) {
+  function handleLogin(
+    data,
+    setFieldError,
+    setUserData,
+    setLogued,
+    navigate,
+    setLoading,
+  ) {
     const URLdata = new URLSearchParams({
       email: data.email,
       password: data.password,
@@ -61,23 +68,34 @@ export const AuthProvider = ({ children }) => {
       },
       body: URLdata.toString(),
     })
-      .then((d) => d.json())
-      .then((data) => {
-        if (data.detail === "User not found") {
-          setFieldError("auth", true, "Correo electrónico no registrado.")
+      .then((response) => {
+        if (!response.ok) {
+          if (data.detail === "User not found") {
+            setFieldError(
+              "auth",
+              true,
+              "El correo electrónico no se encuentra registrado.",
+            )
+          } else if (data.detail === "Invalid password") {
+            setFieldError("auth", true, "Contraseña incorrecta.")
+          }
           setUserData(null)
           setLogued(false)
-        } else {
-          if (data.detail === "Invalid password") {
-            setFieldError("auth", true, "Contraseña incorrecta.")
-            setUserData(null)
-          } else {
-            setUserData(data)
-            setLogued(true)
-            navigate("/")
-          }
         }
+        return response.json()
       })
+      .then((user) => {
+        setUserData(user)
+        setLogued(true)
+        navigate("/")
+      })
+      .catch((error) => {
+        console.error("Error al hacer la solicitud:", error)
+        setFieldError("auth", true, "Error en la conexión. Intenta nuevamente.")
+        setUserData(null)
+        setLogued(false)
+      })
+      .finally(() => setLoading(false))
   }
 
   function handleLogout() {
