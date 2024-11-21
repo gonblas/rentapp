@@ -12,7 +12,7 @@ const sitemap_items = [
   },
   {
     name: "Publicar tu propiedad",
-    path: "#",
+    path: "/publish-property",
   },
   {
     name: "Publicidad",
