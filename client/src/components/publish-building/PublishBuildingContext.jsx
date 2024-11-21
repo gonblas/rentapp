@@ -48,7 +48,7 @@ export const PublishBuildingProvider = ({ children }) => {
       const URLdata = new URLSearchParams()
       URLdata.append("address", address)
 
-      fetch("http://localhost:8000/building/search/", {
+      fetch("http://localhost:8000/building/search/?" + URLdata, {
         method: "GET",
         credentials: "include",
       }).then((response) => {
@@ -167,8 +167,8 @@ export const PublishBuildingProvider = ({ children }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
       body: JSON.stringify(dataExample),
     }).then((response) => {
       if (response.status === 201) {
