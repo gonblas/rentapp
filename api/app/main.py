@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import building, neighborhood, property, user, admin
+from app.routers import building, neighborhood, property, user, admin
 from dotenv import load_dotenv
 from pathlib import Path
 
