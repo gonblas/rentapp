@@ -1,15 +1,15 @@
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, status, Form, File, UploadFile
 from fastapi.responses import JSONResponse
-from typing import Annotated
-from ..database import db_dependency
-from ..models import User, Property, Image, Building
-from ..schemas.users import UserResponse
-from ..bucket import upload_avatar
-from ..schemas.properties import PropertyResponse, PropertiesResponse
-from .property import parse_properties_response
 from sqlalchemy import func
-from .auth import auth_dependency, auth_context, generate_user_token
+from typing import Annotated
+from app.database import db_dependency
+from app.models import User, Property, Image, Building
+from app.schemas.users import UserResponse
+from app.utils.bucket import upload_avatar
+from app.schemas.properties import PropertyResponse, PropertiesResponse
+from app.routers.property import parse_properties_response
+from app.utils.auth import auth_dependency, auth_context, generate_user_token
 
 router = APIRouter(
     prefix="/user",

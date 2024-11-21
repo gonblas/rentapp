@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Query, status
 from typing import Annotated
-from ..database import db_dependency
-from ..models import Building, Neighborhood, User
-from ..schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost
-from .auth import auth_dependency
+from app.database import db_dependency
+from app.models import Building, Neighborhood, User
+from app.schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost
+from app.utils.auth import auth_dependency
 
 router = APIRouter(
     prefix="/building",
@@ -12,7 +12,7 @@ router = APIRouter(
 
 # returns all buildings that are approved
 @router.get("/", response_model=BuildingsResponse, status_code=status.HTTP_200_OK)
-def read_buildings(db: db_dependency):
+def read_buildings(db: db_dependency, ):
 
     query=(
         db.query(Building, Neighborhood.name)

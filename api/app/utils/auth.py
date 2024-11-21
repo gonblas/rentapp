@@ -1,11 +1,11 @@
+from fastapi import Cookie, Depends, HTTPException
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
-from fastapi import Cookie, Depends, HTTPException
 import jwt
 import os
 from passlib.context import CryptContext
-from ..database import db_dependency
-from ..models import User
+from app.database import db_dependency
+from app.models import User
 
 secret_key = os.getenv("TOKEN_SECRET_KEY")
 algorithm = os.getenv("TOKEN_ENCRYPTION_ALGORITHM")

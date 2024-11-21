@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
-from ..database import db_dependency
-from ..models import Neighborhood
-from ..schemas.neighborhoods import NeighborhoodResponse, NeighborhoodsResponse
+from app.database import db_dependency
+from app.models import Neighborhood
+from app.schemas.neighborhoods import NeighborhoodResponse, NeighborhoodsResponse
 
 router = APIRouter(
     prefix="/neighborhood",

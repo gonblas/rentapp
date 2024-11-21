@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException, status
-from ..models import User, Property, Image, Building, Neighborhood
-from .auth import auth_dependency, user_is_admin
-from ..database import db_dependency
-from .property import parse_properties_response
-from ..schemas.properties import PropertyResponse
-from ..schemas.buildings import BuildingsResponse
-from typing import List
 from sqlalchemy import func
-from .building import parse_buildings_response
+from typing import List
+from app.models import User, Property, Image, Building, Neighborhood
+from app.utils.auth import auth_dependency, user_is_admin
+from app.database import db_dependency
+from app.routers.property import parse_properties_response
+from app.schemas.properties import PropertyResponse
+from app.schemas.buildings import BuildingsResponse
+from app.routers.building import parse_buildings_response
 
 router = APIRouter(
     prefix="/admin",
