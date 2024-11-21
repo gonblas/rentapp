@@ -135,6 +135,7 @@ def parse_user_response(user : dict):
             "id" :user.id,
             "name" :user.name,
             "is_real_estate":user.is_real_estate,
+            "is_admin" : user.is_admin,
             "avatar":user.avatar,
             "contact_info":{
                 "email":user.email,

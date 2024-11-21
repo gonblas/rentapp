@@ -37,5 +37,6 @@ class UserResponse(BaseModel):
     id: int
     name : str
     is_real_estate : bool
+    is_admin : bool
     avatar: str
     contact_info: ContactInfo
