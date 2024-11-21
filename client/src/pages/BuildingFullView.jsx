@@ -138,7 +138,11 @@ function BuildingFullView() {
       <BuildingHeader building={building} />
       {properties && properties.length > 0 ? (
         properties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
+          <PropertyCard
+            key={property.id}
+            property={property}
+            linkName="/property-full-view"
+          />
         ))
       ) : (
         <Typography>

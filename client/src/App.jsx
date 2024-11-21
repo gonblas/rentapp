@@ -10,6 +10,7 @@ import {
   PropertyFullView,
   BuildingFullView,
   Admin,
+  AdminBuildingView,
 } from "./pages"
 import NavBar from "./components/navbar/NavBar"
 import Footer from "./components/footer/Footer"
@@ -18,6 +19,7 @@ import CssBaseline from "@mui/material/CssBaseline"
 import { SearchProvider } from "./components/SearchContext"
 import PrivateRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
+import AdminPropertyView from "./pages/AdminPropertyView"
 
 const App = () => {
   const { logued, loading } = useAuth()
@@ -63,6 +65,14 @@ const App = () => {
           <Route
             path="/building-full-view/:buildingId"
             element={<BuildingFullView />}
+          />
+          <Route
+            path="/admin-property-view/:propertyId"
+            element={<AdminPropertyView />}
+          />
+          <Route
+            path="/admin-building-view/:buildingId"
+            element={<AdminBuildingView />}
           />
           <Route path="/admin" element={<Admin />} />
         </Routes>

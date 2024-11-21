@@ -13,7 +13,11 @@ function Search() {
       <SearchBar />
       <ListContainer>
         {buildings.buildings.map((building) => (
-          <BuildingCard key={building.id} building={building} />
+          <BuildingCard
+            key={building.id}
+            building={building}
+            linkName="/building-full-view"
+          />
         ))}
       </ListContainer>
     </Fragment>

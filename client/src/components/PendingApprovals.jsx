@@ -5,7 +5,6 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
 import Typography from "@mui/material/Typography"
 import PropertyCard from "./cards/PropertyCard"
 import BuildingCard from "./cards/BuildingCard"
-import ValidationButtons from "./ValidationButtons"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
 
@@ -15,7 +14,7 @@ function PendingApprovals() {
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
 
-  // Memoize fetchData function to avoid unnecessary re-renders
+  // Fetch data based on selected list type (apartments or buildings)
   const fetchData = useCallback(() => {
     setLoading(true)
     setError(null)
@@ -68,24 +67,8 @@ function PendingApprovals() {
             alignItems: "flex-start",
           }}
         >
-          {/* Property card on the left side */}
-          <PropertyCard property={item} />
-
-          {/* Validation buttons below the card and aligned to the right */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-              mt: 1,
-            }}
-          >
-            <ValidationButtons
-              object={item}
-              endpoint="http://localhost:8000/admin/property"
-              refetchData={fetchData} // Pass refetchData as a prop
-            />
-          </Box>
+          {/* Property card */}
+          <PropertyCard property={item} linkName="/admin-property-view" />
         </Box>
       </Container>
     ))
@@ -106,24 +89,8 @@ function PendingApprovals() {
             alignItems: "flex-start",
           }}
         >
-          {/* Property card on the left side */}
-          <BuildingCard building={item} />
-
-          {/* Validation buttons below the card and aligned to the right */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-              mt: 1,
-            }}
-          >
-            <ValidationButtons
-              object={item}
-              endpoint="http://localhost:8000/admin/building"
-              refetchData={fetchData} // Pass refetchData as a prop
-            />
-          </Box>
+          {/* Building card */}
+          <BuildingCard building={item} linkName="/admin-building-view" />
         </Box>
       </Container>
     ))

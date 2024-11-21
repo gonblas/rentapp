@@ -1,8 +1,10 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import { Container } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
-function ValidationButtons({ object, endpoint, refetchData }) {
+function ValidationButtons({ object, endpoint }) {
+  const navigate = useNavigate()
   const ApproveButton = () => {
     return (
       <Button
@@ -21,7 +23,7 @@ function ValidationButtons({ object, endpoint, refetchData }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              refetchData() // Trigger refetch after approval
+              navigate("/admin")
             })
             .catch((error) => {
               console.error(error) // Log the error message
@@ -58,7 +60,7 @@ function ValidationButtons({ object, endpoint, refetchData }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              refetchData() // Trigger refetch after rejection
+              navigate("/admin")
             })
             .catch((error) => {
               console.error(error) // Log the error message
@@ -78,7 +80,9 @@ function ValidationButtons({ object, endpoint, refetchData }) {
   }
 
   return (
-    <Container sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+    <Container
+      sx={{ display: "flex", justifyContent: "flex-end", gap: 1, pb: "20px" }}
+    >
       <ApproveButton />
       <RejectButton />
     </Container>

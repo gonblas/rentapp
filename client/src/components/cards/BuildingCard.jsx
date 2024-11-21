@@ -33,14 +33,14 @@ function FeatureItem({ icon, text }) {
   )
 }
 
-function BuildingCard({ building }) {
+function BuildingCard({ building, linkName }) {
   const activeFeatures = Object.keys(TagTitle).filter(
     (key) => building[key] === true,
   )
 
   return (
     <PublicationCard
-      linkName={"/building-full-view"}
+      linkName={linkName}
       item={{ type: "building", id: building.id }}
     >
       <Container

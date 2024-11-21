@@ -164,7 +164,7 @@ function AvatarPublisher({ publisher }) {
   )
 }
 
-function PropertyCard({ property }) {
+function PropertyCard({ property, linkName }) {
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -183,7 +183,7 @@ function PropertyCard({ property }) {
 
   return (
     <PublicationCard
-      linkName={"/property-full-view"}
+      linkName={linkName}
       item={{ type: "property", id: property.id }}
     >
       <CardMedia
