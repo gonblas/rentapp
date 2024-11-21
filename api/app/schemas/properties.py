@@ -2,10 +2,8 @@ from typing import List
 from pydantic import BaseModel, Field
 
 #query params for filtering properties
-class FilterParams(BaseModel):
-    neighborhood_id: int = Field(
-        None, alias="neighborhood_id", title="Neighborhood ID"
-    )
+class PropertyFilterParams(BaseModel):
+
     min_rental_value: float = Field(
         0, alias="min_rental_value", title="Minimum rental value", ge=0
     )
@@ -20,9 +18,6 @@ class FilterParams(BaseModel):
     )
     rooms: int = Field(
         None, alias="rooms", title="Number of rooms", ge=0
-    )
-    square_meters: int = Field(
-        None, alias="square_meters", title="Square meters", ge=0
     )
     balconies: int = Field(
         None, alias="balconies", title="Number of balconies", ge=0
@@ -39,37 +34,7 @@ class FilterParams(BaseModel):
     location: str = Field(
         None, alias="location", title="Location"
     )
-    # buildings filters
-    floors: int = Field(
-        None, alias="floors", title="Number of floors", ge=0
-    )
-    apartments_per_floor: int = Field(
-        None, alias="apartments_per_floor", title="Number of apartments per floor", ge=0
-    )
-    elevator: bool = Field(
-        None, alias="elevator", title="Has elevator"
-    )
-    pool: bool = Field(
-        None, alias="pool", title="Has pool"
-    )
-    gym: bool = Field(
-        None, alias="gym", title="Has gym"
-    )
-    terrace: bool = Field(
-        None, alias="terrace", title="Has terrace"
-    )
-    bike_rack: bool = Field(
-        None, alias="bike_rack", title="Has bike rack"
-    )
-    laundry: bool = Field(
-        None, alias="laundry", title="Has laundry"
-    )
-    # limit: int = Field(
-    #     10, alias="limit", title="Limit of postings", ge=0
-    # )
-    # offset: int = Field(
-    #     0, alias="offset", title="Offset of postings", ge=0
-    # )
+
 
 class Features(BaseModel):
     rental_value: float
@@ -121,6 +86,7 @@ class PublicationResponse(BaseModel):
 class PropertyResponse(BaseModel):
     id : int
     description: str
+    address: str
     features: Features
     publisher: PublisherInfo
     images: List[str]

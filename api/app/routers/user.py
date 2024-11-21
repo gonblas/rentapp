@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import APIRouter, HTTPException, status, Form, File, UploadFile
+from fastapi import APIRouter, HTTPException, status, Form, File, UploadFile, status
 from fastapi.responses import JSONResponse
 from sqlalchemy import func
 from typing import Annotated
@@ -10,6 +10,7 @@ from app.utils.bucket import upload_avatar
 from app.schemas.properties import PropertyResponse, PropertiesResponse
 from app.routers.property import parse_properties_response
 from app.utils.auth import auth_dependency, auth_context, generate_user_token
+from app.utils.parser import parse_user_response, parse_properties_response
 
 router = APIRouter(
     prefix="/user",
@@ -23,10 +24,10 @@ def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_d
     usr = db.query(User).filter(User.email == email).first()
 
     if usr is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     if not check_user_password(password, usr.password):
-        raise HTTPException(status_code=404, detail="Invalid password")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid password")
 
     token = generate_user_token(usr.id, usr.email, usr.is_real_estate)
 
@@ -49,23 +50,6 @@ def check_user_password(plain_password : str, hashed_password : str):
 def check_user_exists(email:str, db: db_dependency):
     return db.query(User).filter(User.email == email).first()
 
-def parse_user_response(user : User):
-    return(
-        {
-            "id" :user.id,
-            "name" :user.name,
-            "is_real_estate":user.is_real_estate,
-            "avatar":user.avatar,
-            "contact_info":{
-                "email":user.email,
-                "phone_number":user.phone_number,
-                "has_phone_number":user.has_phone_number,
-                "whatsapp_number":user.whatsapp_number,
-                "has_whatsapp_number":user.has_whatsapp_number,
-            },
-        }
-    )
-
 
 @router.post("/signup/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
@@ -82,7 +66,7 @@ async def register(
                 ):
     
     if check_user_exists(email, db):
-        raise HTTPException(status_code=404, detail="User already exists")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
     
     hashed_password = auth_context.hash(password)
 
@@ -92,7 +76,7 @@ async def register(
         avatar_url = upload_avatar(avatar)
 
     if avatar_url is None:
-        raise HTTPException(status_code=404, detail="Error uploading avatar")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error uploading avatar")
 
     new_user = User(
         name=name,
@@ -116,21 +100,31 @@ async def register(
     return parse_user_response(user_created)
 
 
-# returns the user logged in
-@router.get("/me", response_model=UserResponse, status_code=status.HTTP_200_OK)
+
+@router.get(
+            "/me",
+            response_model=UserResponse,
+            status_code=status.HTTP_200_OK,
+            summary="Get the user logged in"
+            )
 def read_user( db : db_dependency, user : auth_dependency = None):
 
     if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     return parse_user_response(user)
 
-# returns all properties from a user
-@router.get("/publications", response_model=PropertiesResponse, status_code=status.HTTP_200_OK)
+
+@router.get(
+            "/publications",
+            response_model=PropertiesResponse,
+            status_code=status.HTTP_200_OK,
+            summary="Get all properties from a user"
+            )
 def read_user_publications( db : db_dependency, user : auth_dependency = None):
 
         if user is None:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
         query = (
             db.query(
@@ -151,20 +145,17 @@ def read_user_publications( db : db_dependency, user : auth_dependency = None):
         total_pages = total_records // 10 + 1
 
         if all_properties is None:
-            raise HTTPException(status_code=404, detail="No properties found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Properties not found")
     
-        return(
-            {
-                "properties":parse_properties_response(all_properties),
-                "pagination":{
-                    "total_records": total_records,
-                    "total_pages": total_pages,
-                }
+        return {
+            "properties": parse_properties_response(all_properties)
+        }
 
-            }
-        )
-
-@router.get("/logout", status_code=status.HTTP_200_OK)
+@router.get(
+            "/logout",
+            status_code=status.HTTP_200_OK,
+            summary="Logout user"
+            )
 def logout():
     response = JSONResponse(
         content={"message":"User logged out"}

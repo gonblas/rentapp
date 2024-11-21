@@ -1,8 +1,9 @@
-from app.schemas.properties import FilterParams
+from app.schemas.buildings import BuildingFilterParams
+from app.schemas.properties import PropertyFilterParams
 from app.models import Property, Building
 
 
-def get_filters(filter_params: FilterParams):
+def get_building_filters(filter_params: BuildingFilterParams):
     property_filters=[]
     building_filters=[]
 
@@ -19,8 +20,6 @@ def get_filters(filter_params: FilterParams):
         property_filters.append(Property.expenses_value <= filter_params.max_expenses_value)
     if filter_params.rooms:
         property_filters.append(Property.rooms == filter_params.rooms)
-    if filter_params.square_meters:
-        property_filters.append(Property.square_meters == filter_params.square_meters)
     if filter_params.balconies:
         property_filters.append(Property.balconies == filter_params.balconies)
     if filter_params.backyard is not None:
@@ -52,3 +51,32 @@ def get_filters(filter_params: FilterParams):
         building_filters.append(Building.laundry == filter_params.laundry)
     
     return property_filters, building_filters
+
+def get_property_filters(filter_params : PropertyFilterParams):
+
+    filters = []
+
+    filters.append(Property.approved == True)
+
+    if filter_params.min_rental_value:
+        filters.append(Property.rental_value >= filter_params.min_rental_value)
+    if filter_params.max_rental_value:
+        filters.append(Property.rental_value <= filter_params.max_rental_value)
+    if filter_params.min_expenses_value:
+        filters.append(Property.expenses_value >= filter_params.min_expenses_value)
+    if filter_params.max_expenses_value:
+        filters.append(Property.expenses_value <= filter_params.max_expenses_value)
+    if filter_params.rooms:
+        filters.append(Property.rooms == filter_params.rooms)
+    if filter_params.balconies:
+        filters.append(Property.balconies == filter_params.balconies)
+    if filter_params.backyard is not None:
+        filters.append(Property.backyard == filter_params.backyard)
+    if filter_params.garage is not None:
+        filters.append(Property.garage == filter_params.garage)
+    if filter_params.pet_friendly is not None:
+        filters.append(Property.pet_friendly == filter_params.pet_friendly)
+    if filter_params.location:
+        filters.append(Property.location == filter_params.location)
+
+    return filters
