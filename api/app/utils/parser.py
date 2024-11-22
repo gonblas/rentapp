@@ -138,7 +138,7 @@ def parse_user_response(user : dict):
             "is_real_estate":user.is_real_estate,
             "is_admin" : user.is_admin,
             "avatar":user.avatar,
-            "contact_info":{
+            "contact":{
                 "email":user.email,
                 "phone_number":user.phone_number,
                 "has_phone_number":user.has_phone_number,
