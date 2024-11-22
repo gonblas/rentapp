@@ -1,11 +1,13 @@
-from typing import Annotated
-from fastapi import APIRouter, HTTPException, Query, Depends, status, Cookie
+from datetime import datetime
+from typing import Annotated, List
+from fastapi import APIRouter, HTTPException, Query, Depends, status, Cookie, UploadFile, File, Form
 from sqlalchemy import func
 from app.database import db_dependency
 from app.models import Property, User, Image, Building, Neighborhood
-from app.schemas.properties import PublicationResponse, SearchResponse, PropertyResponse, PropertiesResponse, PropertiesListResponse
+from app.schemas.properties import PublicationResponse, SearchResponse, PropertyResponse, PropertiesResponse, PropertiesListResponse, CreatePropertyRequest
 from app.utils.parser import parse_publication_response, parse_properties_response
 from app.utils.auth import auth_dependency, get_current_user
+from app.utils.bucket import upload_property_images
 
 router = APIRouter(
     prefix="/property",
@@ -98,3 +100,54 @@ def read_property(property_id: int, db: db_dependency, token : Annotated[str, Co
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Property not found")
 
     return parse_publication_response(property)
+
+@router.post(
+        "/",
+        status_code=status.HTTP_201_CREATED,
+        summary="Create a new property publication",
+        )
+async def create_property(
+    request : Annotated[CreatePropertyRequest, Depends(CreatePropertyRequest.as_form)],
+    db: db_dependency,
+    user: auth_dependency
+    ):
+
+    building = db.query(Building).filter(Building.id == request.building_id).first()
+
+    if not building:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
+
+    new_property = Property(
+        publication_date = datetime.now(),
+        approved = False,
+        description = request.description,
+        rental_value = request.rental_value,
+        expenses_value = request.expenses_value,
+        rooms = request.rooms,
+        square_meters = request.square_meters,
+        balconies = request.balconies,
+        backyard = request.backyard,
+        garage = request.garage,
+        pet_friendly = request.pet_friendly,
+        location = request.location,
+        publisher_id = user.id,
+        building_id = request.building_id
+    )
+
+    db.add(new_property)
+    db.commit()
+    db.refresh(new_property)
+
+    urls = upload_property_images(request.images)
+
+    for url in urls:
+        new_image = Image(
+            property_id = new_property.id,
+            url = url
+        )
+        db.add(new_image)
+    db.commit()
+
+    return {
+        "status": "Property created",
+    }
