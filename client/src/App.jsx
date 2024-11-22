@@ -23,7 +23,7 @@ import SearchRoutes from "./utils/SearchRoutes"
 import { AdminProvider } from "./components/AdminContext"
 
 const App = () => {
-  const { logued, loading } = useAuth()
+  const { logued, isAdmin, loading } = useAuth()
 
   return (
     <Fragment>
@@ -74,15 +74,19 @@ const App = () => {
             </Route>
 
             {/* Admin Routes */}
-            <Route path="/admin" element={<Admin />} />
             <Route
-              path="/admin-property-view/:propertyId"
-              element={<AdminPropertyView />}
-            />
-            <Route
-              path="/admin-building-view/:buildingId"
-              element={<AdminBuildingView />}
-            />
+              element={<ProtectedRoutes redirectTo="/" condition={isAdmin} />}
+            >
+              <Route path="/admin" element={<Admin />} />
+              <Route
+                path="/admin-property-view/:propertyId"
+                element={<AdminPropertyView />}
+              />
+              <Route
+                path="/admin-building-view/:buildingId"
+                element={<AdminBuildingView />}
+              />
+            </Route>
           </Routes>
         </AdminProvider>
         <Footer />
