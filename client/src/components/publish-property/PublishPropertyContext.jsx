@@ -1,9 +1,7 @@
 import React, { createContext, useState } from "react"
 
-// Crear el Contexto
 const PublishPropertyContext = createContext(undefined)
 
-// Crear el Provider para envolver tus componentes
 export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     address: "",
@@ -232,10 +230,15 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
+  const submitForm = () => {
+    console.log("Formulario enviado ashe cte")
+  }
+
   const nextStepFunction = [
     () => validateStep1(setErrors),
     () => validateStep2(setErrors),
     () => validateStep3(setErrors),
+    () => submitForm(),
   ]
 
   const handleOnChange = (event) => {
