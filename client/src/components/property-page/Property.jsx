@@ -1,45 +1,76 @@
 import React from "react"
-import BuildingFeatures from "../BuildingFeatures"
-import PropertyHeader from "./PropertyHeader"
-import PublisherInfo from "./PublisherInfo"
+import Gallery from "react-image-gallery"
+import "react-image-gallery/styles/css/image-gallery.css"
 import Container from "@mui/material/Container"
-import Carousel from "../Carousel"
-// import ImageList from "@mui/material/ImageList"
-// import ImageListItem from "@mui/material/ImageListItem"
-// import Box from "@mui/material/Box"
-
-// function MasonryImageList({ images }) {
-//   const numberOfColumns = 3 // Número de columnas por fila
-
-//   // Dividir las imágenes en dos filas
-//   const rows = []
-//   for (let i = 0; i < images.length; i += numberOfColumns) {
-//     rows.push(images.slice(i, i + numberOfColumns))
-//   }
-
-//   return (
-//     <Box sx={{ width: "100%", height: 450, overflowX: "scroll" }}>
-//       <ImageList
-//         variant="masonry"
-//         cols={numberOfColumns}
-//         gap={8}
-//         sx={{ display: "flex", flexDirection: "row" }}
-//       >
-//         {rows.map((row, rowIndex) => (
-//           <div key={rowIndex} style={{ display: "flex", flexDirection: "row" }}>
-//             {row.map((item) => (
-//               <ImageListItem key={item}>
-//                 <img src={item} loading="lazy" alt="" />
-//               </ImageListItem>
-//             ))}
-//           </div>
-//         ))}
-//       </ImageList>
-//     </Box>
-//   )
-// }
+import PropertyHeader from "./PropertyHeader"
+import BuildingFeatures from "../BuildingFeatures"
+import PublisherInfo from "./PublisherInfo"
 
 function Property({ property }) {
+  // Resize the images to a smaller size
+  const ImageGallery = () => {
+    return (
+      <Gallery
+        items={images}
+        showPlayButton={false} // Disable the autoplay button
+        showFullscreenButton={false} // Disable the fullscreen button
+        showBullets={true} // Enable navigation bullets
+        showThumbnails={true} // Enable thumbnails
+        slideInterval={3000} // Interval between slides if autoplay is enabled (though it's disabled here)
+        useBrowserFullscreen={false} // Disable fullscreen
+        startIndex={0} // Start the gallery at the first image
+        autoPlay={false} // Disable autoplay feature
+        disableThumbnailScroll={true} // Prevent scrolling of the thumbnails
+        thumbnailPosition="bottom" // You can change position of thumbnails to bottom if needed
+        renderItem={(item) => (
+          <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+            <img
+              src={item.original}
+              alt={item.description}
+              style={{
+                width: "100%", // Resize the image to fill the container
+                objectFit: "contain", // Ensure the aspect ratio is maintained
+                maxHeight: "500px", // Limit the height of the image
+                margin: "0 auto",
+              }}
+            />
+          </div>
+        )}
+        renderThumbInner={(item) => (
+          <div
+            style={{
+              width: "80px",
+              height: "80px",
+              margin: "0 5px",
+              position: "relative",
+            }}
+          >
+            <img
+              src={item.thumbnail}
+              alt={item.description}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover", // Preserve aspect ratio of thumbnails without distortion
+                aspectRatio: "16/9", // Enforce square aspect ratio
+                borderRadius: "2px", // Optional: Add rounded corners to thumbnails
+                position: "absolute", // Center the image within the thumbnail container
+                top: "0",
+                left: "0",
+              }}
+            />
+          </div>
+        )}
+      />
+    )
+  }
+
+  const images = property.images.map((image) => ({
+    original: image, // Can replace with a smaller image if you have one
+    thumbnail: image, // Same here, ideally you should provide a smaller image for thumbnails
+    description: "",
+  }))
+
   return (
     <Container
       sx={{
@@ -51,15 +82,7 @@ function Property({ property }) {
         gap: "30px",
       }}
     >
-      <Carousel
-        data={property.images}
-        style={{
-          width: "100%",
-          height: "448px!important",
-          mb: "30px!important",
-          overflow: "hidden",
-        }}
-      />
+      <ImageGallery />
       <PropertyHeader property={property} building={property.building} />
       <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
