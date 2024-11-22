@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
 
 const PublishBuildingContext = createContext(undefined)
 
@@ -150,21 +150,8 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const submitForm = () => {
+    // eslint-disable-next-line no-unused-vars
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
-    console.log(filteredData)
-
-    const dataExample = {
-      address: "strinadsdsasdadsg",
-      neighborhood_id: 10,
-      floors: "0",
-      apartments_per_floor: "0",
-      elevator: true,
-      pool: true,
-      gym: true,
-      terrace: true,
-      bike_rack: true,
-      laundry: true,
-    }
 
     fetch("http://localhost:8000/building/", {
       method: "POST",
@@ -172,9 +159,10 @@ export const PublishBuildingProvider = ({ children }) => {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(dataExample),
+      body: JSON.stringify(filteredData),
     }).then((response) => {
       if (response.status === 201) {
+        console.log("Formulario enviado correctamente")
         navigate("/")
       } else {
         console.log("Error al enviar el formulario")
@@ -183,8 +171,8 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const nextStepFunction = [
-    () => validateStep1(setErrors, formData[0]),
-    () => validateStep2(setErrors, formData[1]),
+    () => validateStep1(setErrors),
+    () => validateStep2(setErrors),
     () => submitForm(),
   ]
 

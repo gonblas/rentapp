@@ -1,11 +1,11 @@
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, HTTPException, Query, status, Cookie
 from typing import Annotated
 from sqlalchemy import func
 from app.database import db_dependency
 from app.models import Building, Neighborhood, User, Property, Image
 from app.schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost, BuildingFilterParams
 from app.schemas.properties import PropertyFilterParams, PropertiesResponse
-from app.utils.auth import auth_dependency
+from app.utils.auth import auth_dependency, get_current_user
 from app.utils.search import get_building_filters, get_property_filters
 from app.utils.parser import parse_buildings_response, parse_building_response, parse_properties_response
 
@@ -96,15 +96,25 @@ def read_building_properties(building_id: int, db: db_dependency, filters : Anno
             status_code=status.HTTP_200_OK,
             summary="Returns a building info"
             )
-def read_building(building_id: int, db : db_dependency):
+def read_building(building_id: int, db : db_dependency, token : Annotated[str,Cookie()] = None):
+
+    try:
+        user = get_current_user(db, token)
+    except:
+        user = None
 
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.id == building_id, Building.approved == True)
     )
 
-    building = query.first()
+    if user:
+        my_user = db.query(User).filter(User.id == user.id).first()
+    
+    if user and my_user.is_admin:
+        building = query.filter(Building.id == building_id).first()
+    else:
+        building = query.filter(Building.id == building_id, Building.approved == True).first()
 
     if building is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Building not found")
@@ -117,13 +127,24 @@ def read_building(building_id: int, db : db_dependency):
             status_code=status.HTTP_200_OK,
             summary="Returns a building info by address, if it is approved or the user is the publisher"
             )
-def search_building(db: db_dependency, address : Annotated[str, Query()], user : auth_dependency = None):
+def search_building(db: db_dependency, address : Annotated[str, Query()], token : Annotated[str,Cookie()] = None):
+
+    try:
+        user = get_current_user(db, token)
+    except:
+        user = None
 
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.address == address, Building.approved == True or Building.publisher_id == user.id)
+        .filter(Building.address == address)
     )
+
+    #la propiedad tiene que ser aprobada O el usuario es el publisher
+    if user:
+        query = query.filter((Building.publisher_id == user.id) | (Building.approved == True))
+    else:
+        query = query.filter(Building.approved == True)
 
     building = query.first()
 
@@ -140,7 +161,7 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], user :
             )
 async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
 
-    if db.query(Building).filter(Building.address == building.address).first():
+    if db.query(Building).filter(Building.address == building.address, Building.approved == True).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Building already exists")
     
     neighborhood = db.query(Neighborhood).filter(Neighborhood.id == building.neighborhood_id).first()

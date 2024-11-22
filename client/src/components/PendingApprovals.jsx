@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useContext } from "react"
 import ListContainer from "./ListContainer"
 import ToggleButton from "@mui/material/ToggleButton"
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
 import Typography from "@mui/material/Typography"
 import PropertyCard from "./cards/PropertyCard"
 import BuildingCard from "./cards/BuildingCard"
-import ValidationButtons from "./ValidationButtons"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
+import AdminContext from "./AdminContext"
 
 function PendingApprovals() {
-  const [showList, setShowList] = useState("apartment")
+  const { showList, setShowList } = useContext(AdminContext) // Get context values
+  // console.log(showList)
   const [data, setData] = useState([]) // Data to store fetched information
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
 
-  // Memoize fetchData function to avoid unnecessary re-renders
+  // Fetch data based on selected list type (apartments or buildings)
   const fetchData = useCallback(() => {
     setLoading(true)
     setError(null)
@@ -55,11 +56,11 @@ function PendingApprovals() {
 
   // Helper function to render apartments
   const renderApartments = () => {
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(data.properties)) {
       return <Typography>No data available for properties.</Typography>
     }
 
-    return data.map((item) => (
+    return data.properties.map((item) => (
       <Container key={item.id} sx={{ mb: 2 }}>
         <Box
           sx={{
@@ -68,24 +69,8 @@ function PendingApprovals() {
             alignItems: "flex-start",
           }}
         >
-          {/* Property card on the left side */}
-          <PropertyCard property={item} />
-
-          {/* Validation buttons below the card and aligned to the right */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-              mt: 1,
-            }}
-          >
-            <ValidationButtons
-              object={item}
-              endpoint="http://localhost:8000/admin/property"
-              refetchData={fetchData} // Pass refetchData as a prop
-            />
-          </Box>
+          {/* Property card */}
+          <PropertyCard property={item} linkName="/admin-property-view" />
         </Box>
       </Container>
     ))
@@ -106,24 +91,8 @@ function PendingApprovals() {
             alignItems: "flex-start",
           }}
         >
-          {/* Property card on the left side */}
-          <BuildingCard building={item} />
-
-          {/* Validation buttons below the card and aligned to the right */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-              mt: 1,
-            }}
-          >
-            <ValidationButtons
-              object={item}
-              endpoint="http://localhost:8000/admin/building"
-              refetchData={fetchData} // Pass refetchData as a prop
-            />
-          </Box>
+          {/* Building card */}
+          <BuildingCard building={item} linkName="/admin-building-view" />
         </Box>
       </Container>
     ))

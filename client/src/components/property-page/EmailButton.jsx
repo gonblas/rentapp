@@ -14,7 +14,7 @@ function EmailButton({ mail }) {
         background: "#ff4949",
         fontWeight: "600",
         textTransform: "none",
-        height: "100%",
+        height: "40px",
         "&:hover": {
           background: "#d44638",
         },

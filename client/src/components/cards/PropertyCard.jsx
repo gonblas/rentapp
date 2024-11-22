@@ -17,6 +17,7 @@ import AvatarRender from "../AvatarRender"
 import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
 import CardActions from "@mui/material/CardActions"
+import { Link } from "react-router-dom"
 
 function ContactButton({ contact }) {
   const items = [
@@ -37,93 +38,105 @@ function ContactButton({ contact }) {
       condition: contact.whatsapp_enabled,
     },
   ]
+
   return (
-    <PopupState variant="popover" popupId="demo-popup-menu">
-      {(popupState) => (
-        <>
-          <Button
-            variant="contained"
-            {...bindTrigger(popupState)}
-            size="small"
-            sx={{
-              borderColor: "#D9D9D9",
-              fontWeight: "600",
-              textTransform: "none",
-              border: "none",
-              height: "100%",
-              "&:hover": {
-                background: "#003080",
-              },
-              ml: "auto",
-            }}
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-            }}
-          >
-            Contactar
-          </Button>
-          <Menu
-            {...bindMenu(popupState)}
-            slotProps={{
-              paper: {
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: "5px",
-                  "&::before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: "45px",
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
+    <Link
+      to="/some-path"
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+      }}
+    >
+      <PopupState
+        variant="popover"
+        popupId="demo-popup-menu"
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+        }}
+      >
+        {(popupState) => (
+          <>
+            <Button
+              variant="contained"
+              {...bindTrigger(popupState)}
+              size="small"
+              sx={{
+                borderColor: "#D9D9D9",
+                fontWeight: "600",
+                textTransform: "none",
+                border: "none",
+                height: "100%",
+                "&:hover": {
+                  background: "#003080",
+                },
+                ml: "auto",
+              }}
+            >
+              Contactar
+            </Button>
+            <Menu
+              {...bindMenu(popupState)}
+              slotProps={{
+                paper: {
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: "5px",
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: "45px",
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
                   },
                 },
-              },
-            }}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          >
-            {items.map((item, index) => {
-              if (item.condition === false) return null
-              return (
-                <MenuItem
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    gap: "5px",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Container
-                    onClick={() => {
-                      item.func()
-                      popupState.close()
-                    }}
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              {items.map((item, index) => {
+                if (item.condition === false) return null
+                return (
+                  <MenuItem
+                    key={index}
                     sx={{
                       display: "flex",
-                      justifyContent: "start",
+                      gap: "5px",
+                      justifyContent: "space-between",
                       alignItems: "center",
                     }}
                   >
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    {item.text}
-                  </Container>
-                  <CopyToClipboardButton textToCopy={item.text} />
-                </MenuItem>
-              )
-            })}
-          </Menu>
-        </>
-      )}
-    </PopupState>
+                    <Container
+                      onClick={() => {
+                        item.func()
+                        popupState.close()
+                      }}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      {item.text}
+                    </Container>
+                    <CopyToClipboardButton textToCopy={item.text} />
+                  </MenuItem>
+                )
+              })}
+            </Menu>
+          </>
+        )}
+      </PopupState>
+    </Link>
   )
 }
 
@@ -164,7 +177,7 @@ function AvatarPublisher({ publisher }) {
   )
 }
 
-function PropertyCard({ property, address }) {
+function PropertyCard({ property, linkName }) {
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -183,14 +196,14 @@ function PropertyCard({ property, address }) {
 
   return (
     <PublicationCard
-      linkName={"/property-full-view"}
-      item={{ type: "property", data: property }}
+      linkName={linkName}
+      item={{ type: "property", id: property.id }}
     >
       <CardMedia
         image=""
         sx={{
           height: "100%",
-          width: "35%",
+          width: "30%!important",
           pr: "15px!important",
         }}
       >
@@ -266,7 +279,7 @@ function PropertyCard({ property, address }) {
               pt: "12px",
             }}
           >
-            {address}
+            {property.address}
           </Typography>
         </Container>
 
@@ -331,7 +344,7 @@ function PropertyCard({ property, address }) {
               pb: "0px",
             }}
           >
-            <ContactButton contact={property.contact}></ContactButton>
+            <ContactButton contact={property.publisher.contact}></ContactButton>
           </CardActions>
         </Container>
       </Container>

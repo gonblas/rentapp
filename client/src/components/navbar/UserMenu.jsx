@@ -147,8 +147,6 @@ function SigninButton() {
 
 function UserMenu() {
   const { logued, userData, loading } = useAuth()
-  console.log(logued)
-  console.log(userData)
   if (loading) {
     return null
   }

@@ -7,13 +7,17 @@ import Button from "@mui/material/Button"
 import UserMenu from "./UserMenu"
 import ButtonMenu from "./ButtonMenu"
 import { Link } from "react-router-dom"
-
-const navItems = [
-  { title: "Inicio", path: "/" },
-  { title: "Acerca de", path: "/" },
-]
+import useAuth from "../../hooks/AuthContext"
 
 function NavBar() {
+  const { isAdmin } = useAuth()
+
+  const navItems = [
+    { title: "Inicio", path: "/", render: true },
+    { title: "Acerca de", path: "/", render: true },
+    { title: "Validaciones", path: "/admin", render: isAdmin },
+  ]
+
   return (
     <Box sx={{ display: "flex", px: 10, mb: 8 }}>
       <AppBar component="nav" sx={{ display: "flex", px: 8 }}>
@@ -32,9 +36,11 @@ function NavBar() {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
               <Link to={item.path} key={item.title}>
-                <Button sx={{ color: "text.primary", mr: 2 }}>
-                  {item.title}
-                </Button>
+                {item.render && (
+                  <Button sx={{ color: "text.primary", mr: 2 }}>
+                    {item.title}
+                  </Button>
+                )}
               </Link>
             ))}
             <ButtonMenu />

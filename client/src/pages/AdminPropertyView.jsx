@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
+import PropertyFullView from "./PropertyFullView"
+import ValidationButtons from "../components/ValidationButtons"
+import { Container } from "@mui/material"
 import { useParams } from "react-router-dom"
-import { Container, Typography } from "@mui/material"
-import Property from "../components/property-page/Property"
+import { useState, useEffect } from "react"
+import { Typography } from "@mui/material"
 
-function PropertyFullView() {
-  const { propertyId } = useParams() // Get the property ID from the URL
+function AdminPropertyView() {
+  const { propertyId } = useParams()
   const [property, setProperty] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -23,21 +26,16 @@ function PropertyFullView() {
           },
         )
 
-        // If the response is not OK (status 200-299), handle the error
         if (!response.ok) {
-          if (response.status === 404) {
-            setError("No se encontró la propiedad con el ID especificado.")
-          } else {
-            setError("An error occurred while fetching the property.")
-          }
+          setError("No se encontró la propiedad con el ID especificado.")
           setProperty(null)
         } else {
           const data = await response.json()
           setProperty(data)
         }
       } catch (error) {
-        console.error("Error:", error)
         setError("Failed to fetch property data.")
+        console.log(error)
         setProperty(null)
       } finally {
         setLoading(false)
@@ -55,27 +53,22 @@ function PropertyFullView() {
     return <Typography color="error">{error}</Typography>
   }
 
-  if (!property) {
-    return (
-      <Typography>
-        No se encontró la propiedad con el ID especificado.
-      </Typography>
-    )
-  }
-
   return (
     <Container
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        width: "90%",
+        gap: 2,
       }}
     >
-      <Property property={property} />
+      <PropertyFullView />
+      <ValidationButtons
+        object={property}
+        endpoint="http://localhost:8000/admin/property"
+      />
     </Container>
   )
 }
 
-export default PropertyFullView
+export default AdminPropertyView

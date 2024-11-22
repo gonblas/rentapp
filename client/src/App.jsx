@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { Route, Routes } from "react-router-dom"
 import {
   Home,
@@ -10,28 +10,64 @@ import {
   PropertyFullView,
   BuildingFullView,
   Admin,
+  AdminBuildingView,
 } from "./pages"
 import NavBar from "./components/navbar/NavBar"
 import Footer from "./components/footer/Footer"
 import AppTheme from "./theme/AppTheme"
 import CssBaseline from "@mui/material/CssBaseline"
-import { SearchProvider } from "./components/SearchContext"
-import PrivateRoutes from "./utils/ProtectedRoutes"
+import ProtectedRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
+import AdminPropertyView from "./pages/AdminPropertyView"
+import SearchRoutes from "./utils/SearchRoutes"
+import AdminRoutes from "./utils/AdminRoutes"
 
 const App = () => {
-  const { logued, loading } = useAuth()
+  const { logued, isAdmin, loading } = useAuth()
+
   return (
-    <SearchProvider>
+    <Fragment>
       <CssBaseline />
       <AppTheme>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/* Restricts access to unauthenticated users. */}
+          <Route
+            path="/"
+            element={
+              <SearchRoutes>
+                <Home />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <SearchRoutes>
+                <Search />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/property-full-view/:propertyId"
+            element={
+              <SearchRoutes>
+                <PropertyFullView />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/building-full-view/:buildingId"
+            element={
+              <SearchRoutes>
+                <BuildingFullView />
+              </SearchRoutes>
+            }
+          />
+
+          {/* Protected Routes */}
           <Route
             element={
-              <PrivateRoutes
+              <ProtectedRoutes
                 redirectTo="/sign-in"
                 condition={logued}
                 loading={loading}
@@ -41,10 +77,11 @@ const App = () => {
             <Route path="/publish-property" element={<PublishProperty />} />
             <Route path="/publish-building" element={<PublishBuilding />} />
           </Route>
-          {/* Restricts access to authenticated users only. */}
+
+          {/* Restricted Routes for unauthenticated users */}
           <Route
             element={
-              <PrivateRoutes
+              <ProtectedRoutes
                 redirectTo="/"
                 condition={!logued}
                 loading={loading}
@@ -54,14 +91,40 @@ const App = () => {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </Route>
-          <Route path="/search" element={<Search />} />
-          <Route path="/property-full-view" element={<PropertyFullView />} />
-          <Route path="/building-full-view" element={<BuildingFullView />} />
-          <Route path="/admin" element={<Admin />} />
+
+          {/* Admin Routes */}
+          <Route
+            element={<ProtectedRoutes redirectTo="/" condition={isAdmin} />}
+          >
+            <Route
+              path="/admin"
+              element={
+                <AdminRoutes>
+                  <Admin />
+                </AdminRoutes>
+              }
+            />
+            <Route
+              path="/admin-property-view/:propertyId"
+              element={
+                <AdminRoutes>
+                  <AdminPropertyView />
+                </AdminRoutes>
+              }
+            />
+            <Route
+              path="/admin-building-view/:buildingId"
+              element={
+                <AdminRoutes>
+                  <AdminBuildingView />
+                </AdminRoutes>
+              }
+            />
+          </Route>
         </Routes>
         <Footer />
       </AppTheme>
-    </SearchProvider>
+    </Fragment>
   )
 }
 

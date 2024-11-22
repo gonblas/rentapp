@@ -6,8 +6,10 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
   const [logued, setLogued] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  console.log(userData)
 
   function handleSignup(data, setFieldError) {
     const formData = new FormData()
@@ -73,18 +75,21 @@ export const AuthProvider = ({ children }) => {
             setFieldError("auth", true, "Contraseña incorrecta.")
           }
           setUserData(null)
+          setIsAdmin(false)
           setLogued(false)
         }
         return response.json()
       })
       .then((user) => {
         setUserData(user)
+        setIsAdmin(user.is_admin)
         setLogued(true)
         navigate("/")
       })
       .catch((error) => {
         console.error("Error al hacer la solicitud:", error)
         setUserData(null)
+        setIsAdmin(false)
         setLogued(false)
       })
       .finally(() => setLoading(false))
@@ -97,6 +102,7 @@ export const AuthProvider = ({ children }) => {
     })
       .then(() => {
         setUserData(null)
+        setIsAdmin(false)
         setLogued(false)
         navigate("/")
       })
@@ -116,10 +122,12 @@ export const AuthProvider = ({ children }) => {
       })
       .then((user) => {
         setUserData(user)
+        setIsAdmin(user.is_admin)
         setLogued(true)
       })
       .catch(() => {
         setUserData(null)
+        setIsAdmin(false)
         setLogued(false)
       })
       .finally(() => setLoading(false))
@@ -130,6 +138,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         userData,
         logued,
+        isAdmin,
         loading,
         handleLogin,
         handleSignup,

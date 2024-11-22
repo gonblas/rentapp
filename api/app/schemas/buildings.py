@@ -3,6 +3,7 @@ from .properties import PaginationInfo
 
 class BuildingResponse(BaseModel):
     id: int
+    approved: bool
     address: str
     neighborhood_id: int
     neighborhood_name: str
@@ -62,6 +63,9 @@ class BuildingFilterParams(BaseModel):
         None, alias="location", title="Location"
     )
     # buildings filters
+    address: str = Field(
+        None, alias="address", title="Building address"
+    )
     neighborhood_id: int = Field(
         None, alias="neighborhood_id", title="Neighborhood ID"
     )

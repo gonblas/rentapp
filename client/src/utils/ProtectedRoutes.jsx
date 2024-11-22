@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress"
 import Container from "@mui/material/Container"
 
-function PrivateRoutes({ redirectTo, condition, loading = false, ...props }) {
+function ProtectedRoutes({ redirectTo, condition, loading = false, ...props }) {
   if (loading)
     return (
       <Container
@@ -20,4 +20,4 @@ function PrivateRoutes({ redirectTo, condition, loading = false, ...props }) {
   return condition ? <Outlet {...props} /> : <Navigate to={redirectTo} />
 }
 
-export default PrivateRoutes
+export default ProtectedRoutes

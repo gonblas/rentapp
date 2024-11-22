@@ -14,7 +14,7 @@ function WhatsAppButton({ phone }) {
         background: "#25D366",
         fontWeight: "600",
         textTransform: "none",
-        height: "100%",
+        height: "40px",
         "&:hover": {
           background: "#128c7e",
         },

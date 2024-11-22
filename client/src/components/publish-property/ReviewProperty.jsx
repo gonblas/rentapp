@@ -1,7 +1,36 @@
+import Property from "../property-page/Property"
+import { useContext } from "react"
+import PublishPropertyContext from "./PublishPropertyContext"
+import useAuth from "../../hooks/AuthContext"
+
 function ReviewProperty() {
+  const { formData, building } = useContext(PublishPropertyContext)
+  console.log(formData)
+  console.log(building)
+  const { userData } = useAuth()
+
+  const property = {
+    id: 0,
+    description: formData.description,
+    features: {
+      rental_value: formData.rental_value,
+      expenses_value: formData.expenses_value,
+      rooms: formData.rooms,
+      square_meters: formData.square_meters,
+      location: formData.location,
+      balconies: formData.balconies,
+      backyard: formData.backyard,
+      garage: formData.garage,
+      pet_friendly: formData.pet_friendly,
+    },
+    publisher: userData,
+    building: building,
+    images: formData.images.map((image) => image.url),
+  }
+
   return (
     <div>
-      <h1>Review</h1>
+      <Property property={property} />
     </div>
   )
 }

@@ -9,6 +9,7 @@ import SearchContext from "./SearchContext"
 import axios from "axios"
 import Autocomplete from "@mui/material/Autocomplete"
 import FormControl from "@mui/material/FormControl"
+import GoogleMaps from "./GoogleMaps"
 
 function SearchBar() {
   const navigate = useNavigate()
@@ -56,26 +57,23 @@ function SearchBar() {
     if (filters.property.rooms !== null) {
       URLdata.append("rooms", filters.property.rooms)
     }
-    if (filters.property.surface !== null) {
-      URLdata.append("square_meters", filters.property.surface)
-    }
     if (filters.property.balconies !== null) {
       URLdata.append("balconies", filters.property.balconies)
     }
     if (filters.property.hasBackyard) {
-      // Send only if true
       URLdata.append("backyard", true)
     }
     if (filters.property.hasGarage) {
-      // Send only if true
       URLdata.append("garage", true)
     }
     if (filters.property.petfriendly) {
-      // Send only if true
       URLdata.append("pet_friendly", true)
     }
     if (filters.property.location) {
       URLdata.append("location", filters.property.location)
+    }
+    if (filters.building.address) {
+      URLdata.append("address", filters.building.address)
     }
     if (filters.building.floors !== null) {
       URLdata.append("floors", filters.building.floors)
@@ -106,9 +104,9 @@ function SearchBar() {
     if (filters.building.services.includes("Lavadero")) {
       URLdata.append("laundry", true)
     }
-    // http://localhost:8000/property/?neighborhood_id=2&backyard=true
-    console.log("http://localhost:8000/property/?" + URLdata)
-    fetch("http://localhost:8000/property/?" + URLdata, {
+
+    console.log("http://localhost:8000/building/?" + URLdata)
+    fetch("http://localhost:8000/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -121,6 +119,8 @@ function SearchBar() {
         console.error("Error:", error)
       })
   }
+
+  console.log(filters)
 
   return (
     <Container
@@ -137,7 +137,22 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      <FormControl sx={{ pt: "30px", width: "100%" }}>
+      <Container sx={{ width: "41.5%", height: "48px" }}>
+        <GoogleMaps
+          handleOnChange={(e) => {
+            setFilters((prev) => ({
+              ...prev,
+              building: {
+                ...prev.building,
+                address: e.target.value,
+              },
+            }))
+          }}
+          value={filters.building.address}
+        />
+      </Container>
+
+      <FormControl sx={{ width: "41.5%", height: "44px" }}>
         <Autocomplete
           disablePortal
           autoComplete
@@ -150,9 +165,33 @@ function SearchBar() {
               label: neighborhood.name,
             })),
           ]}
-          sx={{ width: "auto" }}
+          sx={{ width: "100%", height: "48px" }}
           renderInput={(params) => (
-            <TextField {...params} label="Ingresá un Barrio" />
+            <TextField
+              {...params}
+              label="Ingresá un Barrio"
+              fullWidth
+              sx={{
+                height: "48px",
+                ".MuiInputBase-root": {
+                  height: "48px",
+                  color: "black",
+                },
+                ".MuiInputLabel-root": {
+                  color: "black",
+                },
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "black",
+                },
+                "& .MuiInputBase-input": {
+                  padding: "10px",
+                },
+                "& .MuiInputLabel-shrink": {
+                  transform: "translate(0, -17px) scale(0.75)",
+                  padding: "0 4px",
+                },
+              }}
+            />
           )}
           onChange={(event, newValue) => {
             if (newValue) {
@@ -169,7 +208,7 @@ function SearchBar() {
                 ...prev,
                 property: {
                   ...prev.property,
-                  neighborhood_id: null, // Reset to null when "Select a neighborhood" is chosen
+                  neighborhood_id: null,
                   neighborhood_name: null,
                 },
               }))
@@ -181,12 +220,25 @@ function SearchBar() {
       <FilterList
         filters={filters}
         setFilters={setFilters}
-        style={{
+        sx={{
           flexShrink: 0,
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
         }}
       />
 
-      <Button type="submit" variant="contained" sx={{ width: "10px" }}>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0 16px",
+        }}
+      >
         <SearchIcon />
       </Button>
     </Container>

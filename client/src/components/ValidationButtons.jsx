@@ -1,9 +1,12 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import { Container } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import DeleteIcon from "@mui/icons-material/Delete"
+import DoneIcon from "@mui/icons-material/Done"
 
-function ValidationButtons({ object, endpoint, refetchData }) {
-  console.log(object)
+function ValidationButtons({ object, endpoint }) {
+  const navigate = useNavigate()
 
   const ApproveButton = () => {
     return (
@@ -23,18 +26,23 @@ function ValidationButtons({ object, endpoint, refetchData }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              refetchData() // Trigger refetch after approval
+              navigate("/admin")
             })
             .catch((error) => {
               console.error(error) // Log the error message
             })
         }}
+        startIcon={<DoneIcon />} // Add done icon to button
         sx={{
           backgroundColor: "success.dark", // Set background color to success.main
           color: "white", // Set text color to white
           "&:hover": {
-            backgroundColor: "success.dark", // Darker shade on hover
+            backgroundColor: "success.hover", // Darker shade on hover
           },
+          padding: "12px 24px", // Adjust padding for larger buttons
+          fontSize: "1rem", // Increase font size
+          fontWeight: "bold", // Make the font bold
+          textTransform: "none", // Remove text transformation
         }}
       >
         Aprobar
@@ -60,18 +68,23 @@ function ValidationButtons({ object, endpoint, refetchData }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              refetchData() // Trigger refetch after rejection
+              navigate("/admin")
             })
             .catch((error) => {
               console.error(error) // Log the error message
             })
         }}
+        startIcon={<DeleteIcon />} // Add delete icon to button
         sx={{
           backgroundColor: "error.dark", // Set background color to error.main
           color: "white", // Set text color to white
           "&:hover": {
-            backgroundColor: "error.dark", // Darker shade on hover
+            backgroundColor: "error.hover", // Darker shade on hover
           },
+          padding: "12px 24px", // Adjust padding for larger buttons
+          fontSize: "1rem", // Increase font size
+          fontWeight: "bold", // Make the font bold
+          textTransform: "none", // Remove text transformation
         }}
       >
         Eliminar
@@ -80,7 +93,9 @@ function ValidationButtons({ object, endpoint, refetchData }) {
   }
 
   return (
-    <Container sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+    <Container
+      sx={{ display: "flex", justifyContent: "flex-end", gap: 2, pb: "20px" }}
+    >
       <ApproveButton />
       <RejectButton />
     </Container>

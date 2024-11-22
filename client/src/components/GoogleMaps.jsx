@@ -84,7 +84,7 @@ export default function GoogleMaps({ handleOnChange, value }) {
               ...results.filter((option) =>
                 option.description.includes("Buenos Aires"),
               ),
-            ];
+            ]
           }
 
           setOptions(newOptions)
@@ -96,6 +96,16 @@ export default function GoogleMaps({ handleOnChange, value }) {
       active = false
     }
   }, [value, inputValue, fetch])
+
+  const handleInputChange = (event, newInputValue) => {
+    // If the input is cleared, set the value to null
+    if (newInputValue === "") {
+      handleOnChange({
+        target: { name: "address", value: null },
+      })
+    }
+    setInputValue(newInputValue)
+  }
 
   return (
     <Autocomplete
@@ -111,20 +121,27 @@ export default function GoogleMaps({ handleOnChange, value }) {
       value={value}
       noOptionsText="Sin resultados"
       onChange={(event, newValue) => {
-        setOptions(newValue ? [newValue, ...options] : options)
-        console.log(newValue.description)
-        handleOnChange(
-          {
+        // If the user selects a new value, handle it
+        if (newValue) {
+          setOptions([newValue, ...options])
+          handleOnChange({
             target: { name: "address", value: newValue.description },
-          },
-          0,
-        )
+          })
+        } else {
+          // If newValue is null or undefined, set the value to null
+          handleOnChange({
+            target: { name: "address", value: null },
+          })
+        }
       }}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue)
-      }}
+      onInputChange={handleInputChange}
       renderInput={(params) => <TextField {...params} fullWidth />}
       renderOption={(props, option) => {
+        // Check if the option is valid before accessing its properties
+        if (!option || !option.structured_formatting) {
+          return null
+        }
+
         const { key, ...optionProps } = props
         const matches =
           option.structured_formatting.main_text_matched_substrings || []

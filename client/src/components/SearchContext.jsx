@@ -21,6 +21,7 @@ export const SearchProvider = ({ children }) => {
       location: null,
     },
     building: {
+      address: null,
       services: [],
       floors: null, // Set to null
       apartmentsPerFloor: null,

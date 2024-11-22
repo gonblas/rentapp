@@ -15,7 +15,7 @@ function FilterList({ filters, setFilters }) {
 
   return (
     <Fragment>
-      <Button variant="contained" onClick={handleClick}>
+      <Button variant="contained" onClick={handleClick} sx={{ height: "48px" }}>
         Filtros
       </Button>
       <Popover

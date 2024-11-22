@@ -24,7 +24,7 @@ def parse_property_response(property : dict):
             "pet_friendly": property.pet_friendly,
         },
         "publisher": {
-            "publisher_id": property.publisher_id,
+            "id": property.publisher_id,
             "name" : user.name,
             "is_real_estate": user.is_real_estate,
             "avatar": user.avatar,
@@ -56,7 +56,7 @@ def parse_publication_response(publication : dict):
             "pet_friendly": property.pet_friendly,
         },
         "publisher": {
-            "publisher_id": property.publisher_id,
+            "id": property.publisher_id,
             "name" : user.name,
             "is_real_estate": user.is_real_estate,
             "avatar": user.avatar,
@@ -92,6 +92,7 @@ def parse_building_response(data:dict):
 
     return {
         "id": building.id,
+        "approved": building.approved,
         "address": building.address,
         "neighborhood_id": building.neighborhood_id,
         "neighborhood_name": neighborhood_name,
@@ -135,8 +136,9 @@ def parse_user_response(user : dict):
             "id" :user.id,
             "name" :user.name,
             "is_real_estate":user.is_real_estate,
+            "is_admin" : user.is_admin,
             "avatar":user.avatar,
-            "contact_info":{
+            "contact":{
                 "email":user.email,
                 "phone_number":user.phone_number,
                 "has_phone_number":user.has_phone_number,

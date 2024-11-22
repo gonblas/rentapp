@@ -31,6 +31,8 @@ def get_building_filters(filter_params: BuildingFilterParams):
     if filter_params.location:
         property_filters.append(Property.location == filter_params.location)
     # # building filters
+    if filter_params.address:
+        building_filters.append(Building.address == filter_params.address)
     if filter_params.neighborhood_id:
         building_filters.append(Building.neighborhood_id == filter_params.neighborhood_id)
     if filter_params.floors:
