@@ -80,7 +80,7 @@ function ShowFilter({
 
     case "number":
       return (
-        <FormControl>
+        <FormControl sx={{ width: "48%" }}>
           <FormLabel htmlFor={name} color="black">
             {label}
           </FormLabel>
@@ -98,7 +98,7 @@ function ShowFilter({
 
     case "select":
       return (
-        <FormControl>
+        <FormControl sx={{ flex: "1!important", pr: "15px" }}>
           <FormLabel htmlFor={name} color="black">
             {label}
           </FormLabel>
@@ -166,8 +166,16 @@ function ShowFilter({
 
     case "slider":
       return (
-        <FormControl>
-          <FormLabel htmlFor={name} color="black">
+        <FormControl
+          sx={{
+            width: "48%",
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FormLabel htmlFor={name} color="black" sx={{ mr: "auto" }}>
             {label}
           </FormLabel>
           <Slider
@@ -180,9 +188,19 @@ function ShowFilter({
             max={options?.max || 100}
             step={options?.step || 1}
             valueLabelDisplay="auto"
-            sx={{ color: "primary.dark", width: "300px" }}
+            sx={{
+              color: "primary.dark",
+              width: "94%",
+            }}
           />
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              justifyContent: "space-between",
+              width: "98%",
+            }}
+          >
             <TextField
               label="Min"
               type="number"
@@ -201,7 +219,7 @@ function ShowFilter({
                   },
                 }))
               }}
-              sx={{ width: "100px" }}
+              sx={{ width: "auto" }}
             />
             <TextField
               label="Max"
@@ -220,7 +238,7 @@ function ShowFilter({
                   },
                 }))
               }}
-              sx={{ width: "100px" }}
+              sx={{ width: "auto" }}
             />
           </div>
         </FormControl>

@@ -6,48 +6,6 @@ function PropertyFilters({ filters, setFilters }) {
   return (
     <Grid container spacing={2}>
       <ShowFilter
-        name="RentPrice"
-        label="Precio de Alquiler"
-        type="slider"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-        options={{
-          min: 0,
-          max: 500000,
-          step: 50,
-        }}
-      />
-      <ShowFilter
-        name="Expenses"
-        label="Expensas"
-        type="slider"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-        options={{
-          min: 0,
-          max: 500000,
-          step: 50,
-        }}
-      />
-      <ShowFilter
-        name="rooms"
-        label="Ambientes"
-        type="number"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
-      <ShowFilter
-        name="balconies"
-        label="Balcónes"
-        type="number"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
-      <ShowFilter
         name="hasBackyard"
         label="Patio"
         type="checkbox"
@@ -80,9 +38,52 @@ function PropertyFilters({ filters, setFilters }) {
         scope="property"
         options={[
           { value: "front", label: "Frente" },
-          { value: "inside", label: "Interno" },
           { value: "back", label: "Contrafrente" },
+          { value: "inside", label: "Interno" },
+          { value: "lateral", label: "Lateral" },
         ]}
+      />
+      <ShowFilter
+        name="rooms"
+        label="Ambientes"
+        type="number"
+        filters={filters}
+        setFilters={setFilters}
+        scope="property"
+      />
+      <ShowFilter
+        name="balconies"
+        label="Balcones"
+        type="number"
+        filters={filters}
+        setFilters={setFilters}
+        scope="property"
+      />
+      <ShowFilter
+        name="RentPrice"
+        label="Precio de Alquiler"
+        type="slider"
+        filters={filters}
+        setFilters={setFilters}
+        scope="property"
+        options={{
+          min: 0,
+          max: 500000,
+          step: 50,
+        }}
+      />
+      <ShowFilter
+        name="Expenses"
+        label="Expensas"
+        type="slider"
+        filters={filters}
+        setFilters={setFilters}
+        scope="property"
+        options={{
+          min: 0,
+          max: 500000,
+          step: 50,
+        }}
       />
     </Grid>
   )
