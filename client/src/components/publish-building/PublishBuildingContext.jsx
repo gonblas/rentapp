@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
 
 const PublishBuildingContext = createContext(undefined)
 
@@ -150,6 +150,7 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const submitForm = () => {
+    // eslint-disable-next-line no-unused-vars
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
 
     fetch("http://localhost:8000/building/", {
