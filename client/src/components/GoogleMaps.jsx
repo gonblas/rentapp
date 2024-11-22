@@ -84,7 +84,7 @@ export default function GoogleMaps({ handleOnChange, value }) {
               ...results.filter((option) =>
                 option.description.includes("Buenos Aires"),
               ),
-            ];
+            ]
           }
 
           setOptions(newOptions)
@@ -113,12 +113,9 @@ export default function GoogleMaps({ handleOnChange, value }) {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
         console.log(newValue.description)
-        handleOnChange(
-          {
-            target: { name: "address", value: newValue.description },
-          },
-          0,
-        )
+        handleOnChange({
+          target: { name: "address", value: newValue.description },
+        })
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
