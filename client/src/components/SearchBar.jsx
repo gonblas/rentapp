@@ -134,7 +134,7 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      <FormControl sx={{ pt: "30px", width: "100%" }}>
+      <FormControl sx={{ width: "83%", height: "48px" }}>
         <Autocomplete
           disablePortal
           autoComplete
@@ -147,9 +147,34 @@ function SearchBar() {
               label: neighborhood.name,
             })),
           ]}
-          sx={{ width: "auto" }}
+          sx={{ width: "100%", height: "48px" }}
           renderInput={(params) => (
-            <TextField {...params} label="Ingresá un Barrio" />
+            <TextField
+              {...params}
+              label="Ingresá un Barrio"
+              fullWidth
+              sx={{
+                height: "48px",
+                ".MuiInputBase-root": {
+                  height: "48px",
+                  color: "black", // Ensures the input text is visible
+                },
+                ".MuiInputLabel-root": {
+                  color: "black", // Ensures the label text is visible
+                },
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "black", // Optional: Sets the border color
+                },
+                "& .MuiInputBase-input": {
+                  padding: "10px", // Adjusts padding for better alignment
+                },
+                "& .MuiInputLabel-shrink": {
+                  transform: "translate(0, -17px) scale(0.75)", // Moves label further up and scales it properly
+                  // backgroundColor: "white", // Optional: Adds a background to prevent overlap with border
+                  padding: "0 4px", // Optional: Adds spacing to the label
+                },
+              }}
+            />
           )}
           onChange={(event, newValue) => {
             if (newValue) {
@@ -175,15 +200,30 @@ function SearchBar() {
         />
       </FormControl>
 
+      {/* Filter List */}
       <FilterList
         filters={filters}
         setFilters={setFilters}
-        style={{
+        sx={{
           flexShrink: 0,
+          height: "48px", // Slightly taller height
+          display: "flex",
+          alignItems: "center",
         }}
       />
 
-      <Button type="submit" variant="contained" sx={{ width: "10px" }}>
+      {/* Submit Button */}
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          height: "48px", // Slightly taller button height
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0 16px", // Balanced padding for the taller look
+        }}
+      >
         <SearchIcon />
       </Button>
     </Container>
