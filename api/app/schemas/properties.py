@@ -55,7 +55,7 @@ class ContactInfo(BaseModel):
     has_whatsapp_number: bool
 
 class PublisherInfo(BaseModel):
-    publisher_id: int
+    id: int
     name : str
     is_real_estate: bool
     avatar : str
