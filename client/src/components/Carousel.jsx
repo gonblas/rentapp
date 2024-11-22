@@ -21,7 +21,14 @@ function Carousel({ data }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: "100%!important",
+        width: "100%!important",
+        overflow: "hidden",
         p: "0!important",
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
       }}
     >
       <ArrowBackIosNewIcon
@@ -47,9 +54,9 @@ function Carousel({ data }) {
             src={item}
             key={idx}
             style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
+              minWidth: "100%!important",
+              minHeight: "100%!important",
+              objectFit: "cover",
             }}
           />
         ) : (

@@ -7,7 +7,7 @@ const PublishPropertyContext = createContext(undefined)
 export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     address: "",
-    building_id: 1,
+    building_id: 0,
     description: "",
     rental_value: null,
     expenses_value: null,
@@ -51,25 +51,58 @@ export const PublishPropertyProvider = ({ children }) => {
       }))
       isValid = false
     } else {
-      // Validación para `building_id`
-      if (building_id === 0) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          building_id: {
-            hasError: true,
-            message: "El edificio seleccionado no es válido",
-          },
-        }))
-        isValid = false
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          building_id: {
-            hasError: false,
-            message: "",
-          },
-        }))
-      }
+      const URLdata = new URLSearchParams()
+      URLdata.append("address", "Calle 10 N° 300")
+      console.log(URLdata.toString())
+
+      fetch(`http://localhost:8000/building/search/` + URLdata, {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              building_id: {
+                hasError: false,
+                message: "",
+              },
+            }))
+          } else {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              building_id: {
+                hasError: true,
+                message: "La dirección ya se encuentra registrada.",
+              },
+            }))
+            isValid = false
+          }
+        })
+        .catch((error) => {
+          console.error("Error al realizar la solicitud:", error)
+          isValid = false
+        })
+    }
+
+    // Validación para `building_id`
+    if (building_id === 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        building_id: {
+          hasError: true,
+          message: "El edificio seleccionado no es válido",
+        },
+      }))
+      isValid = false
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        building_id: {
+          hasError: false,
+          message: "",
+        },
+      }))
     }
 
     console.log(isValid)
