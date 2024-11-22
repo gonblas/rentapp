@@ -52,18 +52,20 @@ export const PublishPropertyProvider = ({ children }) => {
       isValid = false
     } else {
       const URLdata = new URLSearchParams()
-      URLdata.append("address", address)
+      URLdata.append("address", "Calle 1 N° 100")
 
       try {
         const response = await fetch(
-          `http://localhost:8000/building/search/` + URLdata,
+          `http://localhost:8000/building/search/?${URLdata.toString()}`,
           {
             method: "GET",
             credentials: "include",
           },
         )
-        console.log("ESTOY VERIFICANDO EL EDIFICIO 2")
-        if (response.status === 200) {
+
+        if (response.ok) {
+          const data = await response.json()
+          console.log(data)
           setErrors((prevErrors) => ({
             ...prevErrors,
             building_id: {
@@ -71,34 +73,18 @@ export const PublishPropertyProvider = ({ children }) => {
               message: "",
             },
           }))
-          handleOnChange({
-            target: {
-              name: "building_id",
-              value: 1,
-            },
-          })
         } else {
-          if (response.status === 404) {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              building_id: {
-                hasError: true,
-                message: "El edificio seleccionado no se encuentra registrado.",
-              },
-            }))
-          }
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            building_id: {
+              hasError: true,
+              message: "El edificio no se encuentra registrado.",
+            },
+          }))
           isValid = false
-          console.log("ESTOY VERIFICANDO EL EDIFICIO 3")
         }
       } catch (error) {
-        console.error("Error al realizar la solicitud:", error)
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          building_id: {
-            hasError: true,
-            message: "El edificio seleccionado no se encuentra registrado.",
-          },
-        }))
+        console.error("Error:", error)
         isValid = false
       }
     }

@@ -52,7 +52,6 @@ export default function HorizontalLinearStepper({
 
   const handleNext = async () => {
     let isValid = await nextStepFunction[activeStep]()
-    console.log("HorizontalLinearStepper", isValid)
     if (isValid) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
