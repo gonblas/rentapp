@@ -97,6 +97,16 @@ export default function GoogleMaps({ handleOnChange, value }) {
     }
   }, [value, inputValue, fetch])
 
+  const handleInputChange = (event, newInputValue) => {
+    // If the input is cleared, set the value to null
+    if (newInputValue === "") {
+      handleOnChange({
+        target: { name: "address", value: null },
+      })
+    }
+    setInputValue(newInputValue)
+  }
+
   return (
     <Autocomplete
       sx={{ width: "auto" }}
@@ -111,15 +121,20 @@ export default function GoogleMaps({ handleOnChange, value }) {
       value={value}
       noOptionsText="Sin resultados"
       onChange={(event, newValue) => {
-        setOptions(newValue ? [newValue, ...options] : options)
-        console.log(newValue.description)
-        handleOnChange({
-          target: { name: "address", value: newValue.description },
-        })
+        // If the user selects a new value, handle it
+        if (newValue) {
+          setOptions([newValue, ...options])
+          handleOnChange({
+            target: { name: "address", value: newValue.description },
+          })
+        } else {
+          // If newValue is null or undefined, set the value to null
+          handleOnChange({
+            target: { name: "address", value: null },
+          })
+        }
       }}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue)
-      }}
+      onInputChange={handleInputChange}
       renderInput={(params) => <TextField {...params} fullWidth />}
       renderOption={(props, option) => {
         const { key, ...optionProps } = props

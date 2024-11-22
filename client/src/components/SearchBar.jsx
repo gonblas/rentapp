@@ -9,6 +9,7 @@ import SearchContext from "./SearchContext"
 import axios from "axios"
 import Autocomplete from "@mui/material/Autocomplete"
 import FormControl from "@mui/material/FormControl"
+import GoogleMaps from "./GoogleMaps"
 
 function SearchBar() {
   const navigate = useNavigate()
@@ -60,19 +61,19 @@ function SearchBar() {
       URLdata.append("balconies", filters.property.balconies)
     }
     if (filters.property.hasBackyard) {
-      // Send only if true
       URLdata.append("backyard", true)
     }
     if (filters.property.hasGarage) {
-      // Send only if true
       URLdata.append("garage", true)
     }
     if (filters.property.petfriendly) {
-      // Send only if true
       URLdata.append("pet_friendly", true)
     }
     if (filters.property.location) {
       URLdata.append("location", filters.property.location)
+    }
+    if (filters.building.address) {
+      URLdata.append("address", filters.building.address)
     }
     if (filters.building.floors !== null) {
       URLdata.append("floors", filters.building.floors)
@@ -103,7 +104,7 @@ function SearchBar() {
     if (filters.building.services.includes("Lavadero")) {
       URLdata.append("laundry", true)
     }
-    // http://localhost:8000/property/?neighborhood_id=2&backyard=true
+
     console.log("http://localhost:8000/building/?" + URLdata)
     fetch("http://localhost:8000/building/?" + URLdata, {
       method: "GET",
@@ -118,6 +119,8 @@ function SearchBar() {
         console.error("Error:", error)
       })
   }
+
+  console.log(filters)
 
   return (
     <Container
@@ -134,7 +137,22 @@ function SearchBar() {
         gap: "10px",
       }}
     >
-      <FormControl sx={{ width: "83%", height: "48px" }}>
+      <Container sx={{ width: "41.5%", height: "48px" }}>
+        <GoogleMaps
+          handleOnChange={(e) => {
+            setFilters((prev) => ({
+              ...prev,
+              building: {
+                ...prev.building,
+                address: e.target.value,
+              },
+            }))
+          }}
+          value={filters.building.address}
+        />
+      </Container>
+
+      <FormControl sx={{ width: "41.5%", height: "44px" }}>
         <Autocomplete
           disablePortal
           autoComplete
@@ -157,21 +175,20 @@ function SearchBar() {
                 height: "48px",
                 ".MuiInputBase-root": {
                   height: "48px",
-                  color: "black", // Ensures the input text is visible
+                  color: "black",
                 },
                 ".MuiInputLabel-root": {
-                  color: "black", // Ensures the label text is visible
+                  color: "black",
                 },
                 ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "black", // Optional: Sets the border color
+                  borderColor: "black",
                 },
                 "& .MuiInputBase-input": {
-                  padding: "10px", // Adjusts padding for better alignment
+                  padding: "10px",
                 },
                 "& .MuiInputLabel-shrink": {
-                  transform: "translate(0, -17px) scale(0.75)", // Moves label further up and scales it properly
-                  // backgroundColor: "white", // Optional: Adds a background to prevent overlap with border
-                  padding: "0 4px", // Optional: Adds spacing to the label
+                  transform: "translate(0, -17px) scale(0.75)",
+                  padding: "0 4px",
                 },
               }}
             />
@@ -191,7 +208,7 @@ function SearchBar() {
                 ...prev,
                 property: {
                   ...prev.property,
-                  neighborhood_id: null, // Reset to null when "Select a neighborhood" is chosen
+                  neighborhood_id: null,
                   neighborhood_name: null,
                 },
               }))
@@ -200,28 +217,26 @@ function SearchBar() {
         />
       </FormControl>
 
-      {/* Filter List */}
       <FilterList
         filters={filters}
         setFilters={setFilters}
         sx={{
           flexShrink: 0,
-          height: "48px", // Slightly taller height
+          height: "48px",
           display: "flex",
           alignItems: "center",
         }}
       />
 
-      {/* Submit Button */}
       <Button
         type="submit"
         variant="contained"
         sx={{
-          height: "48px", // Slightly taller button height
+          height: "48px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "0 16px", // Balanced padding for the taller look
+          padding: "0 16px",
         }}
       >
         <SearchIcon />

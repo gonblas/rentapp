@@ -279,7 +279,7 @@ function PropertyCard({ property, linkName }) {
               pt: "12px",
             }}
           >
-            {property.adress}
+            {property.address}
           </Typography>
         </Container>
 
