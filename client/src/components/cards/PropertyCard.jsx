@@ -190,7 +190,7 @@ function PropertyCard({ property, linkName }) {
         image=""
         sx={{
           height: "100%",
-          width: "35%",
+          width: "30%!important",
           pr: "15px!important",
         }}
       >
