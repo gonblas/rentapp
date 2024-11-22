@@ -151,20 +151,6 @@ export const PublishBuildingProvider = ({ children }) => {
 
   const submitForm = () => {
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
-    console.log(filteredData)
-
-    const dataExample = {
-      address: "strinadsdsasdadsg",
-      neighborhood_id: 10,
-      floors: "0",
-      apartments_per_floor: "0",
-      elevator: true,
-      pool: true,
-      gym: true,
-      terrace: true,
-      bike_rack: true,
-      laundry: true,
-    }
 
     fetch("http://localhost:8000/building/", {
       method: "POST",
@@ -172,9 +158,10 @@ export const PublishBuildingProvider = ({ children }) => {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(dataExample),
+      body: JSON.stringify(filteredData),
     }).then((response) => {
       if (response.status === 201) {
+        console.log("Formulario enviado correctamente")
         navigate("/")
       } else {
         console.log("Error al enviar el formulario")
