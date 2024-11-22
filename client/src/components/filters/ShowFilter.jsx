@@ -89,8 +89,16 @@ function ShowFilter({
             name={name}
             type="number"
             value={filters[scope][name] || ""}
-            onChange={handleOnChange}
-            // slotProps={htmlInput:{min="0"}}
+            onChange={(event) => {
+              const newValue =
+                event.target.value === "" ? null : event.target.value
+              handleOnChange({
+                target: {
+                  name,
+                  value: newValue,
+                },
+              })
+            }}
             slotProps={{ htmlInput: { min: "0" } }}
           />
         </FormControl>
