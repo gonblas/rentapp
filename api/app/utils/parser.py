@@ -92,6 +92,7 @@ def parse_building_response(data:dict):
 
     return {
         "id": building.id,
+        "approved": building.approved,
         "address": building.address,
         "neighborhood_id": building.neighborhood_id,
         "neighborhood_name": neighborhood_name,

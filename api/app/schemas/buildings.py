@@ -3,6 +3,7 @@ from .properties import PaginationInfo
 
 class BuildingResponse(BaseModel):
     id: int
+    approved: bool
     address: str
     neighborhood_id: int
     neighborhood_name: str
