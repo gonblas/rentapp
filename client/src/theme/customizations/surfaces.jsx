@@ -45,11 +45,6 @@ export const surfacesCustomizations = {
       root: { mb: 20, border: "none" },
     },
   },
-  MuiPaper: {
-    defaultProps: {
-      elevation: 0,
-    },
-  },
   MuiCard: {
     styleOverrides: {
       root: ({ theme }) => {
