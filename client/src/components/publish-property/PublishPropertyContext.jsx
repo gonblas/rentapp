@@ -18,7 +18,6 @@ export const PublishPropertyProvider = ({ children }) => {
       laundry: true,
     },
     address: "",
-    building_id: 0,
     description: "",
     rental_value: null,
     expenses_value: null,
@@ -37,7 +36,6 @@ export const PublishPropertyProvider = ({ children }) => {
       address: { hasError: false, message: "" },
       id: { hasError: false, message: "" },
     },
-    building_id: { hasError: false, message: "" },
     description: { hasError: false, message: "" },
     rental_value: { hasError: false, message: "" },
     expenses_value: { hasError: false, message: "" },
@@ -59,9 +57,12 @@ export const PublishPropertyProvider = ({ children }) => {
     if (!address) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        building_id: {
-          hasError: true,
-          message: "Selecciona un edificio",
+        building: {
+          ...prevErrors.building,
+          id: {
+            hasError: true,
+            message: "Selecciona un edificio",
+          },
         },
       }))
       isValid = false
@@ -84,17 +85,23 @@ export const PublishPropertyProvider = ({ children }) => {
           setBuilding(data)
           setErrors((prevErrors) => ({
             ...prevErrors,
-            building_id: {
-              hasError: false,
-              message: "",
+            building: {
+              ...prevErrors.building,
+              id: {
+                hasError: false,
+                message: "",
+              },
             },
           }))
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            building_id: {
-              hasError: true,
-              message: "El edificio no se encuentra registrado.",
+            building: {
+              ...prevErrors.building,
+              id: {
+                hasError: true,
+                message: "El edificio no se encuentra registrado.",
+              },
             },
           }))
           isValid = false
