@@ -15,8 +15,8 @@ const sitemap_items = [
     path: "/publish-property",
   },
   {
-    name: "Publicidad",
-    path: "#",
+    name: "Publicar un edificio",
+    path: "/publish-building",
   },
   {
     name: "Ayuda",

@@ -137,6 +137,11 @@ export default function GoogleMaps({ handleOnChange, value }) {
       onInputChange={handleInputChange}
       renderInput={(params) => <TextField {...params} fullWidth />}
       renderOption={(props, option) => {
+        // Check if the option is valid before accessing its properties
+        if (!option || !option.structured_formatting) {
+          return null
+        }
+
         const { key, ...optionProps } = props
         const matches =
           option.structured_formatting.main_text_matched_substrings || []
