@@ -20,7 +20,7 @@ import ProtectedRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
 import AdminPropertyView from "./pages/AdminPropertyView"
 import SearchRoutes from "./utils/SearchRoutes"
-import { AdminProvider } from "./components/AdminContext"
+import AdminRoutes from "./utils/AdminRoutes"
 
 const App = () => {
   const { logued, isAdmin, loading } = useAuth()
@@ -30,65 +30,98 @@ const App = () => {
       <CssBaseline />
       <AppTheme>
         <NavBar />
-        <AdminProvider>
-          <Routes>
-            <Route element={<SearchRoutes />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/search" element={<Search />} />
-              <Route
-                path="/property-full-view/:propertyId"
-                element={<PropertyFullView />}
-              />
-              <Route
-                path="/building-full-view/:buildingId"
-                element={<BuildingFullView />}
-              />
-            </Route>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <SearchRoutes>
+                <Home />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <SearchRoutes>
+                <Search />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/property-full-view/:propertyId"
+            element={
+              <SearchRoutes>
+                <PropertyFullView />
+              </SearchRoutes>
+            }
+          />
+          <Route
+            path="/building-full-view/:buildingId"
+            element={
+              <SearchRoutes>
+                <BuildingFullView />
+              </SearchRoutes>
+            }
+          />
 
-            {/* Protected Routes */}
+          {/* Protected Routes */}
+          <Route
+            element={
+              <ProtectedRoutes
+                redirectTo="/sign-in"
+                condition={logued}
+                loading={loading}
+              />
+            }
+          >
+            <Route path="/publish-property" element={<PublishProperty />} />
+            <Route path="/publish-building" element={<PublishBuilding />} />
+          </Route>
+
+          {/* Restricted Routes for unauthenticated users */}
+          <Route
+            element={
+              <ProtectedRoutes
+                redirectTo="/"
+                condition={!logued}
+                loading={loading}
+              />
+            }
+          >
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Route>
+
+          {/* Admin Routes */}
+          <Route
+            element={<ProtectedRoutes redirectTo="/" condition={isAdmin} />}
+          >
             <Route
+              path="/admin"
               element={
-                <ProtectedRoutes
-                  redirectTo="/sign-in"
-                  condition={logued}
-                  loading={loading}
-                />
+                <AdminRoutes>
+                  <Admin />
+                </AdminRoutes>
               }
-            >
-              <Route path="/publish-property" element={<PublishProperty />} />
-              <Route path="/publish-building" element={<PublishBuilding />} />
-            </Route>
-
-            {/* Restricted Routes for unauthenticated users */}
+            />
             <Route
+              path="/admin-property-view/:propertyId"
               element={
-                <ProtectedRoutes
-                  redirectTo="/"
-                  condition={!logued}
-                  loading={loading}
-                />
+                <AdminRoutes>
+                  <AdminPropertyView />
+                </AdminRoutes>
               }
-            >
-              <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/sign-up" element={<SignUp />} />
-            </Route>
-
-            {/* Admin Routes */}
+            />
             <Route
-              element={<ProtectedRoutes redirectTo="/" condition={isAdmin} />}
-            >
-              <Route path="/admin" element={<Admin />} />
-              <Route
-                path="/admin-property-view/:propertyId"
-                element={<AdminPropertyView />}
-              />
-              <Route
-                path="/admin-building-view/:buildingId"
-                element={<AdminBuildingView />}
-              />
-            </Route>
-          </Routes>
-        </AdminProvider>
+              path="/admin-building-view/:buildingId"
+              element={
+                <AdminRoutes>
+                  <AdminBuildingView />
+                </AdminRoutes>
+              }
+            />
+          </Route>
+        </Routes>
         <Footer />
       </AppTheme>
     </Fragment>
