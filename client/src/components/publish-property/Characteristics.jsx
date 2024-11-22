@@ -1,15 +1,19 @@
 import { Typography } from "@mui/material"
 import FormHeader from "../FormHeader"
-import { FormControl, FormLabel, TextField } from "@mui/material"
+import {
+  FormControl,
+  FormLabel,
+  TextField,
+  OutlinedInput,
+  FormHelperText,
+  InputAdornment,
+  Checkbox,
+  FormControlLabel,
+  Container,
+  Autocomplete,
+} from "@mui/material"
 import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
-import Container from "@mui/material/Container"
-import InputAdornment from "@mui/material/InputAdornment"
-import OutlinedInput from "@mui/material/OutlinedInput"
-import FormHelperText from "@mui/material/FormHelperText"
-import Autocomplete from "@mui/material/Autocomplete"
 
 function Subtitle({ children }) {
   return (
@@ -33,6 +37,18 @@ function Characteristics() {
 
   const positions = ["Frente", "Contrafrente", "Interno", "Lateral"]
 
+  const handleNumberChange = (event) => {
+    const { name, value } = event.target
+    const newValue = value === "" || Number(value) < 1 ? null : Number(value)
+
+    handleOnChange({
+      target: {
+        name,
+        value: newValue,
+      },
+    })
+  }
+
   return (
     <Container
       sx={{
@@ -54,7 +70,7 @@ function Characteristics() {
           name="description"
           placeholder="Escribe tu descripción aquí"
           value={formData.description}
-          onChange={(e) => handleOnChange(e)}
+          onChange={handleOnChange}
           error={errors.description.hasError}
           helperText={errors.description.message}
           variant="outlined"
@@ -72,15 +88,13 @@ function Characteristics() {
           id="rental_value"
           name="rental_value"
           placeholder="Ej: 10000"
-          value={formData.rental_value}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.rental_value.hasError}
-          helperText={errors.rental_value.message}
+          value={formData.rental_value || ""}
+          onChange={handleNumberChange}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
           type="number"
           fullWidth
         />
-        <FormHelperText>
+        <FormHelperText sx={{ color: "error.main" }}>
           {errors.rental_value.hasError && errors.rental_value.message}
         </FormHelperText>
       </FormControl>
@@ -91,33 +105,33 @@ function Characteristics() {
           id="expenses_value"
           name="expenses_value"
           placeholder="Ej: 5000"
-          value={formData.expenses_value}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.expenses_value.hasError}
-          helperText={errors.expenses_value.message}
+          value={formData.expenses_value || ""}
+          onChange={handleNumberChange}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
+          type="number"
           fullWidth
         />
-        <FormHelperText>
+        <FormHelperText sx={{ color: "error.main" }}>
           {errors.expenses_value.hasError && errors.expenses_value.message}
         </FormHelperText>
       </FormControl>
 
-      <Subtitle>Caracteristicas importantes</Subtitle>
+      <Subtitle>Características importantes</Subtitle>
       <FormControl>
         <FormLabel htmlFor="rooms">Habitaciones</FormLabel>
         <TextField
           id="rooms"
           name="rooms"
           placeholder="Ej: 3"
-          value={formData.rooms}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.rooms.hasError}
-          helperText={errors.rooms.message}
+          value={formData.rooms || ""}
+          onChange={handleNumberChange}
           type="number"
           variant="outlined"
           fullWidth
         />
+        <FormHelperText sx={{ color: "error.main" }}>
+          {errors.rooms.hasError && errors.rooms.message}
+        </FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel htmlFor="square_meters">Superficie</FormLabel>
@@ -125,14 +139,15 @@ function Characteristics() {
           id="square_meters"
           name="square_meters"
           placeholder="Ej: 100"
-          value={formData.square_meters}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.square_meters.hasError}
-          helperText={errors.square_meters.message}
+          value={formData.square_meters || ""}
+          onChange={handleNumberChange}
           type="number"
           variant="outlined"
           fullWidth
         />
+        <FormHelperText sx={{ color: "error.main" }}>
+          {errors.square_meters.hasError && errors.square_meters.message}
+        </FormHelperText>
       </FormControl>
 
       <FormControl>
@@ -146,34 +161,32 @@ function Characteristics() {
           sx={{ height: "40px!important" }}
           renderInput={(params) => <TextField {...params} />}
           onChange={(event, newValue) => {
-            handleOnChange(
-              {
-                target: { name: "location", value: newValue },
-              },
-              0,
-            )
+            handleOnChange({
+              target: { name: "location", value: newValue },
+            })
           }}
         />
-        <FormHelperText sx={{ pt: 2 }}>
+        <FormHelperText sx={{ pt: 2, color: "error.main" }}>
           {errors.location.hasError && errors.location.message}
         </FormHelperText>
       </FormControl>
 
-      <Subtitle>Caracteristicas extra</Subtitle>
+      <Subtitle>Características extra</Subtitle>
       <FormControl>
         <FormLabel htmlFor="balconies">Balcones</FormLabel>
         <TextField
           id="balconies"
           name="balconies"
           placeholder="Ej: 1"
-          value={formData.balconies}
-          onChange={(e) => handleOnChange(e)}
-          error={errors.balconies.hasError}
-          helperText={errors.balconies.message}
+          value={formData.balconies || ""}
+          onChange={handleNumberChange}
           type="number"
           variant="outlined"
           fullWidth
         />
+        <FormHelperText sx={{ color: "error.main" }}>
+          {errors.balconies.hasError && errors.balconies.message}
+        </FormHelperText>
       </FormControl>
       <Container
         sx={{
@@ -190,7 +203,7 @@ function Characteristics() {
           control={
             <Checkbox
               checked={formData.backyard}
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               name="backyard"
             />
           }
@@ -201,7 +214,7 @@ function Characteristics() {
           control={
             <Checkbox
               checked={formData.garage}
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               name="garage"
             />
           }
@@ -212,7 +225,7 @@ function Characteristics() {
           control={
             <Checkbox
               checked={formData.pet_friendly}
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               name="pet_friendly"
             />
           }

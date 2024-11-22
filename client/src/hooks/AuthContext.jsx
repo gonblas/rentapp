@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  console.log(userData)
 
   function handleSignup(data, setFieldError) {
     const formData = new FormData()

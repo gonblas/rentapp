@@ -19,6 +19,23 @@ export const PublishPropertyProvider = ({ children }) => {
     images: [],
   })
 
+  const [building, setBuilding] = useState({
+    id: null,
+    approved: false,
+    address: "",
+    neighborhood_id: null,
+    neighborhood_name: "",
+    floors: null,
+    apartments_per_floor: null,
+    elevator: false,
+    pool: false,
+    gym: false,
+    terrace: false,
+    bike_rack: false,
+    laundry: false,
+  })
+  console.log("building", building)
+
   const [errors, setErrors] = useState({
     building_id: { hasError: false, message: "" },
     description: { hasError: false, message: "" },
@@ -50,7 +67,7 @@ export const PublishPropertyProvider = ({ children }) => {
       isValid = false
     } else {
       const URLdata = new URLSearchParams()
-      URLdata.append("address", "Calle 1 N° 100")
+      URLdata.append("address", address)
 
       try {
         const response = await fetch(
@@ -63,7 +80,8 @@ export const PublishPropertyProvider = ({ children }) => {
 
         if (response.ok) {
           const data = await response.json()
-          console.log(data)
+          console.log("Success: ", data)
+          setBuilding(data)
           setErrors((prevErrors) => ({
             ...prevErrors,
             building_id: {
@@ -87,8 +105,6 @@ export const PublishPropertyProvider = ({ children }) => {
       }
     }
 
-    console.log(isValid)
-    console.log(formData)
     return isValid
   }
 
@@ -196,9 +212,6 @@ export const PublishPropertyProvider = ({ children }) => {
         },
       }))
     }
-
-    console.log(formData)
-    console.log(isValid)
     return isValid
   }
 
@@ -226,7 +239,6 @@ export const PublishPropertyProvider = ({ children }) => {
       }))
     }
 
-    console.log(formData)
     return isValid
   }
 
@@ -264,6 +276,8 @@ export const PublishPropertyProvider = ({ children }) => {
       value={{
         formData,
         setFormData,
+        building,
+        setBuilding,
         errors,
         setErrors,
         nextStepFunction,
