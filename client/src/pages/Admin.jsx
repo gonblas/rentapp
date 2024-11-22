@@ -1,7 +1,6 @@
 import React from "react"
 import PendingApprovals from "../components/PendingApprovals"
 import Container from "@mui/material/Container"
-import { AdminProvider } from "../components/AdminContext"
 
 function Admin() {
   return (

@@ -7,28 +7,7 @@ const AdminContext = createContext()
 export const AdminProvider = ({ children }) => {
   const [showList, setShowList] = useState("apartment") // Default to 'apartment'
 
-  const [filters, setFilters] = React.useState({
-    property: {
-      neighborhood_id: null,
-      neighborhood_name: null,
-      minRentPrice: null,
-      maxRentPrice: null,
-      minExpenses: null,
-      maxExpenses: null,
-      rooms: null,
-      surface: null,
-      balconies: null,
-      hasBackyard: null,
-      hasGarage: null,
-      petfriendly: null,
-      location: null,
-    },
-    building: {
-      services: [],
-      floors: null, // Set to null
-      apartmentsPerFloor: null,
-    },
-  })
+  const [filters, setFilters] = React.useState(null)
 
   return (
     <AdminContext.Provider
