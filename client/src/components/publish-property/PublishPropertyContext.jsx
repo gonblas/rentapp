@@ -4,20 +4,8 @@ const PublishPropertyContext = createContext(undefined)
 
 export const PublishPropertyProvider = ({ children }) => {
   const [formData, setFormData] = useState({
-    building: {
-      address: "",
-      id: 0,
-      neighborhood_name: "",
-      floors: 0,
-      apartments_per_floor: 0,
-      elevator: true,
-      pool: true,
-      gym: true,
-      terrace: true,
-      bike_rack: true,
-      laundry: true,
-    },
     address: "",
+    building_id: 0,
     description: "",
     rental_value: null,
     expenses_value: null,
@@ -32,10 +20,7 @@ export const PublishPropertyProvider = ({ children }) => {
   })
 
   const [errors, setErrors] = useState({
-    building: {
-      address: { hasError: false, message: "" },
-      id: { hasError: false, message: "" },
-    },
+    building_id: { hasError: false, message: "" },
     description: { hasError: false, message: "" },
     rental_value: { hasError: false, message: "" },
     expenses_value: { hasError: false, message: "" },
@@ -49,7 +34,7 @@ export const PublishPropertyProvider = ({ children }) => {
     images: { hasError: false, message: "" },
   })
 
-  const validateStep1 = async (setErrors, setBuilding) => {
+  const validateStep1 = async (setErrors) => {
     const { address } = formData
     let isValid = true
 
@@ -57,18 +42,15 @@ export const PublishPropertyProvider = ({ children }) => {
     if (!address) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        building: {
-          ...prevErrors.building,
-          id: {
-            hasError: true,
-            message: "Selecciona un edificio",
-          },
+        building_id: {
+          hasError: true,
+          message: "Selecciona un edificio",
         },
       }))
       isValid = false
     } else {
       const URLdata = new URLSearchParams()
-      URLdata.append("address", address)
+      URLdata.append("address", "Calle 1 N° 100")
 
       try {
         const response = await fetch(
@@ -82,26 +64,19 @@ export const PublishPropertyProvider = ({ children }) => {
         if (response.ok) {
           const data = await response.json()
           console.log(data)
-          setBuilding(data)
           setErrors((prevErrors) => ({
             ...prevErrors,
-            building: {
-              ...prevErrors.building,
-              id: {
-                hasError: false,
-                message: "",
-              },
+            building_id: {
+              hasError: false,
+              message: "",
             },
           }))
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            building: {
-              ...prevErrors.building,
-              id: {
-                hasError: true,
-                message: "El edificio no se encuentra registrado.",
-              },
+            building_id: {
+              hasError: true,
+              message: "El edificio no se encuentra registrado.",
             },
           }))
           isValid = false
@@ -260,7 +235,7 @@ export const PublishPropertyProvider = ({ children }) => {
   }
 
   const nextStepFunction = [
-    () => validateStep1(setErrors, setBuilding),
+    () => validateStep1(setErrors),
     () => validateStep2(setErrors),
     () => validateStep3(setErrors),
     () => submitForm(),
@@ -281,15 +256,6 @@ export const PublishPropertyProvider = ({ children }) => {
     setFormData((prevData) => ({
       ...prevData,
       images: [...(prevData.images || []), ...files],
-    }))
-  }
-
-  const setBuilding = (newBuilding) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      building: {
-        ...newBuilding,
-      },
     }))
   }
 
