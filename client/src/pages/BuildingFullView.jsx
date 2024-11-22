@@ -4,10 +4,11 @@ import { Container, Typography } from "@mui/material"
 import BuildingHeader from "../components/BuildingHeader"
 import PropertyCard from "../components/cards/PropertyCard"
 import SearchContext from "../components/SearchContext"
+import AdminContext from "../components/AdminContext"
 
-function BuildingFullView() {
+function BuildingFullView({ isAdmin = false }) {
   const { buildingId } = useParams() // Get the building ID from the URL
-  const { filters } = useContext(SearchContext)
+  const { filters } = useContext(isAdmin ? AdminContext : SearchContext)
   const [properties, setProperties] = useState([])
   const [building, setBuilding] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -46,67 +47,65 @@ function BuildingFullView() {
         setLoading(false)
       }
     }
+    if (!isAdmin) {
+      const URLdata = new URLSearchParams()
 
-    const URLdata = new URLSearchParams()
+      // Conditionally add each parameter if the value is not empty, null, or undefined
+      if (filters.property.building_id) {
+        URLdata.append("building_id", filters.property.building_id)
+      }
+      if (filters.property.minRentPrice !== null) {
+        URLdata.append("min_rental_value", filters.property.minRentPrice)
+      }
+      if (filters.property.maxRentPrice !== null) {
+        URLdata.append("max_rental_value", filters.property.maxRentPrice)
+      }
+      if (filters.property.minExpenses !== null) {
+        URLdata.append("min_expenses_value", filters.property.minExpenses)
+      }
+      if (filters.property.maxExpenses !== null) {
+        URLdata.append("max_expenses_value", filters.property.maxExpenses)
+      }
+      if (filters.property.rooms !== null) {
+        URLdata.append("rooms", filters.property.rooms)
+      }
+      if (filters.property.balconies !== null) {
+        URLdata.append("balconies", filters.property.balconies)
+      }
+      if (filters.property.hasBackyard) {
+        // Send only if true
+        URLdata.append("backyard", true)
+      }
+      if (filters.property.hasGarage) {
+        // Send only if true
+        URLdata.append("garage", true)
+      }
+      if (filters.property.petfriendly) {
+        // Send only if true
+        URLdata.append("pet_friendly", true)
+      }
+      if (filters.property.location) {
+        URLdata.append("location", filters.property.location)
+      }
 
-    // Conditionally add each parameter if the value is not empty, null, or undefined
-    if (filters.property.building_id) {
-      URLdata.append("building_id", filters.property.building_id)
+      fetch(
+        `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
+        {
+          method: "GET",
+        },
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data)
+          setProperties(data.properties)
+        })
+        .catch((error) => {
+          console.error("Error:", error)
+        })
     }
-    if (filters.property.minRentPrice !== null) {
-      URLdata.append("min_rental_value", filters.property.minRentPrice)
-    }
-    if (filters.property.maxRentPrice !== null) {
-      URLdata.append("max_rental_value", filters.property.maxRentPrice)
-    }
-    if (filters.property.minExpenses !== null) {
-      URLdata.append("min_expenses_value", filters.property.minExpenses)
-    }
-    if (filters.property.maxExpenses !== null) {
-      URLdata.append("max_expenses_value", filters.property.maxExpenses)
-    }
-    if (filters.property.rooms !== null) {
-      URLdata.append("rooms", filters.property.rooms)
-    }
-    if (filters.property.balconies !== null) {
-      URLdata.append("balconies", filters.property.balconies)
-    }
-    if (filters.property.hasBackyard) {
-      // Send only if true
-      URLdata.append("backyard", true)
-    }
-    if (filters.property.hasGarage) {
-      // Send only if true
-      URLdata.append("garage", true)
-    }
-    if (filters.property.petfriendly) {
-      // Send only if true
-      URLdata.append("pet_friendly", true)
-    }
-    if (filters.property.location) {
-      URLdata.append("location", filters.property.location)
-    }
-
-    console.log(
-      `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
-    )
-    fetch(
-      `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
-      {
-        method: "GET",
-      },
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data)
-        setProperties(data.properties)
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-      })
 
     fetchBuilding()
-  }, [buildingId, filters]) // Add filters as a dependency to the useEffect
+  }, [buildingId, filters, isAdmin]) // Add filters as a dependency to the useEffect
 
   if (loading) {
     return <Typography>Cargando...</Typography>
@@ -123,7 +122,7 @@ function BuildingFullView() {
       </Typography>
     )
   }
-  console.log(properties)
+
   return (
     <Container
       sx={{
@@ -144,10 +143,10 @@ function BuildingFullView() {
             linkName="/property-full-view"
           />
         ))
+      ) : !isAdmin ? (
+        <Typography>No hay propiedades en este edificio</Typography>
       ) : (
-        <Typography>
-          No hay propiedades que correspondan a los filtros seleccionados
-        </Typography>
+        " "
       )}
     </Container>
   )

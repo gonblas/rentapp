@@ -62,7 +62,7 @@ function AdminPropertyView() {
         gap: 2,
       }}
     >
-      <BuildingFullView />
+      <BuildingFullView isAdmin={true} />
       <ValidationButtons
         object={building}
         endpoint="http://localhost:8000/admin/property"

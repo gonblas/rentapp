@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useContext } from "react"
 import ListContainer from "./ListContainer"
 import ToggleButton from "@mui/material/ToggleButton"
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
@@ -7,9 +7,11 @@ import PropertyCard from "./cards/PropertyCard"
 import BuildingCard from "./cards/BuildingCard"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
+import AdminContext from "./AdminContext"
 
 function PendingApprovals() {
-  const [showList, setShowList] = useState("apartment")
+  const { showList, setShowList } = useContext(AdminContext) // Get context values
+  // console.log(showList)
   const [data, setData] = useState([]) // Data to store fetched information
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
