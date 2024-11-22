@@ -127,13 +127,24 @@ def read_building(building_id: int, db : db_dependency, token : Annotated[str,Co
             status_code=status.HTTP_200_OK,
             summary="Returns a building info by address, if it is approved or the user is the publisher"
             )
-def search_building(db: db_dependency, address : Annotated[str, Query()], user : auth_dependency = None):
+def search_building(db: db_dependency, address : Annotated[str, Query()], token : Annotated[str,Cookie()] = None):
+
+    try:
+        user = get_current_user(db, token)
+    except:
+        user = None
 
     query = (
         db.query(Building, Neighborhood.name)
         .join(Neighborhood, Building.neighborhood_id == Neighborhood.id)
-        .filter(Building.address == address, (Building.publisher_id == user.id) | (Building.approved == True))
+        .filter(Building.address == address)
     )
+
+    #la propiedad tiene que ser aprobada O el usuario es el publisher
+    if user:
+        query = query.filter((Building.publisher_id == user.id) | (Building.approved == True))
+    else:
+        query = query.filter(Building.approved == True)
 
     building = query.first()
 
