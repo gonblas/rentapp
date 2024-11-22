@@ -13,9 +13,7 @@ function Admin() {
         alignItems: "center",
       }}
     >
-      <AdminProvider>
-        <PendingApprovals />
-      </AdminProvider>
+      <PendingApprovals />
     </Container>
   )
 }

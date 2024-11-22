@@ -6,11 +6,7 @@ const AdminContext = createContext()
 // Context provider
 export const AdminProvider = ({ children }) => {
   const [showList, setShowList] = useState("apartment") // Default to 'apartment'
-  console.log(showList)
 
-  const handleChange = (event, newShowList) => {
-    setShowList(newShowList)
-  }
   const [filters, setFilters] = React.useState({
     property: {
       neighborhood_id: null,
