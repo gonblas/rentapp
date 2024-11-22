@@ -183,8 +183,8 @@ export const PublishBuildingProvider = ({ children }) => {
   }
 
   const nextStepFunction = [
-    () => validateStep1(setErrors, formData[0]),
-    () => validateStep2(setErrors, formData[1]),
+    () => validateStep1(setErrors),
+    () => validateStep2(setErrors),
     () => submitForm(),
   ]
 

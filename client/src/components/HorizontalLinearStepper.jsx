@@ -44,14 +44,15 @@ export default function HorizontalLinearStepper({
   steps,
   property,
 }) {
-  const { setErrors, nextStepFunction } = useContext(
+  const { nextStepFunction } = useContext(
     property ? PublishPropertyContext : PublishBuildingContext,
   )
 
   const [activeStep, setActiveStep] = useState(0)
 
-  const handleNext = () => {
-    let isValid = nextStepFunction[activeStep](setErrors)
+  const handleNext = async () => {
+    let isValid = await nextStepFunction[activeStep]()
+    console.log("HorizontalLinearStepper", isValid)
     if (isValid) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }

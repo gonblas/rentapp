@@ -36,8 +36,8 @@ export const PublishPropertyProvider = ({ children }) => {
     images: { hasError: false, message: "" },
   })
 
-  const validateStep1 = (setErrors) => {
-    const { building_id, address } = formData
+  const validateStep1 = async (setErrors) => {
+    const { address } = formData
     let isValid = true
 
     // Validación para `address`
@@ -52,57 +52,55 @@ export const PublishPropertyProvider = ({ children }) => {
       isValid = false
     } else {
       const URLdata = new URLSearchParams()
-      URLdata.append("address", "Calle 10 N° 300")
-      console.log(URLdata.toString())
+      URLdata.append("address", address)
 
-      fetch(`http://localhost:8000/building/search/` + URLdata, {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              building_id: {
-                hasError: false,
-                message: "",
-              },
-            }))
-          } else {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/building/search/` + URLdata,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        )
+        console.log("ESTOY VERIFICANDO EL EDIFICIO 2")
+        if (response.status === 200) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            building_id: {
+              hasError: false,
+              message: "",
+            },
+          }))
+          handleOnChange({
+            target: {
+              name: "building_id",
+              value: 1,
+            },
+          })
+        } else {
+          if (response.status === 404) {
             setErrors((prevErrors) => ({
               ...prevErrors,
               building_id: {
                 hasError: true,
-                message: "La dirección ya se encuentra registrada.",
+                message: "El edificio seleccionado no se encuentra registrado.",
               },
             }))
-            isValid = false
           }
-        })
-        .catch((error) => {
-          console.error("Error al realizar la solicitud:", error)
           isValid = false
-        })
-    }
-
-    // Validación para `building_id`
-    if (building_id === 0) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        building_id: {
-          hasError: true,
-          message: "El edificio seleccionado no es válido",
-        },
-      }))
-      isValid = false
-    } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        building_id: {
-          hasError: false,
-          message: "",
-        },
-      }))
+          console.log("ESTOY VERIFICANDO EL EDIFICIO 3")
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error)
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          building_id: {
+            hasError: true,
+            message: "El edificio seleccionado no se encuentra registrado.",
+          },
+        }))
+        isValid = false
+      }
     }
 
     console.log(isValid)
@@ -216,6 +214,7 @@ export const PublishPropertyProvider = ({ children }) => {
     }
 
     console.log(formData)
+    console.log(isValid)
     return isValid
   }
 
