@@ -35,7 +35,16 @@ function Characteristics() {
     PublishPropertyContext,
   )
 
-  const positions = ["Frente", "Contrafrente", "Interno", "Lateral"]
+  const positions = [
+    { value: "front", label: "Frente" },
+    { value: "back", label: "Contrafrente" },
+    { value: "inside", label: "Interno" },
+    { value: "lateral", label: "Lateral" },
+  ]
+
+  const position = positions.find(
+    (position) => position.value === formData.location,
+  )
 
   const handleNumberChange = (event) => {
     const { name, value } = event.target
@@ -155,14 +164,14 @@ function Characteristics() {
         <Autocomplete
           disablePortal
           autoComplete
-          value={formData.location}
+          value={position}
           noOptionsText="Sin resultados"
           options={positions}
           sx={{ height: "40px!important" }}
           renderInput={(params) => <TextField {...params} />}
           onChange={(event, newValue) => {
             handleOnChange({
-              target: { name: "location", value: newValue },
+              target: { name: "location", value: newValue.value },
             })
           }}
         />
