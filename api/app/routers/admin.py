@@ -92,7 +92,19 @@ def approve_property(db : db_dependency, user : auth_dependency, property_id : i
     db.commit()
     db.refresh(property)
 
-    return {"detail": f"Property {property_id} approved"}
+    building = db.query(Building).filter(Building.id == property.building_id).first()
+
+    if not building.approved:
+        building.approved = True
+        db.commit()
+        db.refresh(building)
+        return {
+            "detail": f"Property {property_id} approved and building {building.id} approved"
+        }
+
+    return {
+        "detail": f"Property {property_id} approved"
+    }
 
 @router.delete(
             "/property/{property_id}/reject",
