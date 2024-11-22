@@ -7,7 +7,7 @@ from app.models import Property, User, Image, Building, Neighborhood
 from app.schemas.properties import PublicationResponse, SearchResponse, PropertyResponse, PropertiesResponse, PropertiesListResponse, CreatePropertyRequest
 from app.utils.parser import parse_publication_response, parse_properties_response
 from app.utils.auth import auth_dependency, get_current_user
-from app.utils.bucket import upload_property_images
+from app.utils.bucket import upload_property_images, delete_property_images
 
 router = APIRouter(
     prefix="/property",
@@ -138,7 +138,7 @@ async def create_property(
     db.commit()
     db.refresh(new_property)
 
-    urls = upload_property_images(request.images)
+    urls = upload_property_images(request.images, new_property.id)
 
     for url in urls:
         new_image = Image(
@@ -149,5 +149,35 @@ async def create_property(
     db.commit()
 
     return {
-        "status": "Property created",
+        "status": f"Property {new_property.id} created"
     }
+
+@router.delete(
+        "/{property_id}",
+        status_code=status.HTTP_200_OK,
+        summary="Delete a property publication",
+        )
+def delete_property(property_id: int, db: db_dependency, user: auth_dependency):
+    
+        property = db.query(Property).filter(Property.id == property_id).first()
+    
+        if not property:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Property not found")
+    
+        if property.publisher_id != user.id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+        images = db.query(Image).filter(Image.property_id == property_id).all()
+        #delete images from s3
+        delete_property_images([image.url for image in images], property_id)
+
+        for image in images:
+            db.delete(image)
+        db.commit()
+    
+        db.delete(property)
+        db.commit()
+    
+        return {
+            "status": f"Property {property_id} deleted"
+        }
