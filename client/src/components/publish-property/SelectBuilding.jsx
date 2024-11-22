@@ -19,10 +19,10 @@ function SelectBuilding() {
           <FormLabel>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
-            value={formData.address}
+            value={formData.building.address}
           />
           <FormHelperText sx={{ color: "error.main" }}>
-            {errors.building_id.hasError && errors.building_id.message}
+            {errors.building.id.hasError && errors.building.id.message}
           </FormHelperText>
         </FormControl>
       </FormControl>
