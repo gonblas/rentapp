@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       formData.append("avatar", data.avatar)
     }
 
-    fetch("http://localhost:8000/user/signup/", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/user/signup/", {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       password: data.password,
     })
 
-    fetch("http://localhost:8000/user/signin", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/user/signin", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   function handleLogout() {
-    fetch("http://localhost:8000/user/logout", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/user/logout", {
       method: "GET",
       credentials: "include",
     })
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   function handlePropertyDelete(propertyId) {
-    fetch("http://localhost:8000/property" + "/" + propertyId, {
+    fetch("https://cc210ef425fe.sn.mynetname.net/property" + "/" + propertyId, {
       method: "DELETE",
       credentials: "include",
     })
@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   useLayoutEffect(() => {
-    fetch("http://localhost:8000/user/me", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/user/me", {
       method: "GET",
       credentials: "include",
     })

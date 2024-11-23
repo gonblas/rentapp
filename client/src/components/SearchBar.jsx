@@ -20,7 +20,7 @@ function SearchBar() {
   const fetchNeighborhoodsList = useMemo(
     () => async () => {
       try {
-        const response = await axios.get("http://localhost:8000/neighborhood/")
+        const response = await axios.get("https://cc210ef425fe.sn.mynetname.net/neighborhood/")
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)
@@ -105,8 +105,8 @@ function SearchBar() {
       URLdata.append("laundry", true)
     }
 
-    console.log("http://localhost:8000/building/?" + URLdata)
-    fetch("http://localhost:8000/building/?" + URLdata, {
+    console.log("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata)
+    fetch("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())

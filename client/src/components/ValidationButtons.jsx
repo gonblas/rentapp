@@ -23,7 +23,7 @@ function ValidationButtons({ object, type }) {
       {/* Approve Button */}
       <Button
         onClick={() => {
-          fetch(`http://localhost:8000/admin/${type}/${object.id}/approve`, {
+          fetch(`https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/approve`, {
             method: "PUT",
             credentials: "include",
           })
@@ -63,7 +63,7 @@ function ValidationButtons({ object, type }) {
       {/* Reject Button */}
       <Button
         onClick={() => {
-          fetch(`http://localhost:8000/admin/${type}/${object.id}/reject`, {
+          fetch(`https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/reject`, {
             method: "DELETE",
             credentials: "include",
           })

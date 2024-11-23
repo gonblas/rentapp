@@ -19,7 +19,7 @@ function SelectLocation() {
   const fetchNeighborhoodsList = useMemo(
     () => async () => {
       try {
-        const response = await axios.get("http://localhost:8000/neighborhood/")
+        const response = await axios.get("https://cc210ef425fe.sn.mynetname.net/neighborhood/")
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)

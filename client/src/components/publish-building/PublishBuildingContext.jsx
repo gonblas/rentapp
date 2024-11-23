@@ -53,7 +53,7 @@ export const PublishBuildingProvider = ({ children }) => {
       const URLdata = new URLSearchParams()
       URLdata.append("address", address)
 
-      fetch("http://localhost:8000/building/search/?" + URLdata, {
+      fetch("https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata, {
         method: "GET",
         credentials: "include",
       })
@@ -166,7 +166,7 @@ export const PublishBuildingProvider = ({ children }) => {
     // eslint-disable-next-line no-unused-vars
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
 
-    fetch("http://localhost:8000/building/", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/building/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
