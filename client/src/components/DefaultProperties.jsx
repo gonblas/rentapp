@@ -4,6 +4,7 @@ import PropertyCard from "../components/cards/PropertyCard"
 import CenteredContainer from "../components/CenteredContainer"
 import ListContainer from "../components/ListContainer"
 import Pagination from "@mui/material/Pagination"
+import Container from "@mui/material/Container"
 
 function MyProperties() {
   const [properties, setProperties] = useState([]) // properties to store fetched information
@@ -83,16 +84,28 @@ function MyProperties() {
           : !loading &&
             !error && <Typography>No hay propiedades disponibles</Typography>}
         {paginationData.total_pages > 1 && (
-          <Pagination
-            count={paginationData.total_pages}
-            page={paginationData.current_page}
-            onChange={handleChange}
+          <Container
             sx={{
-              mx: "auto!important",
-              mt: 8,
-              mb: 12,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <Pagination
+              defaultPage={1}
+              count={paginationData.total_pages}
+              page={paginationData.current_page}
+              onChange={handleChange}
+              size="large"
+              sx={{
+                mx: "auto!important",
+                px: "auto!important",
+                color: "primary",
+                mt: 8,
+                mb: 12,
+              }}
+            />
+          </Container>
         )}
       </ListContainer>
     </CenteredContainer>
