@@ -19,7 +19,7 @@ function MyProperties() {
   const fetchData = useCallback((page) => {
     setLoading(true)
     setError(null)
-    fetch(`https://cc210ef425fe.sn.mynetname.net/property/list/?page=${page}`, {
+    fetch(`https://cc210ef425fe.sn.mynetname.net/property/list?page=${page}`, {
       method: "GET",
     })
       .then((response) => {
