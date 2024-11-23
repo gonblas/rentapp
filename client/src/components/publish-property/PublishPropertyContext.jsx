@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const PublishPropertyContext = createContext(undefined)
 
@@ -34,7 +35,48 @@ export const PublishPropertyProvider = ({ children }) => {
     bike_rack: false,
     laundry: false,
   })
-  console.log("building", building)
+  const [requestBody, setRequestBody] = useState({
+    id: null,
+    description: null,
+    features: {
+      rental_value: null,
+      expenses_value: null,
+      rooms: null,
+      square_meters: null,
+      location: null,
+      balconies: null,
+      backyard: null,
+      garage: null,
+      pet_friendly: null,
+    },
+    publisher: {
+      id: null,
+      name: null,
+      is_real_estate: null,
+      avatar: null,
+      contact: {
+        email: null,
+        phone_number: null,
+        has_phone_number: null,
+        whatsapp_number: null,
+        has_whatsapp_number: null,
+      },
+    },
+    building: {
+      id: null,
+      address: null,
+      neighborhood_name: null,
+      floors: null,
+      apartments_per_floor: null,
+      elevator: null,
+      pool: null,
+      gym: null,
+      terrace: null,
+      bike_rack: null,
+      laundry: null,
+    },
+    images: [],
+  })
 
   const [errors, setErrors] = useState({
     building_id: { hasError: false, message: "" },
@@ -242,8 +284,58 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
+  const navigate = useNavigate()
   const submitForm = () => {
-    console.log("Formulario enviado ashe cte")
+    // Create the URLSearchParams object with form data
+    const URLdata = new URLSearchParams({
+      description: formData.description,
+      rental_value: formData.rental_value,
+      expenses_value: formData.expenses_value,
+      rooms: formData.rooms,
+      square_meters: formData.square_meters,
+      balconies: formData.balconies,
+      backyard: formData.backyard ? "true" : "false", // Convert boolean to string
+      garage: formData.garage ? "true" : "false",
+      pet_friendly: formData.pet_friendly ? "true" : "false",
+      location: formData.location,
+      building_id: building.id,
+    })
+
+    // Append images as individual fields
+    formData.images.forEach((image, index) => {
+      URLdata.append(`images[${index}]`, image.url)
+    })
+
+    fetch("http://localhost:8000/property/", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: URLdata.toString(),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`,
+          )
+        }
+      })
+      .then((responseData) => {
+        console.log("Property successfully published:", responseData)
+
+        // Show alert for successful submission
+        alert("¡Propiedad enviada para verificación!")
+
+        // Navigate to the home page
+        navigate("/")
+      })
+      .catch((error) => {
+        console.error("Error al hacer la solicitud:", error)
+        alert(`Error al publicar la propiedad: ${error.message}`)
+      })
   }
 
   const nextStepFunction = [
@@ -278,6 +370,8 @@ export const PublishPropertyProvider = ({ children }) => {
         setFormData,
         building,
         setBuilding,
+        requestBody,
+        setRequestBody,
         errors,
         setErrors,
         nextStepFunction,

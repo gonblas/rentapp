@@ -5,8 +5,6 @@ import useAuth from "../../hooks/AuthContext"
 
 function ReviewProperty() {
   const { formData, building } = useContext(PublishPropertyContext)
-  console.log(formData)
-  console.log(building)
   const { userData } = useAuth()
 
   const property = {
