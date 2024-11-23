@@ -1,11 +1,12 @@
 import React, { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../hooks/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 
 const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
   const navigate = useNavigate()
+  const { userData } = useAuth()
 
   const [formData, setFormData] = useState({
     address: "",
@@ -35,8 +36,6 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const validateStep1 = (setErrors) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { userData } = useAuth()
     const { address, neighborhood_id } = formData
     let isValid = true
 
