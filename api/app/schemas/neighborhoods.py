@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from typing import List
 
-class NeighborhoodResponse(BaseModel):
+class GetNeighborhoodResponse(BaseModel):
     id : int
     name : str
 
-class NeighborhoodsResponse(BaseModel):
-    neighborhoods : list[NeighborhoodResponse]
+class GetNeighborhoodsResponse(BaseModel):
+    neighborhoods : list[GetNeighborhoodResponse]

@@ -5,7 +5,7 @@ from sqlalchemy import func
 from typing import Annotated
 from app.database import db_dependency
 from app.models import User, Property, Image, Building
-from app.schemas.users import UserResponse
+from app.schemas.users import GetUserResponse
 from app.utils.bucket import upload_avatar
 from app.schemas.properties import PropertyResponse, PropertiesResponse
 from app.routers.property import parse_properties_response
@@ -18,7 +18,7 @@ router = APIRouter(
 )
 
 
-@router.post("/signin", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.post("/signin", response_model=GetUserResponse, status_code=status.HTTP_200_OK)
 def login(email: Annotated[str,Form()],password: Annotated[str,Form()], db: db_dependency):
 
     usr = db.query(User).filter(User.email == email).first()
@@ -51,7 +51,7 @@ def check_user_exists(email:str, db: db_dependency):
     return db.query(User).filter(User.email == email).first()
 
 
-@router.post("/signup/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/signup/", response_model=GetUserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
                 db: db_dependency,
                 name: Annotated[str, Form()],
@@ -103,7 +103,7 @@ async def register(
 
 @router.get(
             "/me",
-            response_model=UserResponse,
+            response_model=GetUserResponse,
             status_code=status.HTTP_200_OK,
             summary="Get the user logged in"
             )

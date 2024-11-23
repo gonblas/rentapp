@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from app.database import db_dependency
 from app.models import Neighborhood
-from app.schemas.neighborhoods import NeighborhoodResponse, NeighborhoodsResponse
+from app.schemas.neighborhoods import GetNeighborhoodResponse, GetNeighborhoodsResponse
 from app.utils.parser import parse_neighborhood_response, parse_neighborhoods_response
 
 router = APIRouter(
@@ -11,7 +11,7 @@ router = APIRouter(
 
 @router.get(
             "/",
-            response_model=NeighborhoodsResponse,
+            response_model=GetNeighborhoodsResponse,
             status_code=status.HTTP_200_OK,
             summary="Get all neighborhoods",
             )
@@ -26,7 +26,7 @@ def read_neighborhoods(db : db_dependency):
 
 @router.get(
             "/{neighborhood_id}",
-            response_model=NeighborhoodResponse,
+            response_model=GetNeighborhoodResponse,
             status_code=status.HTTP_200_OK,
             summary="Get neighborhood by id",
             )
