@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../hooks/AuthContext"
 
 const PublishBuildingContext = createContext(undefined)
 
@@ -34,6 +35,8 @@ export const PublishBuildingProvider = ({ children }) => {
   })
 
   const validateStep1 = (setErrors) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { userData } = useAuth()
     const { address, neighborhood_id } = formData
     let isValid = true
 
@@ -54,26 +57,37 @@ export const PublishBuildingProvider = ({ children }) => {
       fetch("http://localhost:8000/building/search/?" + URLdata, {
         method: "GET",
         credentials: "include",
-      }).then((response) => {
-        if (response.status === 200) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            address: {
-              hasError: true,
-              message: "La dirección ya se encuentra registrada.",
-            },
-          }))
-          isValid = false
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            address: {
-              hasError: false,
-              message: "",
-            },
-          }))
-        }
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+          }
+          return response.json()
+        })
+        .then((data) => {
+          console.log(data)
+          if (
+            data.approved &&
+            (!data.approved || data.published_id === userData.id)
+          ) {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              address: {
+                hasError: true,
+                message: "Ya existe un edificio con esta dirección.",
+              },
+            }))
+            isValid = false
+          } else {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              address: {
+                hasError: false,
+                message: "",
+              },
+            }))
+          }
+        })
     }
 
     // Validación para `neighborhood_id`
