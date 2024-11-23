@@ -5,8 +5,54 @@ import Container from "@mui/material/Container"
 import PropertyHeader from "./PropertyHeader"
 import BuildingFeatures from "../BuildingFeatures"
 import PublisherInfo from "./PublisherInfo"
+import useAuth from "../../hooks/AuthContext"
+import Button from "@mui/material/Button"
+import DeleteIcon from "@mui/icons-material/Delete"
+
+const RejectButton = () => {
+  return (
+    <Button
+      onClick={() => {
+        // fetch(endpoint + "/" + object.id + "/" + "reject", {
+        //   method: "DELETE",
+        //   credentials: "include",
+        // })
+        //   .then((response) => {
+        //     if (!response.ok) {
+        //       throw new Error(
+        //         `HTTP Error: ${response.status} - ${response.statusText}`,
+        //       )
+        //     }
+        //     return response.json()
+        //   })
+        //   .then((data) => {
+        //     console.log(data) // Log the response data
+        //     navigate("/admin")
+        //   })
+        //   .catch((error) => {
+        //     console.error(error) // Log the error message
+        //   })
+      }}
+      startIcon={<DeleteIcon />} // Add delete icon to button
+      sx={{
+        backgroundColor: "error.dark",
+        color: "white",
+        "&:hover": {
+          backgroundColor: "error.hover",
+        },
+        padding: "12px 24px",
+        fontSize: "1rem",
+        fontWeight: "bold",
+        textTransform: "none",
+      }}
+    >
+      Eliminar
+    </Button>
+  )
+}
 
 function Property({ property }) {
+  const { userData, logued } = useAuth()
   // Resize the images to a smaller size
   const ImageGallery = () => {
     return (
@@ -86,6 +132,18 @@ function Property({ property }) {
       <PropertyHeader property={property} building={property.building} />
       <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
+      {logued && userData.id === property.publisher.id && (
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: 2,
+            pb: "20px",
+          }}
+        >
+          <RejectButton />
+        </Container>
+      )}
     </Container>
   )
 }

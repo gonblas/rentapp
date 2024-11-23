@@ -1,6 +1,8 @@
 import { Typography } from "@mui/material"
 import React, { useState, useEffect, useCallback } from "react"
 import PropertyCard from "../components/cards/PropertyCard"
+import CenteredContainer from "../components/CenteredContainer"
+import ListContainer from "../components/ListContainer"
 
 function MyProperties() {
   const [properties, setProperties] = useState([]) // properties to store fetched information
@@ -46,24 +48,26 @@ function MyProperties() {
   }, [fetchData])
 
   return (
-    <>
-      <Typography variant="h5" component="h1" gutterBottom sx={{ py: 4 }}>
-        Mis propiedades
-      </Typography>
-      {loading && <Typography>Cargando propiedades...</Typography>}
-      {error && <Typography>Error: {error}</Typography>}
+    <CenteredContainer>
+      <ListContainer>
+        <Typography variant="h5" component="h1" gutterBottom sx={{ py: 4 }}>
+          Mis propiedades
+        </Typography>
+        {loading && <Typography>Cargando propiedades...</Typography>}
+        {error && <Typography>Error: {error}</Typography>}
 
-      {!loading && !error && properties.length > 0
-        ? properties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              linkName="/property-full-view"
-            />
-          ))
-        : !loading &&
-          !error && <Typography>No hay propiedades publicadas</Typography>}
-    </>
+        {!loading && !error && properties.length > 0
+          ? properties.map((property) => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                linkName="/property-full-view"
+              />
+            ))
+          : !loading &&
+            !error && <Typography>No hay propiedades publicadas</Typography>}
+      </ListContainer>
+    </CenteredContainer>
   )
 }
 
