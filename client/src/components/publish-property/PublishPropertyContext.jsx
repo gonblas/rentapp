@@ -286,33 +286,27 @@ export const PublishPropertyProvider = ({ children }) => {
 
   const navigate = useNavigate()
   const submitForm = () => {
-    // Create the URLSearchParams object with form data
-    const URLdata = new URLSearchParams({
-      description: formData.description,
-      rental_value: formData.rental_value,
-      expenses_value: formData.expenses_value,
-      rooms: formData.rooms,
-      square_meters: formData.square_meters,
-      balconies: formData.balconies,
-      backyard: formData.backyard ? "true" : "false", // Convert boolean to string
-      garage: formData.garage ? "true" : "false",
-      pet_friendly: formData.pet_friendly ? "true" : "false",
-      location: formData.location,
-      building_id: building.id,
-    })
-
-    // Append images as individual fields
-    formData.images.forEach((image, index) => {
-      URLdata.append(`images[${index}]`, image.url)
+    // Create a form
+    const data = new FormData()
+    data.append("description", formData.description)
+    data.append("rental_value", formData.rental_value)
+    data.append("expenses_value", formData.expenses_value)
+    data.append("rooms", formData.rooms)
+    data.append("square_meters", formData.square_meters)
+    data.append("balconies", formData.balconies)
+    data.append("backyard", formData.backyard)
+    data.append("garage", formData.garage)
+    data.append("pet_friendly", formData.pet_friendly)
+    data.append("location", formData.location)
+    data.append("building_id", building.id)
+    formData.images.forEach((file) => {
+      data.append("images", file.image)
     })
 
     fetch("http://localhost:8000/property/", {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: URLdata.toString(),
+      body: data,
     })
       .then((response) => {
         if (response.ok) {
