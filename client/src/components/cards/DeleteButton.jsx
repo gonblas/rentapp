@@ -1,8 +1,10 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { useAuth } from "../../context/AuthContext"
 
-function DeleteButton() {
+function DeleteButton(propertyID) {
+  const { handlePropertyDelete } = useAuth()
   return (
     <Button
       variant="outlined"
@@ -19,6 +21,7 @@ function DeleteButton() {
       onClick={(e) => {
         e.stopPropagation()
         e.preventDefault()
+        handlePropertyDelete(propertyID)
       }}
     >
       <DeleteIcon />

@@ -111,6 +111,28 @@ export const AuthProvider = ({ children }) => {
       })
   }
 
+  function handlePropertyDelete(propertyId) {
+    fetch("http://localhost:8000/property" + "/" + propertyId, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`,
+          )
+        }
+        return response.json()
+      })
+      .then((data) => {
+        console.log(data) // Log the response data
+        navigate("/my-properties")
+      })
+      .catch((error) => {
+        console.error(error) // Log the error message
+      })
+  }
+
   useLayoutEffect(() => {
     fetch("http://localhost:8000/user/me", {
       method: "GET",
@@ -143,6 +165,7 @@ export const AuthProvider = ({ children }) => {
         handleLogin,
         handleSignup,
         handleLogout,
+        handlePropertyDelete,
       }}
     >
       {children}

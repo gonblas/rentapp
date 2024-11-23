@@ -261,8 +261,8 @@ function PropertyCard({ property, linkName }) {
             >
               ${property.features.rental_value.toLocaleString("es-ES")}
             </Typography>
-            {userData.id === property.publisher.id ? (
-              <DeleteButton />
+            {userData.id === property.id ? (
+              <DeleteButton propertyID={property.id} />
             ) : (
               <FavoriteButton property={property} />
             )}

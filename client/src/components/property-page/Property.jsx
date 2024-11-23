@@ -8,11 +8,9 @@ import PublisherInfo from "./PublisherInfo"
 import useAuth from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { useNavigate } from "react-router-dom"
 
 function Property({ property }) {
-  const { userData, logued } = useAuth()
-  const navigate = useNavigate()
+  const { userData, logued, handlePropertyDelete } = useAuth()
 
   // Resize the images to a smaller size
   const ImageGallery = () => {
@@ -76,28 +74,9 @@ function Property({ property }) {
     return (
       <Button
         onClick={() => {
-          fetch()
-          fetch("http://localhost:8000/property" + "/" + property.id, {
-            method: "DELETE",
-            credentials: "include",
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(
-                  `HTTP Error: ${response.status} - ${response.statusText}`,
-                )
-              }
-              return response.json()
-            })
-            .then((data) => {
-              console.log(data) // Log the response data
-              navigate("/my-properties")
-            })
-            .catch((error) => {
-              console.error(error) // Log the error message
-            })
+          handlePropertyDelete(property.id)
         }}
-        startIcon={<DeleteIcon />} // Add delete icon to button
+        startIcon={<DeleteIcon />}
         sx={{
           backgroundColor: "error.dark",
           color: "white",
