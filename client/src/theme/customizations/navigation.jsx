@@ -123,16 +123,6 @@ export const navigationCustomizations = {
       }),
     },
   },
-  MuiPaginationItem: {
-    styleOverrides: {
-      root: ({ theme }) => ({
-        "&.Mui-selected": {
-          color: "white",
-          backgroundColor: (theme.vars || theme).palette.grey[900],
-        },
-      }),
-    },
-  },
   MuiTabs: {
     styleOverrides: {
       root: { minHeight: "fit-content" },
