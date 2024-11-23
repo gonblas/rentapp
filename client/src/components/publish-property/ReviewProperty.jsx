@@ -30,7 +30,7 @@ function ReviewProperty() {
 
   return (
     <div>
-      <Property property={property} />
+      <Property property={property} canDelete={false} />
     </div>
   )
 }

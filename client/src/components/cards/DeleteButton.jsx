@@ -1,7 +1,7 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { useAuth } from "../../context/AuthContext"
+import useAuth from "../../hooks/AuthContext"
 
 function DeleteButton(propertyID) {
   const { handlePropertyDelete } = useAuth()
