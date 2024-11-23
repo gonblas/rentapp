@@ -64,14 +64,15 @@ export const AuthProvider = ({ children }) => {
       body: URLdata.toString(),
     })
       .then((response) => {
+        console.log(!response.ok)
         if (!response.ok) {
-          if (data.detail === "User not found") {
+          if (data.status === 404) {
             setFieldError(
               "auth",
               true,
               "El correo electrónico no se encuentra registrado.",
             )
-          } else if (data.detail === "Invalid password") {
+          } else if (data.status === 403) {
             setFieldError("auth", true, "Contraseña incorrecta.")
           }
           setUserData(null)
