@@ -180,7 +180,7 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property, linkName }) {
-  const { userData } = useAuth()
+  const { logued, userData } = useAuth()
 
   const lastTag = (() => {
     if (property.features.pet_friendly) {
@@ -261,7 +261,7 @@ function PropertyCard({ property, linkName }) {
             >
               ${property.features.rental_value.toLocaleString("es-ES")}
             </Typography>
-            {userData.id === property.id ? (
+            {logued && userData.id === property.id ? (
               <DeleteButton propertyID={property.id} />
             ) : (
               <FavoriteButton property={property} />
