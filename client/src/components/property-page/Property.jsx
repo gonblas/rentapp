@@ -8,51 +8,12 @@ import PublisherInfo from "./PublisherInfo"
 import useAuth from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
-
-const RejectButton = () => {
-  return (
-    <Button
-      onClick={() => {
-        // fetch(endpoint + "/" + object.id + "/" + "reject", {
-        //   method: "DELETE",
-        //   credentials: "include",
-        // })
-        //   .then((response) => {
-        //     if (!response.ok) {
-        //       throw new Error(
-        //         `HTTP Error: ${response.status} - ${response.statusText}`,
-        //       )
-        //     }
-        //     return response.json()
-        //   })
-        //   .then((data) => {
-        //     console.log(data) // Log the response data
-        //     navigate("/admin")
-        //   })
-        //   .catch((error) => {
-        //     console.error(error) // Log the error message
-        //   })
-      }}
-      startIcon={<DeleteIcon />} // Add delete icon to button
-      sx={{
-        backgroundColor: "error.dark",
-        color: "white",
-        "&:hover": {
-          backgroundColor: "error.hover",
-        },
-        padding: "12px 24px",
-        fontSize: "1rem",
-        fontWeight: "bold",
-        textTransform: "none",
-      }}
-    >
-      Eliminar
-    </Button>
-  )
-}
+import { useNavigate } from "react-router-dom"
 
 function Property({ property }) {
   const { userData, logued } = useAuth()
+  const navigate = useNavigate()
+
   // Resize the images to a smaller size
   const ImageGallery = () => {
     return (
@@ -108,6 +69,49 @@ function Property({ property }) {
           </div>
         )}
       />
+    )
+  }
+
+  const RejectButton = () => {
+    return (
+      <Button
+        onClick={() => {
+          fetch()
+          fetch("http://localhost:8000/property" + "/" + property.id, {
+            method: "DELETE",
+            credentials: "include",
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  `HTTP Error: ${response.status} - ${response.statusText}`,
+                )
+              }
+              return response.json()
+            })
+            .then((data) => {
+              console.log(data) // Log the response data
+              navigate("/my-properties")
+            })
+            .catch((error) => {
+              console.error(error) // Log the error message
+            })
+        }}
+        startIcon={<DeleteIcon />} // Add delete icon to button
+        sx={{
+          backgroundColor: "error.dark",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "error.hover",
+          },
+          padding: "12px 24px",
+          fontSize: "1rem",
+          fontWeight: "bold",
+          textTransform: "none",
+        }}
+      >
+        Eliminar
+      </Button>
     )
   }
 
