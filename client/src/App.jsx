@@ -11,6 +11,8 @@ import {
   BuildingFullView,
   Admin,
   AdminBuildingView,
+  MyProperties,
+  AdminPropertyView,
 } from "./pages"
 import NavBar from "./components/navbar/NavBar"
 import Footer from "./components/footer/Footer"
@@ -18,7 +20,6 @@ import AppTheme from "./theme/AppTheme"
 import CssBaseline from "@mui/material/CssBaseline"
 import ProtectedRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
-import AdminPropertyView from "./pages/AdminPropertyView"
 import SearchRoutes from "./utils/SearchRoutes"
 import AdminRoutes from "./utils/AdminRoutes"
 
@@ -76,6 +77,7 @@ const App = () => {
           >
             <Route path="/publish-property" element={<PublishProperty />} />
             <Route path="/publish-building" element={<PublishBuilding />} />
+            <Route path="/my-properties" element={<MyProperties />} />
           </Route>
 
           {/* Restricted Routes for unauthenticated users */}

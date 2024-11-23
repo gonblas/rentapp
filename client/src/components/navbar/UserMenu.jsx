@@ -14,11 +14,13 @@ import Button from "@mui/material/Button"
 import AvatarRender from "../AvatarRender"
 import LogoutDialog from "./LogoutDialog"
 import { Link } from "react-router-dom"
+import { useTheme } from "@mui/material/styles"
 
 function AccountMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [openDialog, setOpenDialog] = React.useState(false)
   const open = Boolean(anchorEl)
+  const theme = useTheme()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -90,7 +92,16 @@ function AccountMenu({ user }) {
           <ListItemIcon>
             <ManageAccountsIcon />
           </ListItemIcon>
-          Mi cuenta
+          <Link
+            to="/my-properties"
+            style={{
+              marginLeft: "5px",
+              color: theme.palette.grey[700],
+              textDecoration: "none",
+            }}
+          >
+            Mis Propiedades
+          </Link>
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
