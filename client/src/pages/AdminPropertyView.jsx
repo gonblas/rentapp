@@ -63,10 +63,7 @@ function AdminPropertyView() {
       }}
     >
       <PropertyFullView />
-      <ValidationButtons
-        object={property}
-        endpoint="http://localhost:8000/admin/property"
-      />
+      <ValidationButtons object={property} type="property" />
     </Container>
   )
 }

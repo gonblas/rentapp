@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import { Route, Routes } from "react-router-dom"
 import {
   Home,
@@ -22,12 +22,13 @@ import ProtectedRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
 import SearchRoutes from "./utils/SearchRoutes"
 import AdminRoutes from "./utils/AdminRoutes"
+import { SnackbarProvider } from "./components/SnackbarContext"
 
 const App = () => {
   const { logued, isAdmin, loading } = useAuth()
 
   return (
-    <Fragment>
+    <SnackbarProvider>
       <CssBaseline />
       <AppTheme>
         <NavBar />
@@ -126,7 +127,7 @@ const App = () => {
         </Routes>
         <Footer />
       </AppTheme>
-    </Fragment>
+    </SnackbarProvider>
   )
 }
 

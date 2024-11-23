@@ -4,15 +4,26 @@ import { Container } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import DeleteIcon from "@mui/icons-material/Delete"
 import DoneIcon from "@mui/icons-material/Done"
+import { useContext } from "react"
+import SnackbarContext from "./SnackbarContext"
 
-function ValidationButtons({ object, endpoint }) {
+function ValidationButtons({ object, type }) {
+  const { showSnackbar } = useContext(SnackbarContext)
   const navigate = useNavigate()
 
-  const ApproveButton = () => {
-    return (
+  const handleNavigationWithSnackbar = (message, severity) => {
+    navigate("/admin")
+    showSnackbar(message, severity)
+  }
+
+  return (
+    <Container
+      sx={{ display: "flex", justifyContent: "flex-end", gap: 2, pb: "20px" }}
+    >
+      {/* Approve Button */}
       <Button
         onClick={() => {
-          fetch(endpoint + "/" + object.id + "/" + "approve", {
+          fetch(`http://localhost:8000/admin/${type}/${object.id}/approve`, {
             method: "PUT",
             credentials: "include",
           })
@@ -26,35 +37,33 @@ function ValidationButtons({ object, endpoint }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              navigate("/admin")
+              handleNavigationWithSnackbar(
+                type === "property"
+                  ? "¡Propiedad validada correctamente!"
+                  : "¡Edificio validado correctamente!",
+                "success", // Positive snackbar
+              )
             })
             .catch((error) => {
               console.error(error) // Log the error message
             })
         }}
-        startIcon={<DoneIcon />} // Add done icon to button
+        startIcon={<DoneIcon />}
         sx={{
-          backgroundColor: "success.dark", // Set background color to success.main
-          color: "white", // Set text color to white
+          backgroundColor: "success.main",
+          color: "white",
           "&:hover": {
-            backgroundColor: "success.hover", // Darker shade on hover
+            backgroundColor: "success.dark",
           },
-          padding: "12px 24px", // Adjust padding for larger buttons
-          fontSize: "1rem", // Increase font size
-          fontWeight: "bold", // Make the font bold
-          textTransform: "none", // Remove text transformation
         }}
       >
         Aprobar
       </Button>
-    )
-  }
 
-  const RejectButton = () => {
-    return (
+      {/* Reject Button */}
       <Button
         onClick={() => {
-          fetch(endpoint + "/" + object.id + "/" + "reject", {
+          fetch(`http://localhost:8000/admin/${type}/${object.id}/reject`, {
             method: "DELETE",
             credentials: "include",
           })
@@ -68,36 +77,28 @@ function ValidationButtons({ object, endpoint }) {
             })
             .then((data) => {
               console.log(data) // Log the response data
-              navigate("/admin")
+              handleNavigationWithSnackbar(
+                type === "property"
+                  ? "¡Propiedad rechazada correctamente!"
+                  : "¡Edificio rechazado correctamente!",
+                "error", // Negative snackbar
+              )
             })
             .catch((error) => {
               console.error(error) // Log the error message
             })
         }}
-        startIcon={<DeleteIcon />} // Add delete icon to button
+        startIcon={<DeleteIcon />}
         sx={{
-          backgroundColor: "error.dark", // Set background color to error.main
-          color: "white", // Set text color to white
+          backgroundColor: "error.main",
+          color: "white",
           "&:hover": {
-            backgroundColor: "error.hover", // Darker shade on hover
+            backgroundColor: "error.dark",
           },
-          padding: "12px 24px", // Adjust padding for larger buttons
-          fontSize: "1rem", // Increase font size
-          fontWeight: "bold", // Make the font bold
-          textTransform: "none", // Remove text transformation
         }}
       >
         Eliminar
       </Button>
-    )
-  }
-
-  return (
-    <Container
-      sx={{ display: "flex", justifyContent: "flex-end", gap: 2, pb: "20px" }}
-    >
-      <ApproveButton />
-      <RejectButton />
     </Container>
   )
 }
