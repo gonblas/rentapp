@@ -40,7 +40,7 @@ function PropertyFilters({ filters, setFilters }) {
           { value: "front", label: "Frente" },
           { value: "back", label: "Contrafrente" },
           { value: "internal", label: "Interno" },
-          { value: "lateral", label: "Lateral" },
+          { value: "side", label: "Lateral" },
         ]}
       />
       <ShowFilter

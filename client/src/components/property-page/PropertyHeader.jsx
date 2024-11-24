@@ -16,7 +16,7 @@ function PropertyHeader({ property, building }) {
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
     { value: "internal", label: "Interno" },
-    { value: "lateral", label: "Lateral" },
+    { value: "side", label: "Lateral" },
   ]
   const location =
     locations.find((loc) => loc.value === property.features.location)?.label ||

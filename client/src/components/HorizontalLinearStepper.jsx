@@ -122,7 +122,7 @@ export default function HorizontalLinearStepper({
               <Button
                 onClick={handleNext}
                 sx={{ ml: "auto" }}
-                disabled={isSubmitting}
+                disabled={isSubmitting && activeStep === steps.length - 1}
               >
                 {activeStep === steps.length - 1 ? "Publicar" : "Siguiente"}
               </Button>
