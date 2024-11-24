@@ -40,7 +40,7 @@ function Characteristics() {
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
     { value: "internal", label: "Interno" },
-    { value: "lateral", label: "Lateral" },
+    { value: "side", label: "Lateral" },
   ]
 
   const position = positions.find((p) => p.value === formData.location)
