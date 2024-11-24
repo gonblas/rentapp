@@ -39,7 +39,7 @@ function Characteristics() {
     { value: null, label: "Ingrese la ubicación" },
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
-    { value: "inside", label: "Interno" },
+    { value: "internal", label: "Interno" },
     { value: "lateral", label: "Lateral" },
   ]
 

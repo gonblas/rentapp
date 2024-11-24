@@ -32,9 +32,6 @@ function PropertyHeader({ property, building }) {
         gap: "10px",
       }}
     >
-      <Typography variant="h4">
-        ${property.features.rental_value.toLocaleString("es-ES")}
-      </Typography>
       <Container
         sx={{
           display: "flex",
@@ -42,9 +39,34 @@ function PropertyHeader({ property, building }) {
           justifyContent: "space-between",
           alignItems: "center",
           px: "0px!important",
+          flexWrap: "nowrap", // Evitar que los textos se vayan a otra línea
         }}
       >
-        <Typography variant="h4">{building.address}</Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: "clamp(16px, 1.5vw, 24px)", // Ajusta dinámicamente el tamaño de la fuente
+            whiteSpace: "nowrap", // Mantén todo el texto en una línea
+            overflow: "hidden", // Oculta texto si es necesario
+            textOverflow: "ellipsis", // Muestra puntos suspensivos si el texto es demasiado largo
+            maxWidth: "10%", // Cada texto ocupa hasta un 48% del contenedor
+          }}
+        >
+          ${property.features.rental_value.toLocaleString("es-ES")}
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: "clamp(16px, 1.5vw, 24px)",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "90%",
+            textAlign: "right",
+          }}
+        >
+          {building.address}
+        </Typography>
       </Container>
 
       <Container
