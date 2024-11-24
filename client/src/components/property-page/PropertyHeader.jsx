@@ -15,7 +15,7 @@ function PropertyHeader({ property, building }) {
   const locations = [
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
-    { value: "inside", label: "Interno" },
+    { value: "internal", label: "Interno" },
     { value: "lateral", label: "Lateral" },
   ]
   const location =
