@@ -136,32 +136,7 @@ export default function GoogleMaps({ handleOnChange, value }) {
       }}
       onInputChange={handleInputChange}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Ingrese una dirección"
-          fullWidth
-          sx={{
-            height: "48px",
-            ".MuiInputBase-root": {
-              height: "48px",
-              color: "black",
-            },
-            ".MuiInputLabel-root": {
-              color: "black",
-            },
-            ".MuiOutlinedInput-notchedOutline": {
-              borderColor: "black",
-            },
-            "& .MuiInputBase-input": {
-              padding: "10px",
-            },
-            "& .MuiInputLabel-shrink": {
-              transform: "translate(0, -17px) scale(0.75)",
-              padding: "0 4px",
-              color: "black",
-            },
-          }}
-        />
+        <TextField {...params} label="Ingrese una dirección" fullWidth />
       )}
       renderOption={(props, option) => {
         // Check if the option is valid before accessing its properties

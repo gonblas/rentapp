@@ -19,7 +19,9 @@ function SelectLocation() {
   const fetchNeighborhoodsList = useMemo(
     () => async () => {
       try {
-        const response = await axios.get("https://cc210ef425fe.sn.mynetname.net/neighborhood/")
+        const response = await axios.get(
+          "https://cc210ef425fe.sn.mynetname.net/neighborhood/",
+        )
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)
@@ -54,7 +56,7 @@ function SelectLocation() {
           value={formData.neighborhood}
           noOptionsText="Sin resultados"
           options={[
-            { value: null, label: "Ingresá barrio" },
+            { value: null, label: "Ingresá un barrio" },
             ...neighborhoods.map((neighborhood) => ({
               value: neighborhood.id,
               label: neighborhood.name,
@@ -62,32 +64,7 @@ function SelectLocation() {
           ]}
           sx={{ width: "auto" }}
           renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Ingresá un Barrio"
-              fullWidth
-              sx={{
-                height: "48px",
-                ".MuiInputBase-root": {
-                  height: "48px",
-                  color: "black",
-                },
-                ".MuiInputLabel-root": {
-                  color: "black",
-                },
-                ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "black",
-                },
-                "& .MuiInputBase-input": {
-                  padding: "10px",
-                },
-                "& .MuiInputLabel-shrink": {
-                  transform: "translate(0, -17px) scale(0.75)",
-                  padding: "0 4px",
-                  color: "black",
-                },
-              }}
-            />
+            <TextField {...params} label="Ingresá un Barrio" fullWidth />
           )}
           onChange={(event, newValue) => {
             handleOnChange({

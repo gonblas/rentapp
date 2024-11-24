@@ -18,7 +18,7 @@ import PublishPropertyContext from "./PublishPropertyContext"
 function Subtitle({ children }) {
   return (
     <Typography
-      variant="body1"
+      variant="h6"
       sx={{
         fontWeight: "semibold",
         marginTop: 2,
@@ -36,15 +36,14 @@ function Characteristics() {
   )
 
   const positions = [
+    { value: null, label: "Ingrese la ubicación" },
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
     { value: "inside", label: "Interno" },
     { value: "lateral", label: "Lateral" },
   ]
 
-  const position = positions.find(
-    (position) => position.value === formData.location,
-  )
+  const position = positions.find((p) => p.value === formData.location)
 
   const handleNumberChange = (event) => {
     const { name, value } = event.target
@@ -86,6 +85,31 @@ function Characteristics() {
           multiline
           rows={4}
           fullWidth
+          sx={{
+            height: "102px",
+            pb: "130px!important",
+            ".MuiInputBase-root": {
+              height: "192px",
+              color: "black",
+            },
+            ".MuiInputLabel-root": {
+              color: "black",
+              "&.Mui-focused": {
+                color: "black",
+              },
+            },
+            ".MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+            },
+            "& .MuiInputBase-input": {
+              padding: "10px",
+            },
+            "& .MuiInputLabel-shrink": {
+              transform: "translate(0, -17px) scale(0.75)",
+              padding: "0 4px",
+              color: "black",
+            },
+          }}
         />
       </FormControl>
 
@@ -118,6 +142,16 @@ function Characteristics() {
           onChange={handleNumberChange}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
           type="number"
+          sx={{
+            "& input[type='number']::-webkit-outer-spin-button, & input[type='number']::-webkit-inner-spin-button":
+              {
+                "-webkit-appearance": "none",
+                margin: 0,
+              },
+            "& input[type='number']": {
+              MozAppearance: "textfield",
+            },
+          }}
           fullWidth
         />
         <FormHelperText sx={{ color: "error.main" }}>
@@ -173,6 +207,13 @@ function Characteristics() {
             handleOnChange({
               target: { name: "location", value: newValue.value },
             })
+          }}
+          onInputChange={(event, inputValue) => {
+            if (inputValue === "") {
+              handleOnChange({
+                target: { name: "location", value: null },
+              })
+            }
           }}
         />
         <FormHelperText sx={{ pt: 2, color: "error.main" }}>

@@ -275,6 +275,7 @@ export const inputsCustomizations = {
         padding: 0,
       },
       root: ({ theme }) => ({
+        height: "48px",
         padding: "8px 12px",
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
@@ -315,9 +316,51 @@ export const inputsCustomizations = {
   MuiFormLabel: {
     styleOverrides: {
       root: ({ theme }) => ({
+        padding: "8px 12px",
         typography: theme.typography.caption,
         marginBottom: 8,
+        color: "black",
+        "& .MuiInputBase-input": {
+          padding: "10px",
+        },
+        "&:hover": {
+          color: "black",
+        },
+        "&.Mui-focused": {
+          color: "black",
+        },
+        "&.Mui-error": {
+          color: theme.palette.error.main,
+        },
       }),
+    },
+  },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        height: "48px",
+        ".MuiInputBase-root": {
+          height: "48px",
+          color: "black",
+        },
+        ".MuiInputLabel-root": {
+          color: "black",
+          "&.Mui-focused": {
+            color: "black",
+          },
+        },
+        ".MuiOutlinedInput-notchedOutline": {
+          borderColor: "black",
+        },
+        "& .MuiInputBase-input": {
+          padding: "10px",
+        },
+        "& .MuiInputLabel-shrink": {
+          transform: "translate(0, -17px) scale(0.75)",
+          padding: "0 4px",
+          color: "black",
+        },
+      },
     },
   },
 }
