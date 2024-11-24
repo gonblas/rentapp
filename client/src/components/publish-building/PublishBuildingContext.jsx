@@ -36,7 +36,7 @@ export const PublishBuildingProvider = ({ children }) => {
     laundry: { hasError: false, message: "" },
   })
 
-  const validateStep1 = (setErrors) => {
+  const validateStep1 = async (setErrors) => {
     const { address, neighborhood_id } = formData
     let isValid = true
 
@@ -54,44 +54,36 @@ export const PublishBuildingProvider = ({ children }) => {
       const URLdata = new URLSearchParams()
       URLdata.append("address", address)
 
-      fetch(
-        "https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      )
-        .then((response) => {
-          if (!response.ok) {
-            // Maneja la respuesta como un caso válido (por ejemplo, cuando no hay building)
-            return null // Puedes devolver `null` o algún valor para indicar esta situación.
-          }
-          return response.json() // Continúa con el procesamiento normal de datos
-        })
-        .then((data) => {
-          if (!data) {
-            // Maneja el caso cuando no hay datos (response.ok === false)
-            console.log("No se encontró un building, continúa el flujo.")
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              address: {
-                hasError: false,
-                message: "",
-              },
-            }))
-            return
-          }
+      try {
+        const response = await fetch(
+          "https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        )
 
-          console.log(data)
+        if (!response.ok) {
+          console.log("No se encontró un building, continúa el flujo.")
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            address: {
+              hasError: false,
+              message: "",
+            },
+          }))
+        } else {
+          const data = await response.json()
+
           if (
             data.approved ||
-            (!data.approved && data.published_id === userData.id)
+            (!data.approved && data.publisher_id === userData.id)
           ) {
             setErrors((prevErrors) => ({
               ...prevErrors,
               address: {
                 hasError: true,
-                message: "Ya existe un edificio con esta dirección.",
+                message: "Ya existe un edificio registrado con esta dirección.",
               },
             }))
             isValid = false
@@ -104,10 +96,11 @@ export const PublishBuildingProvider = ({ children }) => {
               },
             }))
           }
-        })
-        .catch((error) => {
-          console.error("Error en la conexión o procesamiento:", error)
-        })
+        }
+      } catch (error) {
+        console.error("Error en la conexión o procesamiento:", error)
+        isValid = false // Opcional, si quieres invalidar en caso de error
+      }
     }
 
     // Validación para `neighborhood_id`
