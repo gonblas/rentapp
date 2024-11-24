@@ -1,6 +1,7 @@
 import React, { createContext, useState, useCallback } from "react"
 import Snackbar from "@mui/material/Snackbar"
 import Alert from "@mui/material/Alert"
+import { useNavigate } from "react-router-dom"
 
 const SnackbarContext = createContext()
 
@@ -10,6 +11,13 @@ export const SnackbarProvider = ({ children }) => {
     message: "",
     type: "success", // Default to 'success' for positive messages
   })
+
+  const navigate = useNavigate()
+
+  const handleNavigationWithSnackbar = (path, message, severity) => {
+    navigate(path)
+    showSnackbar(message, severity)
+  }
 
   // Function to show the snackbar
   const showSnackbar = useCallback((message, type = "success") => {
@@ -22,7 +30,7 @@ export const SnackbarProvider = ({ children }) => {
   }, [])
 
   return (
-    <SnackbarContext.Provider value={{ showSnackbar }}>
+    <SnackbarContext.Provider value={{ handleNavigationWithSnackbar }}>
       {children}
       <Snackbar
         open={snackbarState.open}

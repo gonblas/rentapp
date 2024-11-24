@@ -22,6 +22,9 @@ function PropertyHeader({ property, building }) {
         gap: "10px",
       }}
     >
+      <Typography variant="h4">
+        ${property.features.rental_value.toLocaleString("es-ES")}
+      </Typography>
       <Container
         sx={{
           display: "flex",
@@ -31,9 +34,6 @@ function PropertyHeader({ property, building }) {
           px: "0px!important",
         }}
       >
-        <Typography variant="h4">
-          ${property.features.rental_value.toLocaleString("es-ES")}
-        </Typography>
         <Typography variant="h4">{building.address}</Typography>
       </Container>
 

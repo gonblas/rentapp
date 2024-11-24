@@ -1,11 +1,12 @@
 import React, { createContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
 import useAuth from "../../hooks/AuthContext"
+import SnackbarContext from "../SnackbarContext"
 
 const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
-  const navigate = useNavigate()
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
   const { userData } = useAuth()
 
   const [formData, setFormData] = useState({
@@ -21,7 +22,6 @@ export const PublishBuildingProvider = ({ children }) => {
     bike_rack: false,
     laundry: false,
   })
-  console.log(formData)
 
   const [errors, setErrors] = useState({
     address: { hasError: false, message: "" },
@@ -179,10 +179,13 @@ export const PublishBuildingProvider = ({ children }) => {
       body: JSON.stringify(filteredData),
     }).then((response) => {
       if (response.status === 201) {
-        console.log("Formulario enviado correctamente")
-        navigate("/")
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Edificio enviado a validar!",
+          "success",
+        )
       } else {
-        console.log("Error al enviar el formulario")
+        alert("Error al enviar el edificio a validar.")
       }
     })
   }

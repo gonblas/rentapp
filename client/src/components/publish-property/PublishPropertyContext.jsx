@@ -1,9 +1,11 @@
 import React, { createContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import SnackbarContext from "../SnackbarContext"
+import { useContext } from "react"
 
 const PublishPropertyContext = createContext(undefined)
 
 export const PublishPropertyProvider = ({ children }) => {
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
   const [formData, setFormData] = useState({
     address: "",
     building_id: 0,
@@ -284,7 +286,6 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
-  const navigate = useNavigate()
   const submitForm = () => {
     // Create a form
     const data = new FormData()
@@ -321,10 +322,11 @@ export const PublishPropertyProvider = ({ children }) => {
         console.log("Property successfully published:", responseData)
 
         // Show alert for successful submission
-        alert("¡Propiedad enviada para verificación!")
-
-        // Navigate to the home page
-        navigate("/")
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Propiedad enviada para validacion!",
+          "success",
+        )
       })
       .catch((error) => {
         console.error("Error al hacer la solicitud:", error)

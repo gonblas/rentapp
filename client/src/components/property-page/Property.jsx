@@ -9,7 +9,7 @@ import useAuth from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
 
-function Property({ property, canDelete=true }) {
+function Property({ property, canDelete = true }) {
   const { userData, logued, handlePropertyDelete } = useAuth()
 
   // Resize the images to a smaller size
@@ -115,7 +115,7 @@ function Property({ property, canDelete=true }) {
       <PropertyHeader property={property} building={property.building} />
       <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
-      {canDelete && logued && userData.id === property.publisher.id &&(
+      {canDelete && logued && userData.id === property.publisher.id && (
         <Container
           sx={{
             display: "flex",

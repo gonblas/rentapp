@@ -1,20 +1,13 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import { Container } from "@mui/material"
-import { useNavigate } from "react-router-dom"
 import DeleteIcon from "@mui/icons-material/Delete"
 import DoneIcon from "@mui/icons-material/Done"
 import { useContext } from "react"
 import SnackbarContext from "./SnackbarContext"
 
 function ValidationButtons({ object, type }) {
-  const { showSnackbar } = useContext(SnackbarContext)
-  const navigate = useNavigate()
-
-  const handleNavigationWithSnackbar = (message, severity) => {
-    navigate("/admin")
-    showSnackbar(message, severity)
-  }
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
 
   return (
     <Container
@@ -23,10 +16,13 @@ function ValidationButtons({ object, type }) {
       {/* Approve Button */}
       <Button
         onClick={() => {
-          fetch(`https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/approve`, {
-            method: "PUT",
-            credentials: "include",
-          })
+          fetch(
+            `https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/approve`,
+            {
+              method: "PUT",
+              credentials: "include",
+            },
+          )
             .then((response) => {
               if (!response.ok) {
                 throw new Error(
@@ -38,6 +34,7 @@ function ValidationButtons({ object, type }) {
             .then((data) => {
               console.log(data) // Log the response data
               handleNavigationWithSnackbar(
+                "/admin",
                 type === "property"
                   ? "¡Propiedad validada correctamente!"
                   : "¡Edificio validado correctamente!",
@@ -63,10 +60,13 @@ function ValidationButtons({ object, type }) {
       {/* Reject Button */}
       <Button
         onClick={() => {
-          fetch(`https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/reject`, {
-            method: "DELETE",
-            credentials: "include",
-          })
+          fetch(
+            `https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/reject`,
+            {
+              method: "DELETE",
+              credentials: "include",
+            },
+          )
             .then((response) => {
               if (!response.ok) {
                 throw new Error(
@@ -78,6 +78,7 @@ function ValidationButtons({ object, type }) {
             .then((data) => {
               console.log(data) // Log the response data
               handleNavigationWithSnackbar(
+                "/admin",
                 type === "property"
                   ? "¡Propiedad rechazada correctamente!"
                   : "¡Edificio rechazado correctamente!",
