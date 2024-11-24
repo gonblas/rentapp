@@ -22,13 +22,12 @@ import ProtectedRoutes from "./utils/ProtectedRoutes"
 import useAuth from "./hooks/AuthContext"
 import SearchRoutes from "./utils/SearchRoutes"
 import AdminRoutes from "./utils/AdminRoutes"
-import { SnackbarProvider } from "./components/SnackbarContext"
 
 const App = () => {
   const { logued, isAdmin, loading } = useAuth()
 
   return (
-    <SnackbarProvider>
+    <>
       <CssBaseline />
       <AppTheme>
         <NavBar />
@@ -127,7 +126,7 @@ const App = () => {
         </Routes>
         <Footer />
       </AppTheme>
-    </SnackbarProvider>
+    </>
   )
 }
 

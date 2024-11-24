@@ -1,5 +1,6 @@
 import { createContext, useLayoutEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import SnackbarContext from "../components/SnackbarContext"
 
 const AuthContext = createContext()
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
   console.log(userData)
 
   function handleSignup(data, setFieldError) {
@@ -128,7 +130,11 @@ export const AuthProvider = ({ children }) => {
       })
       .then((data) => {
         console.log(data) // Log the response data
-        navigate("/my-properties")
+        handleNavigationWithSnackbar(
+          "/my-properties",
+          "¡Propiedad eliminada correctamente!",
+          "success", // Positive snackbar
+        )
       })
       .catch((error) => {
         console.error(error) // Log the error message
@@ -168,6 +174,7 @@ export const AuthProvider = ({ children }) => {
         handleSignup,
         handleLogout,
         handlePropertyDelete,
+        handleNavigationWithSnackbar,
       }}
     >
       {children}
