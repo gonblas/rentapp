@@ -36,7 +36,7 @@ function SelectLocation() {
     <>
       <FormControl>
         <FormControl>
-          <FormLabel>Ubicación del edificio</FormLabel>
+          <FormLabel sx={{ pb: "20px" }}>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
             value={formData.address}
@@ -47,18 +47,48 @@ function SelectLocation() {
         </FormControl>
       </FormControl>
       <FormControl sx={{ pt: "30px" }}>
-        <FormLabel>Barrio</FormLabel>
+        <FormLabel sx={{ pb: "20px" }}>Barrio</FormLabel>
         <Autocomplete
           disablePortal
           autoComplete
           value={formData.neighborhood}
           noOptionsText="Sin resultados"
-          options={neighborhoods.map((neighborhood) => ({
-            value: neighborhood.id,
-            label: neighborhood.name,
-          }))}
+          options={[
+            { value: null, label: "Ingresá barrio" },
+            ...neighborhoods.map((neighborhood) => ({
+              value: neighborhood.id,
+              label: neighborhood.name,
+            })),
+          ]}
           sx={{ width: "auto" }}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Ingresá un Barrio"
+              fullWidth
+              sx={{
+                height: "48px",
+                ".MuiInputBase-root": {
+                  height: "48px",
+                  color: "black",
+                },
+                ".MuiInputLabel-root": {
+                  color: "black",
+                },
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "black",
+                },
+                "& .MuiInputBase-input": {
+                  padding: "10px",
+                },
+                "& .MuiInputLabel-shrink": {
+                  transform: "translate(0, -17px) scale(0.75)",
+                  padding: "0 4px",
+                  color: "black",
+                },
+              }}
+            />
+          )}
           onChange={(event, newValue) => {
             handleOnChange({
               target: { name: "neighborhood_id", value: newValue.value },
@@ -66,6 +96,17 @@ function SelectLocation() {
             handleOnChange({
               target: { name: "neighborhood", value: newValue.label },
             })
+          }}
+          onInputChange={(event, inputValue) => {
+            // Si el usuario borra el texto manualmente, limpia el estado
+            if (inputValue === "") {
+              handleOnChange({
+                target: { name: "neighborhood_id", value: null },
+              })
+              handleOnChange({
+                target: { name: "neighborhood", value: "" },
+              })
+            }
           }}
         />
         <FormHelperText sx={{ color: "error.main" }}>
