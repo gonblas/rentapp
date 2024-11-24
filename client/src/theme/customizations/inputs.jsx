@@ -337,7 +337,7 @@ export const inputsCustomizations = {
   MuiTextField: {
     styleOverrides: {
       root: {
-        height: "48px",
+        // height: "48px",
         ".MuiInputBase-root": {
           height: "48px",
           color: "black",
