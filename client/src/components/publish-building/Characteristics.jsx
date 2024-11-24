@@ -26,6 +26,18 @@ function Characteristics() {
     PublishBuildingContext,
   )
 
+  const handleNumberChange = (event) => {
+    const { name, value } = event.target
+    const newValue = value === "" || Number(value) < 1 ? null : Number(value)
+
+    handleOnChange({
+      target: {
+        name,
+        value: newValue,
+      },
+    })
+  }
+
   return (
     <>
       <FormHeader
@@ -39,8 +51,8 @@ function Characteristics() {
           id="floors"
           name="floors"
           placeholder="Ej: 3"
-          value={formData.floors}
-          onChange={(e) => handleOnChange(e)}
+          value={formData.floors || ""}
+          onChange={handleNumberChange}
           error={errors.floors.hasError}
           helperText={errors.floors.message}
           type="number"
@@ -56,8 +68,8 @@ function Characteristics() {
           id="apartments_per_floor"
           name="apartments_per_floor"
           placeholder="Ej: 2"
-          value={formData.apartments_per_floor}
-          onChange={(e) => handleOnChange(e)}
+          value={formData.apartments_per_floor || ""}
+          onChange={handleNumberChange}
           error={errors.apartments_per_floor.hasError}
           helperText={errors.apartments_per_floor.message}
           type="number"

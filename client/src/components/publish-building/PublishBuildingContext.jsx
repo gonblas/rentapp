@@ -21,6 +21,7 @@ export const PublishBuildingProvider = ({ children }) => {
     bike_rack: false,
     laundry: false,
   })
+  console.log(formData)
 
   const [errors, setErrors] = useState({
     address: { hasError: false, message: "" },
@@ -53,10 +54,13 @@ export const PublishBuildingProvider = ({ children }) => {
       const URLdata = new URLSearchParams()
       URLdata.append("address", address)
 
-      fetch("https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata, {
-        method: "GET",
-        credentials: "include",
-      })
+      fetch(
+        "https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      )
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`)
