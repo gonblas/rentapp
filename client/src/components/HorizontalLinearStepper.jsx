@@ -119,11 +119,7 @@ export default function HorizontalLinearStepper({
               >
                 Volver
               </Button>
-              <Button
-                onClick={handleNext}
-                sx={{ ml: "auto" }}
-                disabled={isSubmitting && activeStep === steps.length - 1}
-              >
+              <Button onClick={handleNext} sx={{ ml: "auto" }}>
                 {activeStep === steps.length - 1 ? "Publicar" : "Siguiente"}
               </Button>
             </Box>

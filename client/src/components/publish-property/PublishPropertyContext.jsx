@@ -1,6 +1,5 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
 import SnackbarContext from "../SnackbarContext"
-import { useContext } from "react"
 
 const PublishPropertyContext = createContext(undefined)
 
@@ -286,23 +285,35 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
+  const useSubmitOnce = (func) => {
+    const [called, setCalled] = useState(false);
+
+    const submitOnce = (e) => {
+      if (!called) {
+        setCalled(true);
+        func(e);
+      }
+    };
+
+    return submitOnce;
+  };
+
   const submitForm = () => {
-    // Create a form
-    const data = new FormData()
-    data.append("description", formData.description)
-    data.append("rental_value", formData.rental_value)
-    data.append("expenses_value", formData.expenses_value)
-    data.append("rooms", formData.rooms)
-    data.append("square_meters", formData.square_meters)
-    data.append("balconies", formData.balconies)
-    data.append("backyard", formData.backyard)
-    data.append("garage", formData.garage)
-    data.append("pet_friendly", formData.pet_friendly)
-    data.append("location", formData.location)
-    data.append("building_id", building.id)
+    const data = new FormData();
+    data.append("description", formData.description);
+    data.append("rental_value", formData.rental_value);
+    data.append("expenses_value", formData.expenses_value);
+    data.append("rooms", formData.rooms);
+    data.append("square_meters", formData.square_meters);
+    data.append("balconies", formData.balconies);
+    data.append("backyard", formData.backyard);
+    data.append("garage", formData.garage);
+    data.append("pet_friendly", formData.pet_friendly);
+    data.append("location", formData.location);
+    data.append("building_id", building.id);
     formData.images.forEach((file) => {
-      data.append("images", file.image)
-    })
+      data.append("images", file.image);
+    });
 
     fetch("https://cc210ef425fe.sn.mynetname.net/property/", {
       method: "POST",
@@ -311,35 +322,34 @@ export const PublishPropertyProvider = ({ children }) => {
     })
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response.json();
         } else {
-          throw new Error(
-            `HTTP Error: ${response.status} - ${response.statusText}`,
-          )
+          throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
       })
       .then((responseData) => {
-        console.log("Property successfully published:", responseData)
+        console.log("Property successfully published:", responseData);
 
         // Show alert for successful submission
         handleNavigationWithSnackbar(
           "/",
           "¡Propiedad enviada para validacion!",
-          "success",
-        )
+          "success"
+        );
       })
       .catch((error) => {
-        console.error("Error al hacer la solicitud:", error)
-        alert(`Error al publicar la propiedad: ${error.message}`)
-      })
-  }
+        console.error("Error al hacer la solicitud:", error);
+        alert(`Error al publicar la propiedad: ${error.message}`);
+      });
+  };
 
   const nextStepFunction = [
     () => validateStep1(setErrors),
     () => validateStep2(setErrors),
     () => validateStep3(setErrors),
-    () => submitForm(),
-  ]
+    useSubmitOnce(submitForm),  // Usamos el hook aquí
+  ];
+
 
   const handleOnChange = (event) => {
     const { name, value, type, checked } = event.target

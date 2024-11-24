@@ -223,9 +223,8 @@ function PropertyCard({ property, linkName }) {
           flexDirection: "column",
           justifyContent: "space-between",
           pl: "0px!important",
-          pr: "10px!important",
-          padding: "1rem",
-          width: "90%",
+          padding: "10px",
+          width: "70%",
           minHeight: "100%!important",
         }}
       >
