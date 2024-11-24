@@ -12,6 +12,16 @@ import BalconyIcon from "@mui/icons-material/Balcony"
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed"
 
 function PropertyHeader({ property, building }) {
+  const locations = [
+    { value: "front", label: "Frente" },
+    { value: "back", label: "Contrafrente" },
+    { value: "inside", label: "Interno" },
+    { value: "lateral", label: "Lateral" },
+  ]
+  const location =
+    locations.find((loc) => loc.value === property.features.location)?.label ||
+    property.features.location
+
   return (
     <Container
       sx={{
@@ -99,10 +109,7 @@ function PropertyHeader({ property, building }) {
           icon={<SquareFootIcon />}
           text={`${property.features.square_meters} m²`}
         />
-        <FeatureItem
-          icon={<GpsNotFixedIcon />}
-          text={property.features.location}
-        />
+        <FeatureItem icon={<GpsNotFixedIcon />} text={location} />
         <FeatureItem
           icon={<BalconyIcon />}
           text={`Balcones: ${property.features.balconies}`}

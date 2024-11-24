@@ -18,8 +18,6 @@ import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
 import CardActions from "@mui/material/CardActions"
 import { Link } from "react-router-dom"
-import useAuth from "../../hooks/AuthContext"
-import DeleteButton from "./DeleteButton"
 
 function ContactButton({ contact }) {
   const items = [
@@ -180,8 +178,6 @@ function AvatarPublisher({ publisher }) {
 }
 
 function PropertyCard({ property, linkName }) {
-  const { logued, userData } = useAuth()
-
   const lastTag = (() => {
     if (property.features.pet_friendly) {
       return <InfoTag>Mascotas</InfoTag>
@@ -261,11 +257,7 @@ function PropertyCard({ property, linkName }) {
             >
               ${property.features.rental_value.toLocaleString("es-ES")}
             </Typography>
-            {logued && userData.id === property.id ? (
-              <DeleteButton propertyID={property.id} />
-            ) : (
-              <FavoriteButton property={property} />
-            )}
+            <FavoriteButton />
           </Container>
           <Typography
             variant="body1"

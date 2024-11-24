@@ -8,8 +8,10 @@ import PublisherInfo from "./PublisherInfo"
 import useAuth from "../../hooks/AuthContext"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { useLocation } from "react-router-dom"
 
 function Property({ property, canDelete = true }) {
+  const location = useLocation()
   const { userData, logued, handlePropertyDelete } = useAuth()
 
   // Resize the images to a smaller size
@@ -115,18 +117,21 @@ function Property({ property, canDelete = true }) {
       <PropertyHeader property={property} building={property.building} />
       <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
-      {canDelete && logued && userData.id === property.publisher.id && (
-        <Container
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: 2,
-            pb: "20px",
-          }}
-        >
-          <RejectButton />
-        </Container>
-      )}
+      {canDelete &&
+        logued &&
+        userData.id === property.publisher.id &&
+        !location.pathname.includes("admin") && (
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 2,
+              pb: "20px",
+            }}
+          >
+            <RejectButton />
+          </Container>
+        )}
     </Container>
   )
 }
