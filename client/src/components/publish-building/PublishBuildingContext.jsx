@@ -63,15 +63,29 @@ export const PublishBuildingProvider = ({ children }) => {
       )
         .then((response) => {
           if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`)
+            // Maneja la respuesta como un caso válido (por ejemplo, cuando no hay building)
+            return null // Puedes devolver `null` o algún valor para indicar esta situación.
           }
-          return response.json()
+          return response.json() // Continúa con el procesamiento normal de datos
         })
         .then((data) => {
+          if (!data) {
+            // Maneja el caso cuando no hay datos (response.ok === false)
+            console.log("No se encontró un building, continúa el flujo.")
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              address: {
+                hasError: false,
+                message: "",
+              },
+            }))
+            return
+          }
+
           console.log(data)
           if (
-            data.approved &&
-            (!data.approved || data.published_id === userData.id)
+            data.approved ||
+            (!data.approved && data.published_id === userData.id)
           ) {
             setErrors((prevErrors) => ({
               ...prevErrors,
@@ -90,6 +104,9 @@ export const PublishBuildingProvider = ({ children }) => {
               },
             }))
           }
+        })
+        .catch((error) => {
+          console.error("Error en la conexión o procesamiento:", error)
         })
     }
 
