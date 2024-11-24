@@ -13,13 +13,13 @@ function AdminPropertyView() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchBuilding = async () => {
       setLoading(true)
       setError(null)
 
       try {
         const response = await fetch(
-          `https://cc210ef425fe.sn.mynetname.net/property/${buildingId}`,
+          `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}`,
           {
             method: "GET",
             credentials: "include",
@@ -42,7 +42,7 @@ function AdminPropertyView() {
       }
     }
 
-    fetchProperty()
+    fetchBuilding()
   }, [buildingId])
 
   if (loading) {
