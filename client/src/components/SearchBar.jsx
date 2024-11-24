@@ -17,7 +17,7 @@ function SearchBar() {
     const URLdata = new URLSearchParams()
 
     // Conditionally add each parameter if the value is not empty, null, or undefined
-    if (filters.property.neighborhood_id) {
+    if (filters.building.neighborhood_id) {
       URLdata.append("neighborhood_id", filters.building.neighborhood_id)
     }
     if (filters.property.minRentPrice !== null) {

@@ -1,5 +1,4 @@
 import { createContext, useLayoutEffect, useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
 import SnackbarContext from "../components/SnackbarContext"
 
 const AuthContext = createContext()
@@ -9,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [logued, setLogued] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
   const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
   console.log(userData)
 
@@ -43,7 +41,11 @@ export const AuthProvider = ({ children }) => {
           )
         } else {
           setFieldError("auth", false, "")
-          navigate("/sign-in")
+          handleNavigationWithSnackbar(
+            "/sign-in",
+            "¡Registro exitoso! Por favor inicie sesión.",
+            "success", // Positive snackbar
+          )
         }
       })
       .catch((error) => {
@@ -88,7 +90,11 @@ export const AuthProvider = ({ children }) => {
         setUserData(user)
         setIsAdmin(user.is_admin)
         setLogued(true)
-        navigate("/")
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Inicio de sesión exitoso!",
+          "success", // Positive snackbar
+        )
       })
       .catch((error) => {
         console.error("Error al hacer la solicitud:", error)
@@ -108,7 +114,11 @@ export const AuthProvider = ({ children }) => {
         setUserData(null)
         setIsAdmin(false)
         setLogued(false)
-        navigate("/")
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Cierre de sesión exitoso!",
+          "success", // Positive snackbar
+        )
       })
       .catch((error) => {
         console.error("Error:", error)
