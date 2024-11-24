@@ -272,7 +272,7 @@ export const inputsCustomizations = {
   MuiOutlinedInput: {
     styleOverrides: {
       input: {
-        padding: 0,
+        padding: "10px",
       },
       root: ({ theme }) => ({
         height: "48px",
@@ -316,7 +316,6 @@ export const inputsCustomizations = {
   MuiFormLabel: {
     styleOverrides: {
       root: ({ theme }) => ({
-        padding: "8px 12px",
         typography: theme.typography.caption,
         marginBottom: 8,
         color: "black",
@@ -353,7 +352,7 @@ export const inputsCustomizations = {
           borderColor: "black",
         },
         "& .MuiInputBase-input": {
-          padding: "10px",
+          padding: "10px!important",
         },
         "& .MuiInputLabel-shrink": {
           transform: "translate(0, -17px) scale(0.75)",

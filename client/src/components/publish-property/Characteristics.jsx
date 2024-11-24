@@ -87,9 +87,9 @@ function Characteristics() {
           fullWidth
           sx={{
             height: "102px",
-            pb: "130px!important",
+            pb: "190px!important",
             ".MuiInputBase-root": {
-              height: "192px",
+              height: "292px",
               color: "black",
             },
             ".MuiInputLabel-root": {
