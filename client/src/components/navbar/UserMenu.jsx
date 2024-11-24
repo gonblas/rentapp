@@ -108,7 +108,7 @@ function AccountMenu({ user }) {
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-          Settings
+          Ajustes
         </MenuItem>
         <MenuItem
           onClick={() => {
