@@ -3,7 +3,7 @@ from typing import Annotated
 from sqlalchemy import func
 from app.database import db_dependency
 from app.models import Building, Neighborhood, User, Property, Image
-from app.schemas.buildings import BuildingsResponse, BuildingResponse, BuildingPost, BuildingFilterParams
+from app.schemas.buildings import GetBuildingsResponse, GetBuildingResponse, CreateBuildingRequest, BuildingFilterParams
 from app.schemas.properties import PropertyFilterParams, PropertiesResponse
 from app.utils.auth import auth_dependency, get_current_user
 from app.utils.search import get_building_filters, get_property_filters
@@ -17,7 +17,7 @@ router = APIRouter(
 # filters buildings
 @router.get(
             "/",
-            response_model=BuildingsResponse,
+            response_model=GetBuildingsResponse,
             status_code=status.HTTP_200_OK,
             summary="Returns a list of buildings that match the filters"
             )
@@ -92,7 +92,7 @@ def read_building_properties(building_id: int, db: db_dependency, filters : Anno
 
 @router.get(
             "/{building_id}",
-            response_model=BuildingResponse,
+            response_model=GetBuildingResponse,
             status_code=status.HTTP_200_OK,
             summary="Returns a building info"
             )
@@ -123,7 +123,7 @@ def read_building(building_id: int, db : db_dependency, token : Annotated[str,Co
 
 @router.get(
             "/search/",
-            response_model=BuildingResponse,
+            response_model=GetBuildingResponse,
             status_code=status.HTTP_200_OK,
             summary="Returns a building info by address, if it is approved or the user is the publisher"
             )
@@ -155,11 +155,11 @@ def search_building(db: db_dependency, address : Annotated[str, Query()], token 
 
 @router.post(
             "/",
-            response_model=BuildingResponse,
+            response_model=GetBuildingResponse,
             status_code=status.HTTP_201_CREATED,
             summary="Creates a new building"
             )
-async def create_building(building: BuildingPost, db: db_dependency, user: auth_dependency):
+async def create_building(building: CreateBuildingRequest, db: db_dependency, user: auth_dependency):
 
     if db.query(Building).filter(Building.address == building.address, Building.approved == True).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Building already exists")
