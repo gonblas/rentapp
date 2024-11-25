@@ -1,9 +1,10 @@
 from pydantic import BaseModel, Field
 from .properties import PaginationInfo
 
-class BuildingResponse(BaseModel):
+class GetBuildingResponse(BaseModel):
     id: int
     approved: bool
+    publisher_id: int
     address: str
     neighborhood_id: int
     neighborhood_name: str
@@ -16,10 +17,10 @@ class BuildingResponse(BaseModel):
     bike_rack: bool
     laundry: bool
 
-class BuildingsResponse(BaseModel):
-    buildings: list[BuildingResponse]
+class GetBuildingsResponse(BaseModel):
+    buildings: list[GetBuildingResponse]
 
-class BuildingPost(BaseModel):
+class CreateBuildingRequest(BaseModel):
     address: str
     neighborhood_id: int
     floors: int

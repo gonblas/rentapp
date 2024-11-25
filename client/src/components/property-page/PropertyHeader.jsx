@@ -12,6 +12,16 @@ import BalconyIcon from "@mui/icons-material/Balcony"
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed"
 
 function PropertyHeader({ property, building }) {
+  const locations = [
+    { value: "front", label: "Frente" },
+    { value: "back", label: "Contrafrente" },
+    { value: "internal", label: "Interno" },
+    { value: "side", label: "Lateral" },
+  ]
+  const location =
+    locations.find((loc) => loc.value === property.features.location)?.label ||
+    property.features.location
+
   return (
     <Container
       sx={{
@@ -29,12 +39,34 @@ function PropertyHeader({ property, building }) {
           justifyContent: "space-between",
           alignItems: "center",
           px: "0px!important",
+          flexWrap: "nowrap", // Evitar que los textos se vayan a otra línea
         }}
       >
-        <Typography variant="h4">
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: "clamp(16px, 1.5vw, 24px)", // Ajusta dinámicamente el tamaño de la fuente
+            whiteSpace: "nowrap", // Mantén todo el texto en una línea
+            overflow: "hidden", // Oculta texto si es necesario
+            textOverflow: "ellipsis", // Muestra puntos suspensivos si el texto es demasiado largo
+            maxWidth: "10%", // Cada texto ocupa hasta un 48% del contenedor
+          }}
+        >
           ${property.features.rental_value.toLocaleString("es-ES")}
         </Typography>
-        <Typography variant="h4">{building.address}</Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: "clamp(16px, 1.5vw, 24px)",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "90%",
+            textAlign: "right",
+          }}
+        >
+          {building.address}
+        </Typography>
       </Container>
 
       <Container
@@ -73,7 +105,7 @@ function PropertyHeader({ property, building }) {
       )}
 
       <Typography
-        variant="h6"
+        variant="h5"
         sx={{
           mt: "2.5rem",
         }}
@@ -99,10 +131,7 @@ function PropertyHeader({ property, building }) {
           icon={<SquareFootIcon />}
           text={`${property.features.square_meters} m²`}
         />
-        <FeatureItem
-          icon={<GpsNotFixedIcon />}
-          text={property.features.location}
-        />
+        <FeatureItem icon={<GpsNotFixedIcon />} text={location} />
         <FeatureItem
           icon={<BalconyIcon />}
           text={`Balcones: ${property.features.balconies}`}

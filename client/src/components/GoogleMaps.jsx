@@ -135,7 +135,9 @@ export default function GoogleMaps({ handleOnChange, value }) {
         }
       }}
       onInputChange={handleInputChange}
-      renderInput={(params) => <TextField {...params} fullWidth />}
+      renderInput={(params) => (
+        <TextField {...params} label="Ingrese una dirección" fullWidth />
+      )}
       renderOption={(props, option) => {
         // Check if the option is valid before accessing its properties
         if (!option || !option.structured_formatting) {

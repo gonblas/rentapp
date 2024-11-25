@@ -18,7 +18,7 @@ import PublishPropertyContext from "./PublishPropertyContext"
 function Subtitle({ children }) {
   return (
     <Typography
-      variant="body1"
+      variant="h6"
       sx={{
         fontWeight: "semibold",
         marginTop: 2,
@@ -35,12 +35,23 @@ function Characteristics() {
     PublishPropertyContext,
   )
 
-  const positions = ["Frente", "Contrafrente", "Interno", "Lateral"]
+  const positions = [
+    { value: null, label: "Ingrese la ubicación" },
+    { value: "front", label: "Frente" },
+    { value: "back", label: "Contrafrente" },
+    { value: "internal", label: "Interno" },
+    { value: "side", label: "Lateral" },
+  ]
+
+  const position = positions.find((p) => p.value === formData.location)
 
   const handleNumberChange = (event) => {
     const { name, value } = event.target
-    const newValue = value === "" || Number(value) < 1 ? null : Number(value)
+    let newValue = value === "" || Number(value) < 1 ? null : Number(value)
 
+    if (name === "balconies" || name === "expenses_value") {
+      newValue = value === "" || Number(value) < 0 ? null : Number(value)
+    }
     handleOnChange({
       target: {
         name,
@@ -77,6 +88,31 @@ function Characteristics() {
           multiline
           rows={4}
           fullWidth
+          sx={{
+            height: "102px",
+            pb: "190px!important",
+            ".MuiInputBase-root": {
+              height: "292px",
+              color: "black",
+            },
+            ".MuiInputLabel-root": {
+              color: "black",
+              "&.Mui-focused": {
+                color: "black",
+              },
+            },
+            ".MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+            },
+            "& .MuiInputBase-input": {
+              padding: "10px",
+            },
+            "& .MuiInputLabel-shrink": {
+              transform: "translate(0, -17px) scale(0.75)",
+              padding: "0 4px",
+              color: "black",
+            },
+          }}
         />
       </FormControl>
 
@@ -109,6 +145,16 @@ function Characteristics() {
           onChange={handleNumberChange}
           endAdornment={<InputAdornment position="end">$</InputAdornment>}
           type="number"
+          sx={{
+            "& input[type='number']::-webkit-outer-spin-button, & input[type='number']::-webkit-inner-spin-button":
+              {
+                "-webkit-appearance": "none",
+                margin: 0,
+              },
+            "& input[type='number']": {
+              MozAppearance: "textfield",
+            },
+          }}
           fullWidth
         />
         <FormHelperText sx={{ color: "error.main" }}>
@@ -134,7 +180,7 @@ function Characteristics() {
         </FormHelperText>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="square_meters">Superficie</FormLabel>
+        <FormLabel htmlFor="square_meters">Superficie (en m²)</FormLabel>
         <TextField
           id="square_meters"
           name="square_meters"
@@ -155,15 +201,22 @@ function Characteristics() {
         <Autocomplete
           disablePortal
           autoComplete
-          value={formData.location}
+          value={position}
           noOptionsText="Sin resultados"
           options={positions}
           sx={{ height: "40px!important" }}
           renderInput={(params) => <TextField {...params} />}
           onChange={(event, newValue) => {
             handleOnChange({
-              target: { name: "location", value: newValue },
+              target: { name: "location", value: newValue.value },
             })
+          }}
+          onInputChange={(event, inputValue) => {
+            if (inputValue === "") {
+              handleOnChange({
+                target: { name: "location", value: null },
+              })
+            }
           }}
         />
         <FormHelperText sx={{ pt: 2, color: "error.main" }}>

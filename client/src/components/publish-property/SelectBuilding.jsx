@@ -16,7 +16,7 @@ function SelectBuilding() {
     <>
       <FormControl>
         <FormControl>
-          <FormLabel>Ubicación del edificio</FormLabel>
+          <FormLabel sx={{ pb: "20px" }}>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
             value={formData.address}

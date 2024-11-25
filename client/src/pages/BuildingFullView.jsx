@@ -21,7 +21,7 @@ function BuildingFullView({ isAdmin = false }) {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/building/${buildingId}`,
+          `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}`,
           {
             method: "GET",
             credentials: "include",
@@ -89,7 +89,7 @@ function BuildingFullView({ isAdmin = false }) {
       }
 
       fetch(
-        `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
+        `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}/properties?` + URLdata,
         {
           method: "GET",
         },
@@ -135,6 +135,11 @@ function BuildingFullView({ isAdmin = false }) {
       }}
     >
       <BuildingHeader building={building} />
+      {properties && properties.length > 0 && (
+        <Typography variant="h5" sx={{ mr: "auto", pb: "25px" }}>
+          Propiedades en este edificio
+        </Typography>
+      )}
       {properties && properties.length > 0 ? (
         properties.map((property) => (
           <PropertyCard

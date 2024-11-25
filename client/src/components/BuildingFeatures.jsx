@@ -21,7 +21,7 @@ function BuildingFeatures({ building }) {
         width: "100%",
       }}
     >
-      <Typography variant="h6">
+      <Typography variant="h5">
         Caracteristicas generales del edificio
       </Typography>
       <Grid
@@ -44,7 +44,7 @@ function BuildingFeatures({ building }) {
           text={`Departamentos por piso: ${building.apartments_per_floor}`}
         />
       </Grid>
-      <Typography variant="h6">Servicios del edificio</Typography>
+      <Typography variant="h5">Servicios del edificio</Typography>
       <Grid
         container
         direction="row"

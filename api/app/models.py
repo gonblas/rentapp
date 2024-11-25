@@ -59,7 +59,7 @@ class Property(Base):
     backyard = Column(Boolean)
     garage = Column(Boolean)
     pet_friendly = Column(Boolean)
-    location = Column(Enum('front', 'back', 'internal'))
+    location = Column(Enum('front', 'back', 'internal','side'))
     publisher_id = Column(Integer, ForeignKey('users.id'))
     building_id = Column(Integer, ForeignKey('buildings.id'))
 

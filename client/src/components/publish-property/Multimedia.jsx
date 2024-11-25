@@ -5,7 +5,7 @@ import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
 
 function Multimedia() {
-  const { formData, handleOnChangeImages } = useContext(PublishPropertyContext)
+  const { formData, handleOnChangeImages, setErrors } = useContext(PublishPropertyContext)
 
   return (
     <>
@@ -16,6 +16,7 @@ function Multimedia() {
       <Dropzone
         files={formData.images}
         onChange={handleOnChangeImages}
+        setErrors={setErrors}
       ></Dropzone>
     </>
   )

@@ -369,7 +369,7 @@ CREATE TABLE `properties` (
   `backyard` tinyint(1) DEFAULT NULL,
   `garage` tinyint(1) DEFAULT NULL,
   `pet_friendly` tinyint(1) DEFAULT NULL,
-  `location` enum('front','back','internal') DEFAULT NULL,
+  `location` enum('front','back','internal','side') DEFAULT NULL,
   `publisher_id` int(11) DEFAULT NULL,
   `building_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),

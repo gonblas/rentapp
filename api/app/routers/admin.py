@@ -6,7 +6,7 @@ from app.utils.auth import auth_dependency, user_is_admin
 from app.database import db_dependency
 from app.routers.property import parse_properties_response
 from app.schemas.properties import PropertyResponse, PropertiesResponse
-from app.schemas.buildings import BuildingsResponse
+from app.schemas.buildings import GetBuildingsResponse
 from app.routers.building import parse_buildings_response
 
 router = APIRouter(
@@ -50,7 +50,7 @@ def list_pending_properties(db : db_dependency, user : auth_dependency):
 @router.get(
             "/building/pending",
             status_code=status.HTTP_200_OK,
-            response_model=BuildingsResponse,
+            response_model=GetBuildingsResponse,
             summary = "List all pending buildings",
             )
 def list_pending_buildings(db : db_dependency, user : auth_dependency):

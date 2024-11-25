@@ -272,9 +272,10 @@ export const inputsCustomizations = {
   MuiOutlinedInput: {
     styleOverrides: {
       input: {
-        padding: 0,
+        padding: "10px",
       },
       root: ({ theme }) => ({
+        height: "48px",
         padding: "8px 12px",
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
@@ -317,7 +318,48 @@ export const inputsCustomizations = {
       root: ({ theme }) => ({
         typography: theme.typography.caption,
         marginBottom: 8,
+        color: "black",
+        "& .MuiInputBase-input": {
+          padding: "10px",
+        },
+        "&:hover": {
+          color: "black",
+        },
+        "&.Mui-focused": {
+          color: "black",
+        },
+        "&.Mui-error": {
+          color: theme.palette.error.main,
+        },
       }),
+    },
+  },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        // height: "48px",
+        ".MuiInputBase-root": {
+          height: "48px",
+          color: "black",
+        },
+        ".MuiInputLabel-root": {
+          color: "black",
+          "&.Mui-focused": {
+            color: "black",
+          },
+        },
+        ".MuiOutlinedInput-notchedOutline": {
+          borderColor: "black",
+        },
+        "& .MuiInputBase-input": {
+          padding: "10px!important",
+        },
+        "& .MuiInputLabel-shrink": {
+          transform: "translate(0, -17px) scale(0.75)",
+          padding: "0 4px",
+          color: "black",
+        },
+      },
     },
   },
 }

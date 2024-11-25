@@ -1,37 +1,15 @@
-import React, { useContext, useEffect, useState, useMemo } from "react"
+import React, { useContext } from "react"
 import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField"
 import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
 import { useNavigate } from "react-router-dom"
 import SearchContext from "./SearchContext"
-import axios from "axios"
-import Autocomplete from "@mui/material/Autocomplete"
-import FormControl from "@mui/material/FormControl"
 import GoogleMaps from "./GoogleMaps"
 
 function SearchBar() {
   const navigate = useNavigate()
   const { filters, setFilters, setBuildings } = useContext(SearchContext)
-
-  const [neighborhoods, setNeighborhoods] = useState([])
-
-  const fetchNeighborhoodsList = useMemo(
-    () => async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/neighborhood/")
-        setNeighborhoods(response.data.neighborhoods)
-      } catch (error) {
-        console.log("Error al obtener los barrios:", error)
-      }
-    },
-    [],
-  )
-
-  useEffect(() => {
-    fetchNeighborhoodsList()
-  }, [fetchNeighborhoodsList])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -39,8 +17,8 @@ function SearchBar() {
     const URLdata = new URLSearchParams()
 
     // Conditionally add each parameter if the value is not empty, null, or undefined
-    if (filters.property.neighborhood_id) {
-      URLdata.append("neighborhood_id", filters.property.neighborhood_id)
+    if (filters.building.neighborhood_id) {
+      URLdata.append("neighborhood_id", filters.building.neighborhood_id)
     }
     if (filters.property.minRentPrice !== null) {
       URLdata.append("min_rental_value", filters.property.minRentPrice)
@@ -105,8 +83,8 @@ function SearchBar() {
       URLdata.append("laundry", true)
     }
 
-    console.log("http://localhost:8000/building/?" + URLdata)
-    fetch("http://localhost:8000/building/?" + URLdata, {
+    console.log("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata)
+    fetch("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -135,9 +113,10 @@ function SearchBar() {
         py: "80px",
         px: "0px!important",
         gap: "10px",
+        height: "48px",
       }}
     >
-      <Container sx={{ width: "41.5%", height: "48px" }}>
+      <Container sx={{ width: "100%", height: "48px", p: "0px!important" }}>
         <GoogleMaps
           handleOnChange={(e) => {
             setFilters((prev) => ({
@@ -151,72 +130,6 @@ function SearchBar() {
           value={filters.building.address}
         />
       </Container>
-
-      <FormControl sx={{ width: "41.5%", height: "44px" }}>
-        <Autocomplete
-          disablePortal
-          autoComplete
-          value={filters.property.neighborhood_name || null}
-          noOptionsText="Sin resultados"
-          options={[
-            { value: null, label: "Ingresá barrio" },
-            ...neighborhoods.map((neighborhood) => ({
-              value: neighborhood.id,
-              label: neighborhood.name,
-            })),
-          ]}
-          sx={{ width: "100%", height: "48px" }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Ingresá un Barrio"
-              fullWidth
-              sx={{
-                height: "48px",
-                ".MuiInputBase-root": {
-                  height: "48px",
-                  color: "black",
-                },
-                ".MuiInputLabel-root": {
-                  color: "black",
-                },
-                ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "black",
-                },
-                "& .MuiInputBase-input": {
-                  padding: "10px",
-                },
-                "& .MuiInputLabel-shrink": {
-                  transform: "translate(0, -17px) scale(0.75)",
-                  padding: "0 4px",
-                },
-              }}
-            />
-          )}
-          onChange={(event, newValue) => {
-            if (newValue) {
-              setFilters((prev) => ({
-                ...prev,
-                property: {
-                  ...prev.property,
-                  neighborhood_id: newValue.value,
-                  neighborhood_name: newValue.label,
-                },
-              }))
-            } else {
-              setFilters((prev) => ({
-                ...prev,
-                property: {
-                  ...prev.property,
-                  neighborhood_id: null,
-                  neighborhood_name: null,
-                },
-              }))
-            }
-          }}
-        />
-      </FormControl>
-
       <FilterList
         filters={filters}
         setFilters={setFilters}
