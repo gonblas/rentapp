@@ -300,7 +300,9 @@ function PropertyCard({ property, linkName }) {
               ? "Frente"
               : property.features.location === "back"
                 ? "Contrafrente"
-                : "Interno"}
+                : property.features.location === "Interno"
+                  ? "Interno"
+                  : "Lateral"}
           </InfoTag>
           {lastTag}
         </Container>

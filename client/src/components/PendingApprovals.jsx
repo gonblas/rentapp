@@ -57,7 +57,7 @@ function PendingApprovals() {
   // Helper function to render apartments
   const renderApartments = () => {
     if (!data.properties || data.properties.length === 0) {
-      return <AlertContainer message="No hay propiedades a validar" />
+      return <AlertContainer message="No hay departamentos a validar" />
     }
 
     return data.properties.map((item) => (
@@ -128,7 +128,7 @@ function PendingApprovals() {
             },
           }}
         >
-          Departamento
+          Departamentos
         </ToggleButton>
         <ToggleButton
           value="buildings"
