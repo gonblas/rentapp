@@ -65,12 +65,11 @@ function Dropzone({ files, onChange, setErrors }) {
         const remainingSlots = 10 - files.length
 
         if (remainingSlots <= 0) {
-          console.error("No puedes subir más de 10 archivos")
           setErrors((prevErrors) => ({
             ...prevErrors,
             images: {
               hasError: true,
-              message: `No puedes subir más de 10 archivos.`,
+              message: `No puedes subir más de 10 imágenes.`,
             },
           }))
           return
