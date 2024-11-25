@@ -61,15 +61,25 @@ function FilterList({ filters, setFilters }) {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "30px",
+            gap: "20px",
             maxWidth: "800px!important",
             padding: "30px!important",
           }}
         >
-          <Typography variant="h5">Filtros del Edificio</Typography>
-          <BuildingFilters filters={filters} setFilters={setFilters} />
-          <Typography variant="h5">Filtros de la Propiedad</Typography>
-          <PropertyFilters filters={filters} setFilters={setFilters} />
+          <Container
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <Typography variant="h5">Filtros del Edificio</Typography>
+            <BuildingFilters filters={filters} setFilters={setFilters} />
+          </Container>
+          <Container
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <Typography variant="h5" sx={{ mt: "15px" }}>
+              Filtros de la Propiedad
+            </Typography>
+            <PropertyFilters filters={filters} setFilters={setFilters} />
+          </Container>
         </Container>
       </Popover>
     </Fragment>
