@@ -105,7 +105,7 @@ function PropertyHeader({ property, building }) {
       )}
 
       <Typography
-        variant="h6"
+        variant="h5"
         sx={{
           mt: "2.5rem",
         }}

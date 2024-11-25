@@ -135,6 +135,11 @@ function BuildingFullView({ isAdmin = false }) {
       }}
     >
       <BuildingHeader building={building} />
+      {properties && properties.length > 0 && (
+        <Typography variant="h5" sx={{ mr: "auto", pb: "25px" }}>
+          Propiedades en este edificio
+        </Typography>
+      )}
       {properties && properties.length > 0 ? (
         properties.map((property) => (
           <PropertyCard
