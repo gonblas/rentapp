@@ -64,7 +64,7 @@ function BuildingFilters({ filters, setFilters }) {
         setFilters={setFilters}
         scope="building"
       />
-      <FormControl sx={{ width: "98%" }}>
+      <FormControl sx={{ width: "98%", pt: "15px" }}>
         <Autocomplete
           disablePortal
           autoComplete

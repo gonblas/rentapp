@@ -15,20 +15,24 @@ function FilterList({ filters, setFilters }) {
 
   return (
     <Fragment>
-      <Button variant="contained" onClick={handleClick} sx={{ height: "48px" }}>
+      <Button
+        variant="contained"
+        onClick={handleClick}
+        sx={{ height: "48px", px: "30px", fontSize: "16px" }}
+      >
         Filtros
       </Button>
       <Popover
         open={open}
         anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)} // Close Popover when clicking outside or elsewhere
+        onClose={() => setAnchorEl(null)}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left",
+          horizontal: "right",
         }}
       >
         <Container

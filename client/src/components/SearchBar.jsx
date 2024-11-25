@@ -113,9 +113,10 @@ function SearchBar() {
         py: "80px",
         px: "0px!important",
         gap: "10px",
+        height: "48px",
       }}
     >
-      <Container sx={{ width: "80%", height: "48px" }}>
+      <Container sx={{ width: "100%", height: "48px", p: "0px!important" }}>
         <GoogleMaps
           handleOnChange={(e) => {
             setFilters((prev) => ({
@@ -129,7 +130,6 @@ function SearchBar() {
           value={filters.building.address}
         />
       </Container>
-
       <FilterList
         filters={filters}
         setFilters={setFilters}
