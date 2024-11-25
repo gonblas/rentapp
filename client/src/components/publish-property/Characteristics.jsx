@@ -49,7 +49,7 @@ function Characteristics() {
     const { name, value } = event.target
     let newValue = value === "" || Number(value) < 1 ? null : Number(value)
 
-    if (name === "balconies") {
+    if (name === "balconies" || name === "expenses_value") {
       newValue = value === "" || Number(value) < 0 ? null : Number(value)
     }
     handleOnChange({

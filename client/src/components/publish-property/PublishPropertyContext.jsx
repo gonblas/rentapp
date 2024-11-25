@@ -10,7 +10,7 @@ export const PublishPropertyProvider = ({ children }) => {
     building_id: 0,
     description: "",
     rental_value: null,
-    expenses_value: null,
+    expenses_value: 0,
     rooms: null,
     square_meters: null,
     location: null,
