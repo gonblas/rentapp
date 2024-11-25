@@ -64,7 +64,7 @@ function BuildingFilters({ filters, setFilters }) {
         setFilters={setFilters}
         scope="building"
       />
-      <FormControl sx={{ width: "41.5%", height: "44px" }}>
+      <FormControl sx={{ width: "98%" }}>
         <Autocomplete
           disablePortal
           autoComplete
@@ -76,7 +76,7 @@ function BuildingFilters({ filters, setFilters }) {
               label: neighborhood.name,
             })),
           ]}
-          sx={{ width: "100%", height: "48px" }}
+          sx={{ width: "100%" }}
           renderInput={(params) => (
             <TextField
               {...params}
