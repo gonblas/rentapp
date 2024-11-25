@@ -8,10 +8,10 @@ import BuildingCard from "./cards/BuildingCard"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
 import AdminContext from "./AdminContext"
+import AlertContainer from "./AlertContainer"
 
 function PendingApprovals() {
   const { showList, setShowList } = useContext(AdminContext) // Get context values
-  // console.log(showList)
   const [data, setData] = useState([]) // Data to store fetched information
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
@@ -56,8 +56,8 @@ function PendingApprovals() {
 
   // Helper function to render apartments
   const renderApartments = () => {
-    if (!Array.isArray(data.properties)) {
-      return <Typography>No data available for properties.</Typography>
+    if (!data.properties || data.properties.length === 0) {
+      return <AlertContainer message="No hay propiedades a validar" />
     }
 
     return data.properties.map((item) => (
@@ -78,8 +78,8 @@ function PendingApprovals() {
 
   // Helper function to render buildings
   const renderBuildings = () => {
-    if (!data?.buildings) {
-      return <Typography>No buildings data available.</Typography>
+    if (!data.buildings || data.buildings.length === 0) {
+      return <AlertContainer message="No hay edificios a validar" />
     }
 
     return data.buildings.map((item) => (
