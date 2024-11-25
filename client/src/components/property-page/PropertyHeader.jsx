@@ -47,8 +47,6 @@ function PropertyHeader({ property, building }) {
           sx={{
             fontSize: "clamp(16px, 1.5vw, 24px)", // Ajusta dinámicamente el tamaño de la fuente
             whiteSpace: "nowrap", // Mantén todo el texto en una línea
-            overflow: "hidden", // Oculta texto si es necesario
-            textOverflow: "ellipsis", // Muestra puntos suspensivos si el texto es demasiado largo
             maxWidth: "10%", // Cada texto ocupa hasta un 48% del contenedor
           }}
         >
