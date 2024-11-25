@@ -25,17 +25,19 @@ function ContactButton({ contact }) {
       icon: <LocalPostOfficeOutlinedIcon />,
       text: contact.email,
       func: () => window.open(`mailto:${contact.email}`),
+      condition: true,
     },
     {
       icon: <LocalPhoneIcon />,
       text: contact.phone_number,
       func: () => window.open(`tel:${contact.phone}`),
+      condition: contact.has_phone_number,
     },
     {
       icon: <WhatsAppIcon />,
       text: contact.whatsapp_number,
       func: () => window.open(`https://wa.me/${contact.phone}`),
-      condition: contact.whatsapp_enabled,
+      condition: contact.has_whatsapp_number,
     },
   ]
 
