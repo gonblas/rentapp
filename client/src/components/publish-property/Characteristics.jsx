@@ -47,8 +47,11 @@ function Characteristics() {
 
   const handleNumberChange = (event) => {
     const { name, value } = event.target
-    const newValue = value === "" || Number(value) < 1 ? null : Number(value)
+    let newValue = value === "" || Number(value) < 1 ? null : Number(value)
 
+    if (name === "balconies") {
+      newValue = value === "" || Number(value) < 0 ? null : Number(value)
+    }
     handleOnChange({
       target: {
         name,
@@ -177,7 +180,7 @@ function Characteristics() {
         </FormHelperText>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="square_meters">Superficie</FormLabel>
+        <FormLabel htmlFor="square_meters">Superficie (en m²)</FormLabel>
         <TextField
           id="square_meters"
           name="square_meters"

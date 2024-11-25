@@ -236,7 +236,6 @@ export const PublishPropertyProvider = ({ children }) => {
     }
 
     // Validación para `location`
-
     if (formData.location === null) {
       setErrors((prevErrors) => ({
         ...prevErrors,
