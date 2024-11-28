@@ -8,7 +8,7 @@ import SnackbarContext from "./SnackbarContext"
 
 function ValidationButtons({ object, type }) {
   const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
-
+  console.log("PEDRO PEDRITO PERON PERONISTA PERONISMO")
   return (
     <Container
       sx={{ display: "flex", justifyContent: "flex-end", gap: 2, pb: "20px" }}
