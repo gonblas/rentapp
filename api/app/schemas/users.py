@@ -2,11 +2,11 @@ from pydantic import BaseModel
 from typing import Annotated
 from fastapi import File, UploadFile, Form
 
-class UserSignIn(BaseModel):
+class UserLoginRequest(BaseModel):
     email : Annotated[str, Form()]
     password : Annotated[str, Form()]
 
-class UserSignUp(BaseModel):
+class UserSignUpRequest(BaseModel):
     name : Annotated[str, Form()]
     email : Annotated[str, Form()]
     is_real_estate : Annotated[bool, Form()]
@@ -17,14 +17,6 @@ class UserSignUp(BaseModel):
     has_whatsapp_number: Annotated[bool, Form()]
     avatar: Annotated[UploadFile, File()]
 
-class UserInDB(UserSignUp):
-    id: int
-
-class User(BaseModel):
-    id: int
-    name : str
-    email : str
-    is_real_estate : bool
 
 class ContactInfo(BaseModel):
     email : str
@@ -33,7 +25,7 @@ class ContactInfo(BaseModel):
     whatsapp_number: str
     has_whatsapp_number: bool
 
-class UserResponse(BaseModel):
+class GetUserResponse(BaseModel):
     id: int
     name : str
     is_real_estate : bool

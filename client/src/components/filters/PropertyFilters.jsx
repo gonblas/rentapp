@@ -1,34 +1,42 @@
 import Grid from "@mui/material/Grid2"
 import React from "react"
 import ShowFilter from "./ShowFilter"
+import { FormControl, FormLabel } from "@mui/material"
 
 function PropertyFilters({ filters, setFilters }) {
   return (
     <Grid container spacing={2}>
-      <ShowFilter
-        name="hasBackyard"
-        label="Patio"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
-      <ShowFilter
-        name="hasGarage"
-        label="Cochera"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
-      <ShowFilter
-        name="petfriendly"
-        label="Apto mascotas"
-        type="checkbox"
-        filters={filters}
-        setFilters={setFilters}
-        scope="property"
-      />
+      <FormControl>
+        <FormLabel htmlFor={"caracteristicas"} color="black">
+          Características
+        </FormLabel>
+        <div>
+          <ShowFilter
+            name="hasBackyard"
+            label="Patio"
+            type="checkbox"
+            filters={filters}
+            setFilters={setFilters}
+            scope="property"
+          />
+          <ShowFilter
+            name="hasGarage"
+            label="Cochera"
+            type="checkbox"
+            filters={filters}
+            setFilters={setFilters}
+            scope="property"
+          />
+          <ShowFilter
+            name="petfriendly"
+            label="Apto mascotas"
+            type="checkbox"
+            filters={filters}
+            setFilters={setFilters}
+            scope="property"
+          />
+        </div>
+      </FormControl>
       <ShowFilter
         name="location"
         label="Orientación"
@@ -39,8 +47,8 @@ function PropertyFilters({ filters, setFilters }) {
         options={[
           { value: "front", label: "Frente" },
           { value: "back", label: "Contrafrente" },
-          { value: "inside", label: "Interno" },
-          { value: "lateral", label: "Lateral" },
+          { value: "internal", label: "Interno" },
+          { value: "side", label: "Lateral" },
         ]}
       />
       <ShowFilter

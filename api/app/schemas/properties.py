@@ -1,5 +1,7 @@
 from typing import List
 from pydantic import BaseModel, Field
+from fastapi import Form
+from fastapi import UploadFile
 
 #query params for filtering properties
 class PropertyFilterParams(BaseModel):
@@ -127,3 +129,48 @@ class PropertiesResponse(BaseModel):
 class PropertiesListResponse(BaseModel):
     properties : List[PropertyListResponse]
     paging: PaginationInfo
+
+class CreatePropertyRequest(BaseModel):
+    description : str
+    rental_value : float
+    expenses_value : float
+    rooms : int
+    square_meters : int
+    balconies : int
+    backyard : bool
+    garage : bool
+    pet_friendly : bool
+    location : str
+    building_id : int
+    images : List[UploadFile]
+
+    @classmethod
+    def as_form(
+        cls,
+        description : str = Form(...),
+        rental_value : float = Form(...),
+        expenses_value : float = Form(...),
+        rooms : int = Form(...),
+        square_meters : int = Form(...),
+        balconies : int = Form(...),
+        backyard : bool = Form(...),
+        garage : bool = Form(...),
+        pet_friendly : bool = Form(...),
+        location : str = Form(...),
+        building_id : int = Form(...),
+        images : List[UploadFile] = Form(...)
+    ):
+        return cls(
+            description=description,
+            rental_value=rental_value,
+            expenses_value=expenses_value,
+            rooms=rooms,
+            square_meters=square_meters,
+            balconies=balconies,
+            backyard=backyard,
+            garage=garage,
+            pet_friendly=pet_friendly,
+            location=location,
+            building_id=building_id,
+            images=images
+        )

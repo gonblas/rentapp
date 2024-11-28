@@ -19,7 +19,9 @@ function SelectLocation() {
   const fetchNeighborhoodsList = useMemo(
     () => async () => {
       try {
-        const response = await axios.get("http://localhost:8000/neighborhood/")
+        const response = await axios.get(
+          "https://cc210ef425fe.sn.mynetname.net/neighborhood/",
+        )
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
         console.log("Error al obtener los barrios:", error)
@@ -36,7 +38,7 @@ function SelectLocation() {
     <>
       <FormControl>
         <FormControl>
-          <FormLabel>Ubicación del edificio</FormLabel>
+          <FormLabel sx={{ pb: "20px" }}>Ubicación del edificio</FormLabel>
           <GoogleMaps
             handleOnChange={handleOnChange}
             value={formData.address}
@@ -47,18 +49,23 @@ function SelectLocation() {
         </FormControl>
       </FormControl>
       <FormControl sx={{ pt: "30px" }}>
-        <FormLabel>Barrio</FormLabel>
+        <FormLabel sx={{ pb: "20px" }}>Barrio</FormLabel>
         <Autocomplete
           disablePortal
           autoComplete
           value={formData.neighborhood}
           noOptionsText="Sin resultados"
-          options={neighborhoods.map((neighborhood) => ({
-            value: neighborhood.id,
-            label: neighborhood.name,
-          }))}
+          options={[
+            { value: null, label: "Ingresá un barrio" },
+            ...neighborhoods.map((neighborhood) => ({
+              value: neighborhood.id,
+              label: neighborhood.name,
+            })),
+          ]}
           sx={{ width: "auto" }}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField {...params} label="Ingresá un Barrio" fullWidth />
+          )}
           onChange={(event, newValue) => {
             handleOnChange({
               target: { name: "neighborhood_id", value: newValue.value },
@@ -66,6 +73,17 @@ function SelectLocation() {
             handleOnChange({
               target: { name: "neighborhood", value: newValue.label },
             })
+          }}
+          onInputChange={(event, inputValue) => {
+            // Si el usuario borra el texto manualmente, limpia el estado
+            if (inputValue === "") {
+              handleOnChange({
+                target: { name: "neighborhood_id", value: null },
+              })
+              handleOnChange({
+                target: { name: "neighborhood", value: "" },
+              })
+            }
           }}
         />
         <FormHelperText sx={{ color: "error.main" }}>

@@ -1,10 +1,13 @@
 import React, { createContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import useAuth from "../../hooks/AuthContext"
+import SnackbarContext from "../SnackbarContext"
 
 const PublishBuildingContext = createContext(undefined)
 
 export const PublishBuildingProvider = ({ children }) => {
-  const navigate = useNavigate()
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
+  const { userData } = useAuth()
 
   const [formData, setFormData] = useState({
     address: "",
@@ -33,7 +36,7 @@ export const PublishBuildingProvider = ({ children }) => {
     laundry: { hasError: false, message: "" },
   })
 
-  const validateStep1 = (setErrors) => {
+  const validateStep1 = async (setErrors) => {
     const { address, neighborhood_id } = formData
     let isValid = true
 
@@ -51,20 +54,17 @@ export const PublishBuildingProvider = ({ children }) => {
       const URLdata = new URLSearchParams()
       URLdata.append("address", address)
 
-      fetch("http://localhost:8000/building/search/?" + URLdata, {
-        method: "GET",
-        credentials: "include",
-      }).then((response) => {
-        if (response.status === 200) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            address: {
-              hasError: true,
-              message: "La dirección ya se encuentra registrada.",
-            },
-          }))
-          isValid = false
-        } else {
+      try {
+        const response = await fetch(
+          "https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        )
+
+        if (!response.ok) {
+          console.log("No se encontró un building, continúa el flujo.")
           setErrors((prevErrors) => ({
             ...prevErrors,
             address: {
@@ -72,8 +72,35 @@ export const PublishBuildingProvider = ({ children }) => {
               message: "",
             },
           }))
+        } else {
+          const data = await response.json()
+
+          if (
+            data.approved ||
+            (!data.approved && data.publisher_id === userData.id)
+          ) {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              address: {
+                hasError: true,
+                message: "Ya existe un edificio registrado con esta dirección.",
+              },
+            }))
+            isValid = false
+          } else {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              address: {
+                hasError: false,
+                message: "",
+              },
+            }))
+          }
         }
-      })
+      } catch (error) {
+        console.error("Error en la conexión o procesamiento:", error)
+        isValid = false // Opcional, si quieres invalidar en caso de error
+      }
     }
 
     // Validación para `neighborhood_id`
@@ -153,7 +180,7 @@ export const PublishBuildingProvider = ({ children }) => {
     // eslint-disable-next-line no-unused-vars
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
 
-    fetch("http://localhost:8000/building/", {
+    fetch("https://cc210ef425fe.sn.mynetname.net/building/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,10 +189,13 @@ export const PublishBuildingProvider = ({ children }) => {
       body: JSON.stringify(filteredData),
     }).then((response) => {
       if (response.status === 201) {
-        console.log("Formulario enviado correctamente")
-        navigate("/")
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Edificio enviado a validar!",
+          "success",
+        )
       } else {
-        console.log("Error al enviar el formulario")
+        alert("Error al enviar el edificio a validar.")
       }
     })
   }

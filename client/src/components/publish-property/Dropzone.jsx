@@ -3,6 +3,9 @@ import { useDropzone } from "react-dropzone"
 import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid2"
 import Container from "@mui/material/Container"
+import { useContext } from "react"
+import PublishPropertyContext from "./PublishPropertyContext"
+import FormHelperText from "@mui/material/FormHelperText"
 
 function ImagePreview({ file }) {
   return (
@@ -51,7 +54,9 @@ function ImagePreview({ file }) {
   )
 }
 
-function Dropzone({ files, onChange }) {
+function Dropzone({ files, onChange, setErrors }) {
+  const { errors } = useContext(PublishPropertyContext)
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       const totalFiles = files.length + acceptedFiles.length
@@ -60,7 +65,13 @@ function Dropzone({ files, onChange }) {
         const remainingSlots = 10 - files.length
 
         if (remainingSlots <= 0) {
-          console.error("No puedes subir más de 10 archivos")
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            images: {
+              hasError: true,
+              message: `No puedes subir más de 10 imágenes.`,
+            },
+          }))
           return
         }
 
@@ -82,7 +93,7 @@ function Dropzone({ files, onChange }) {
 
       onChange(filesWithPreview)
     },
-    [files, onChange],
+    [files, onChange, setErrors],
   )
 
   const onDropRejected = (fileRejections) => {
@@ -145,6 +156,9 @@ function Dropzone({ files, onChange }) {
           <ImagePreview key={file.name} file={file} />
         ))}
       </Grid>
+      <FormHelperText sx={{ color: "error.main", mx: "auto" }}>
+        {errors.images.hasError && errors.images.message}
+      </FormHelperText>
     </>
   )
 }

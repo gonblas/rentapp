@@ -5,8 +5,15 @@ import Container from "@mui/material/Container"
 import PropertyHeader from "./PropertyHeader"
 import BuildingFeatures from "../BuildingFeatures"
 import PublisherInfo from "./PublisherInfo"
+import useAuth from "../../hooks/AuthContext"
+import Button from "@mui/material/Button"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { useLocation } from "react-router-dom"
 
-function Property({ property }) {
+function Property({ property, canDelete = true }) {
+  const location = useLocation()
+  const { userData, logued, handlePropertyDelete } = useAuth()
+
   // Resize the images to a smaller size
   const ImageGallery = () => {
     return (
@@ -65,6 +72,30 @@ function Property({ property }) {
     )
   }
 
+  const RejectButton = () => {
+    return (
+      <Button
+        onClick={() => {
+          handlePropertyDelete(property.id)
+        }}
+        startIcon={<DeleteIcon />}
+        sx={{
+          backgroundColor: "error.dark",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "error.hover",
+          },
+          padding: "12px 24px",
+          fontSize: "1rem",
+          fontWeight: "bold",
+          textTransform: "none",
+        }}
+      >
+        Eliminar
+      </Button>
+    )
+  }
+
   const images = property.images.map((image) => ({
     original: image, // Can replace with a smaller image if you have one
     thumbnail: image, // Same here, ideally you should provide a smaller image for thumbnails
@@ -86,6 +117,21 @@ function Property({ property }) {
       <PropertyHeader property={property} building={property.building} />
       <BuildingFeatures building={property.building} />
       <PublisherInfo publisher={property.publisher} />
+      {canDelete &&
+        logued &&
+        userData.id === property.publisher.id &&
+        !location.pathname.includes("admin") && (
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 2,
+              pb: "20px",
+            }}
+          >
+            <RejectButton />
+          </Container>
+        )}
     </Container>
   )
 }

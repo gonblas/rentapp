@@ -1,18 +1,20 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import SnackbarContext from "../SnackbarContext"
 
 const PublishPropertyContext = createContext(undefined)
 
 export const PublishPropertyProvider = ({ children }) => {
+  const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
   const [formData, setFormData] = useState({
     address: "",
     building_id: 0,
     description: "",
     rental_value: null,
-    expenses_value: null,
+    expenses_value: 0,
     rooms: null,
     square_meters: null,
     location: null,
-    balconies: null,
+    balconies: 0,
     backyard: false,
     garage: false,
     pet_friendly: false,
@@ -34,7 +36,48 @@ export const PublishPropertyProvider = ({ children }) => {
     bike_rack: false,
     laundry: false,
   })
-  console.log("building", building)
+  const [requestBody, setRequestBody] = useState({
+    id: null,
+    description: null,
+    features: {
+      rental_value: null,
+      expenses_value: null,
+      rooms: null,
+      square_meters: null,
+      location: null,
+      balconies: null,
+      backyard: null,
+      garage: null,
+      pet_friendly: null,
+    },
+    publisher: {
+      id: null,
+      name: null,
+      is_real_estate: null,
+      avatar: null,
+      contact: {
+        email: null,
+        phone_number: null,
+        has_phone_number: null,
+        whatsapp_number: null,
+        has_whatsapp_number: null,
+      },
+    },
+    building: {
+      id: null,
+      address: null,
+      neighborhood_name: null,
+      floors: null,
+      apartments_per_floor: null,
+      elevator: null,
+      pool: null,
+      gym: null,
+      terrace: null,
+      bike_rack: null,
+      laundry: null,
+    },
+    images: [],
+  })
 
   const [errors, setErrors] = useState({
     building_id: { hasError: false, message: "" },
@@ -71,7 +114,7 @@ export const PublishPropertyProvider = ({ children }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/building/search/?${URLdata.toString()}`,
+          `https://cc210ef425fe.sn.mynetname.net/building/search/?${URLdata.toString()}`,
           {
             method: "GET",
             credentials: "include",
@@ -193,7 +236,6 @@ export const PublishPropertyProvider = ({ children }) => {
     }
 
     // Validación para `location`
-
     if (formData.location === null) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -242,15 +284,71 @@ export const PublishPropertyProvider = ({ children }) => {
     return isValid
   }
 
+  const useSubmitOnce = (func) => {
+    const [called, setCalled] = useState(false)
+
+    const submitOnce = (e) => {
+      if (!called) {
+        setCalled(true)
+        func(e)
+      }
+    }
+
+    return submitOnce
+  }
+
   const submitForm = () => {
-    console.log("Formulario enviado ashe cte")
+    const data = new FormData()
+    data.append("description", formData.description)
+    data.append("rental_value", formData.rental_value)
+    data.append("expenses_value", formData.expenses_value)
+    data.append("rooms", formData.rooms)
+    data.append("square_meters", formData.square_meters)
+    data.append("balconies", formData.balconies)
+    data.append("backyard", formData.backyard)
+    data.append("garage", formData.garage)
+    data.append("pet_friendly", formData.pet_friendly)
+    data.append("location", formData.location)
+    data.append("building_id", building.id)
+    formData.images.forEach((file) => {
+      data.append("images", file.image)
+    })
+
+    fetch("https://cc210ef425fe.sn.mynetname.net/property/", {
+      method: "POST",
+      credentials: "include",
+      body: data,
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`,
+          )
+        }
+      })
+      .then((responseData) => {
+        console.log("Property successfully published:", responseData)
+
+        // Show alert for successful submission
+        handleNavigationWithSnackbar(
+          "/",
+          "¡Propiedad enviada para validacion!",
+          "success",
+        )
+      })
+      .catch((error) => {
+        console.error("Error al hacer la solicitud:", error)
+        alert(`Error al publicar la propiedad: ${error.message}`)
+      })
   }
 
   const nextStepFunction = [
     () => validateStep1(setErrors),
     () => validateStep2(setErrors),
     () => validateStep3(setErrors),
-    () => submitForm(),
+    useSubmitOnce(submitForm), // Usamos el hook aquí
   ]
 
   const handleOnChange = (event) => {
@@ -278,6 +376,8 @@ export const PublishPropertyProvider = ({ children }) => {
         setFormData,
         building,
         setBuilding,
+        requestBody,
+        setRequestBody,
         errors,
         setErrors,
         nextStepFunction,

@@ -3,12 +3,15 @@ import "./index.css"
 import App from "./App.jsx"
 import { BrowserRouter } from "react-router-dom"
 import { AuthProvider } from "./hooks/AuthContext"
+import { SnackbarProvider } from "./components/SnackbarContext"
 
 // Hola
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <SnackbarProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </SnackbarProvider>
   </BrowserRouter>,
 )

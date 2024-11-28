@@ -47,6 +47,7 @@ export default function HorizontalLinearStepper({
   const { nextStepFunction } = useContext(
     property ? PublishPropertyContext : PublishBuildingContext,
   )
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [activeStep, setActiveStep] = useState(0)
 
@@ -55,6 +56,11 @@ export default function HorizontalLinearStepper({
     if (isValid) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
+    setIsSubmitting(true)
+    setTimeout(() => {
+      console.log("Formulario enviado")
+      setIsSubmitting(false)
+    }, 2000)
   }
 
   const handleBack = () => {

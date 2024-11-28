@@ -164,20 +164,6 @@ export const dataDisplayCustomizations = {
       }),
     },
   },
-  MuiTablePagination: {
-    styleOverrides: {
-      actions: {
-        display: "flex",
-        gap: 8,
-        marginRight: 6,
-        [`& .${iconButtonClasses.root}`]: {
-          minWidth: 0,
-          width: 32,
-          height: 32,
-        },
-      },
-    },
-  },
   MuiIcon: {
     defaultProps: {
       fontSize: "small",

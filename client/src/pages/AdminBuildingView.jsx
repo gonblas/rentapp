@@ -13,13 +13,13 @@ function AdminPropertyView() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchBuilding = async () => {
       setLoading(true)
       setError(null)
 
       try {
         const response = await fetch(
-          `http://localhost:8000/property/${buildingId}`,
+          `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}`,
           {
             method: "GET",
             credentials: "include",
@@ -42,7 +42,7 @@ function AdminPropertyView() {
       }
     }
 
-    fetchProperty()
+    fetchBuilding()
   }, [buildingId])
 
   if (loading) {
@@ -63,10 +63,7 @@ function AdminPropertyView() {
       }}
     >
       <BuildingFullView isAdmin={true} />
-      <ValidationButtons
-        object={building}
-        endpoint="http://localhost:8000/admin/property"
-      />
+      <ValidationButtons object={building} type="building" />
     </Container>
   )
 }

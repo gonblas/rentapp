@@ -25,17 +25,19 @@ function ContactButton({ contact }) {
       icon: <LocalPostOfficeOutlinedIcon />,
       text: contact.email,
       func: () => window.open(`mailto:${contact.email}`),
+      condition: true,
     },
     {
       icon: <LocalPhoneIcon />,
       text: contact.phone_number,
       func: () => window.open(`tel:${contact.phone}`),
+      condition: contact.has_phone_number,
     },
     {
       icon: <WhatsAppIcon />,
       text: contact.whatsapp_number,
       func: () => window.open(`https://wa.me/${contact.phone}`),
-      condition: contact.whatsapp_enabled,
+      condition: contact.has_whatsapp_number,
     },
   ]
 
@@ -223,9 +225,8 @@ function PropertyCard({ property, linkName }) {
           flexDirection: "column",
           justifyContent: "space-between",
           pl: "0px!important",
-          pr: "10px!important",
-          padding: "1rem",
-          width: "90%",
+          padding: "10px",
+          width: "70%",
           minHeight: "100%!important",
         }}
       >
@@ -257,7 +258,7 @@ function PropertyCard({ property, linkName }) {
             >
               ${property.features.rental_value.toLocaleString("es-ES")}
             </Typography>
-            <FavoriteButton property={property} />
+            <FavoriteButton />
           </Container>
           <Typography
             variant="body1"
@@ -299,7 +300,9 @@ function PropertyCard({ property, linkName }) {
               ? "Frente"
               : property.features.location === "back"
                 ? "Contrafrente"
-                : "Interno"}
+                : property.features.location === "Interno"
+                  ? "Interno"
+                  : "Lateral"}
           </InfoTag>
           {lastTag}
         </Container>

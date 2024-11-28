@@ -87,10 +87,20 @@ function ButtonMenu() {
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to={"/publish-building"} key={"publicar edificio"}>
-            <Button>
+          <Link
+            to={"/publish-building"}
+            key={"publicar edificio"}
+            style={{
+              width: "100%",
+              color: "theme.palette.grey[800]",
+              textDecoration: "none",
+            }}
+          >
+            <Button
+              sx={{ width: "100%", display: "flex", justifyContent: "start" }}
+            >
               <ApartmentIcon />
-              Publicar edificio
+              <span style={{ all: "unset" }}>Publicar edificio</span>
             </Button>
           </Link>
         </MenuItem>

@@ -101,6 +101,8 @@ export default function SignInCard() {
       setFieldError("password", false, "")
     }
 
+    setFieldError("auth", false, "")
+
     return isValid
   }
 
