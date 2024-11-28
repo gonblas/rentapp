@@ -1,3 +1,5 @@
+// Hola PEDRO PEDRO PEDRO PEDRO PE
+console.log("Hola Pedro")
 import { createRoot } from "react-dom/client"
 import "./index.css"
 import App from "./App.jsx"
@@ -5,7 +7,6 @@ import { BrowserRouter } from "react-router-dom"
 import { AuthProvider } from "./hooks/AuthContext"
 import { SnackbarProvider } from "./components/SnackbarContext"
 
-// Hola
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <SnackbarProvider>
