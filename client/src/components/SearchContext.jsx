@@ -23,7 +23,7 @@ export const SearchProvider = ({ children }) => {
       neighborhood_name: null,
       address: null,
       services: [],
-      floors: null, // Set to null
+      floors: null,
       apartmentsPerFloor: null,
     },
   })

@@ -1,12 +1,13 @@
-import React from "react"
-import FormControl from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import { useContext } from "react"
+import React, { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
 import GoogleMaps from "../GoogleMaps"
-import FormHelperText from "@mui/material/FormHelperText"
-import Typography from "@mui/material/Typography"
-import Link from "@mui/material/Link"
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Typography,
+  Link,
+} from "@mui/material"
 
 function SelectBuilding() {
   const { errors, handleOnChange, formData } = useContext(

@@ -7,30 +7,37 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn"
 
 const sitemap_items = [
   {
+    id: 1,
     name: "Propiedades en Argentina",
     path: "#",
   },
   {
+    id: 2,
     name: "Publicar tu propiedad",
     path: "/publish-property",
   },
   {
+    id: 3,
     name: "Publicar un edificio",
     path: "/publish-building",
   },
   {
+    id: 4,
     name: "Ayuda",
     path: "#",
   },
   {
+    id: 5,
     name: "Acerca de",
     path: "#",
   },
   {
+    id: 6,
     name: "Contactanos",
     path: "#",
   },
   {
+    id: 7,
     name: "Empleos",
     path: "#",
   },
@@ -38,10 +45,12 @@ const sitemap_items = [
 
 const explore_items = [
   {
+    id: 1,
     name: "Inmobiliarias",
     path: "#",
   },
   {
+    id: 2,
     name: "Zonas",
     path: "#",
   },
@@ -49,10 +58,12 @@ const explore_items = [
 
 const app_icons = [
   {
+    id: 1,
     src: "../GooglePlay.svg",
     alt: "Google Play",
   },
   {
+    id: 2,
     src: "../AppStore.svg",
     alt: "App Store",
   },

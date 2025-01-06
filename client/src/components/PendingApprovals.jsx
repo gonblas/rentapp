@@ -39,20 +39,20 @@ function PendingApprovals() {
         return response.json()
       })
       .then((data) => {
-        setData(data) // Update the state with fetched data
+        setData(data)
       })
       .catch((error) => {
-        setError(error.message) // Set error state in case of failure
+        setError(error.message)
       })
       .finally(() => {
-        setLoading(false) // Stop loading when done
+        setLoading(false)
       })
-  }, [showList]) // `showList` is the dependency for `fetchData`
+  }, [showList])
 
   // Fetch data when showList changes
   useEffect(() => {
-    fetchData() // Fetch data when `showList` changes
-  }, [fetchData]) // `fetchData` is now part of the dependency array
+    fetchData()
+  }, [fetchData])
 
   // Helper function to render apartments
   const renderApartments = () => {

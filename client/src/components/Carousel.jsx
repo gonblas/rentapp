@@ -44,7 +44,7 @@ function Carousel({ data }) {
             color: "white",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             boxShadow: "0px 0px 5px #333",
-            borderRadius: "50%", // Ensures the shape is circular
+            borderRadius: "50%",
           },
         }}
       />

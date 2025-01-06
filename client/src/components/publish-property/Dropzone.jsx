@@ -1,11 +1,8 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useContext } from "react"
 import { useDropzone } from "react-dropzone"
-import Typography from "@mui/material/Typography"
-import Grid from "@mui/material/Grid2"
-import Container from "@mui/material/Container"
-import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
-import FormHelperText from "@mui/material/FormHelperText"
+import Grid from "@mui/material/Grid2"
+import { Typography, Container, FormHelperText } from "@mui/material"
 
 function ImagePreview({ file }) {
   return (

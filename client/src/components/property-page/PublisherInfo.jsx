@@ -1,13 +1,9 @@
 import { React } from "react"
-import Paper from "@mui/material/Paper"
-import { Typography } from "@mui/material"
 import AvatarRender from "../AvatarRender"
 import WhatsAppButton from "./WhatsAppButton"
 import EmailButton from "./EmailButton"
 import PhoneButton from "./PhoneButton"
-import Stack from "@mui/material/Stack"
-import Divider from "@mui/material/Divider"
-import Container from "@mui/material/Container"
+import { Typography, Paper, Stack, Divider, Container } from "@mui/material"
 
 function PublisherInfo({ publisher }) {
   return (

@@ -1,18 +1,19 @@
-import * as React from "react"
-import Box from "@mui/material/Box"
-import Stepper from "@mui/material/Stepper"
-import Step from "@mui/material/Step"
-import StepLabel from "@mui/material/StepLabel"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
+import React, { useContext, useState } from "react"
+import PublishPropertyContext from "./publish-property/PublishPropertyContext"
+import PublishBuildingContext from "./publish-building/PublishBuildingContext"
+import {
+  Container,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+  styled,
+} from "@mui/material"
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector"
-import { styled } from "@mui/material/styles"
-import Container from "@mui/material/Container"
-import { useContext, useState } from "react"
-import PublishPropertyContext from "./publish-property/PublishPropertyContext"
-import PublishBuildingContext from "./publish-building/PublishBuildingContext"
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -47,7 +48,6 @@ export default function HorizontalLinearStepper({
   const { nextStepFunction } = useContext(
     property ? PublishPropertyContext : PublishBuildingContext,
   )
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [activeStep, setActiveStep] = useState(0)
 
@@ -56,10 +56,8 @@ export default function HorizontalLinearStepper({
     if (isValid) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
-    setIsSubmitting(true)
     setTimeout(() => {
       console.log("Formulario enviado")
-      setIsSubmitting(false)
     }, 2000)
   }
 

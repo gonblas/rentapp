@@ -6,9 +6,9 @@ function ReviewBuilding() {
   const { formData } = useContext(PublishBuildingContext)
 
   return (
-    <div>
+    <>
       <BuildingHeader building={formData} />
-    </div>
+    </>
   )
 }
 

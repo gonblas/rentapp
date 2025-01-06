@@ -1,20 +1,18 @@
-import { Typography } from "@mui/material"
 import React, { useState, useEffect, useCallback } from "react"
 import PropertyCard from "../components/cards/PropertyCard"
 import CenteredContainer from "../components/CenteredContainer"
 import ListContainer from "../components/ListContainer"
-import Pagination from "@mui/material/Pagination"
-import Container from "@mui/material/Container"
+import { Typography, Pagination, Container } from "@mui/material"
 
 function MyProperties() {
-  const [properties, setProperties] = useState([]) // properties to store fetched information
-  const [loading, setLoading] = useState(false) // For managing loading state
-  const [error, setError] = useState(null) // For handling errors
+  const [properties, setProperties] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [paginationData, setPaginationData] = useState({
     total_records: 0,
     total_pages: 0,
     current_page: 1,
-  }) // For pagination
+  })
 
   const fetchData = useCallback((page) => {
     setLoading(true)

@@ -1,17 +1,19 @@
 import React from "react"
-import Typography from "@mui/material/Typography"
-import Container from "@mui/material/Container"
-import Grid from "@mui/material/Grid2"
-import FeatureItem from "../FeatureItem"
 import SensorDoorIcon from "@mui/icons-material/SensorDoor"
 import SquareFootIcon from "@mui/icons-material/SquareFoot"
 import PetsIcon from "@mui/icons-material/Pets"
 import GarageIcon from "@mui/icons-material/Garage"
-import YardIcon from "@mui/icons-material/Yard"
 import BalconyIcon from "@mui/icons-material/Balcony"
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed"
+import YardIcon from "@mui/icons-material/Yard"
+import FeatureItem from "../FeatureItem"
+import Grid from "@mui/material/Grid2"
+import { Typography, Container } from "@mui/material"
 
 function PropertyHeader({ property, building }) {
+  const { features, description } = property
+  const { address, neighborhood_name } = building
+
   const locations = [
     { value: "front", label: "Frente" },
     { value: "back", label: "Contrafrente" },
@@ -19,8 +21,8 @@ function PropertyHeader({ property, building }) {
     { value: "side", label: "Lateral" },
   ]
   const location =
-    locations.find((loc) => loc.value === property.features.location)?.label ||
-    property.features.location
+    locations.find((loc) => loc.value === features.location)?.label ||
+    features.location
 
   return (
     <Container
@@ -39,18 +41,18 @@ function PropertyHeader({ property, building }) {
           justifyContent: "space-between",
           alignItems: "center",
           px: "0px!important",
-          flexWrap: "nowrap", // Evitar que los textos se vayan a otra línea
+          flexWrap: "nowrap",
         }}
       >
         <Typography
           variant="h4"
           sx={{
-            fontSize: "clamp(16px, 1.5vw, 24px)", // Ajusta dinámicamente el tamaño de la fuente
-            whiteSpace: "nowrap", // Mantén todo el texto en una línea
-            maxWidth: "10%", // Cada texto ocupa hasta un 48% del contenedor
+            fontSize: "clamp(16px, 1.5vw, 24px)",
+            whiteSpace: "nowrap",
+            maxWidth: "10%",
           }}
         >
-          ${property.features.rental_value.toLocaleString("es-ES")}
+          ${features.rental_value.toLocaleString("es-ES")}
         </Typography>
         <Typography
           variant="h4"
@@ -63,7 +65,7 @@ function PropertyHeader({ property, building }) {
             textAlign: "right",
           }}
         >
-          {building.address}
+          {address}
         </Typography>
       </Container>
 
@@ -77,11 +79,11 @@ function PropertyHeader({ property, building }) {
         }}
       >
         <Typography variant="body2">
-          Expensas: ${property.features.expenses_value.toLocaleString("es-ES")}
+          Expensas: ${features.expenses_value.toLocaleString("es-ES")}
         </Typography>
-        <Typography variant="body2">{building.neighborhood_name}</Typography>
+        <Typography variant="body2">{neighborhood_name}</Typography>
       </Container>
-      {property.description !== "" && (
+      {description !== "" && (
         <>
           <Typography
             variant="h6"
@@ -97,7 +99,7 @@ function PropertyHeader({ property, building }) {
               color: "text.secondary",
             }}
           >
-            {property.description}
+            {description}
           </Typography>
         </>
       )}
@@ -123,31 +125,29 @@ function PropertyHeader({ property, building }) {
       >
         <FeatureItem
           icon={<SensorDoorIcon />}
-          text={`Ambientes: ${property.features.rooms}`}
+          text={`Ambientes: ${features.rooms}`}
         />
         <FeatureItem
           icon={<SquareFootIcon />}
-          text={`${property.features.square_meters} m²`}
+          text={`${features.square_meters} m²`}
         />
         <FeatureItem icon={<GpsNotFixedIcon />} text={location} />
         <FeatureItem
           icon={<BalconyIcon />}
-          text={`Balcones: ${property.features.balconies}`}
+          text={`Balcones: ${features.balconies}`}
         />
         <FeatureItem
           icon={<YardIcon />}
-          text={property.features.backyard ? "Jardin" : "Sin jardin"}
+          text={features.backyard ? "Jardin" : "Sin jardin"}
         />
         <FeatureItem
           icon={<GarageIcon />}
-          text={property.features.garage ? "Cochera" : "Sin cochera"}
+          text={features.garage ? "Cochera" : "Sin cochera"}
         />
         <FeatureItem
           icon={<PetsIcon />}
           text={
-            property.features.pet_friendly
-              ? "Acepta mascotas"
-              : "No acepta mascotas"
+            features.pet_friendly ? "Acepta mascotas" : "No acepta mascotas"
           }
         />
       </Grid>
