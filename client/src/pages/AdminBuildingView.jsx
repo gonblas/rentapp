@@ -35,7 +35,7 @@ function AdminPropertyView() {
         }
       } catch (error) {
         setError("Failed to fetch property data.")
-        console.log(error)
+        console.error(error)
         setBuilding(null)
       } finally {
         setLoading(false)

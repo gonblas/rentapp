@@ -24,7 +24,7 @@ function SelectLocation() {
         )
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
-        console.log("Error al obtener los barrios:", error)
+        console.error("Error al obtener los barrios:", error)
       }
     },
     [],

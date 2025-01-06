@@ -27,9 +27,8 @@ function MyProperties() {
         return response.json()
       })
       .then((data) => {
-        console.log("Success:", data)
         if (Array.isArray(data.properties)) {
-          setProperties(data.properties) // Update the state with fetched properties
+          setProperties(data.properties)
         } else {
           console.error("Unexpected data format:", data)
           setError("Unexpected data format from the server.")

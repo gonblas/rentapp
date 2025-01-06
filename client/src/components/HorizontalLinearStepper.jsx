@@ -56,9 +56,6 @@ export default function HorizontalLinearStepper({
     if (isValid) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
-    setTimeout(() => {
-      console.log("Formulario enviado")
-    }, 2000)
   }
 
   const handleBack = () => {

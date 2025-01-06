@@ -32,7 +32,6 @@ function ValidationButtons({ object, type }) {
               return response.json()
             })
             .then((data) => {
-              console.log(data)
               handleNavigationWithSnackbar(
                 "/admin",
                 type === "property"
@@ -75,8 +74,7 @@ function ValidationButtons({ object, type }) {
               }
               return response.json()
             })
-            .then((data) => {
-              console.log(data)
+            .then(() => {
               handleNavigationWithSnackbar(
                 "/admin",
                 type === "property"

@@ -55,13 +55,11 @@ function SearchBar() {
       }
     })
 
-    console.log("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata)
     fetch("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data)
         setBuildings(data)
         navigate("/search")
       })

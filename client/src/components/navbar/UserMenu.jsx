@@ -115,7 +115,6 @@ function AccountMenu({ user }) {
         <MenuItem
           onClick={() => {
             setOpenDialog(true)
-            console.log("Cerrar Sesión")
           }}
         >
           <ListItemIcon>
@@ -128,7 +127,6 @@ function AccountMenu({ user }) {
         open={openDialog}
         handleClose={() => {
           setOpenDialog(false)
-          console.log("Cerrar Sesión")
         }}
       />
     </React.Fragment>

@@ -29,7 +29,6 @@ function MyProperties() {
         return response.json()
       })
       .then((data) => {
-        console.log("Success:", data)
         if (Array.isArray(data.properties)) {
           setProperties(data.properties)
           setPaginationData(data.paging)
@@ -52,7 +51,6 @@ function MyProperties() {
   }, [fetchData, paginationData.current_page])
 
   useEffect(() => {
-    console.log("Page updated:", paginationData.current_page)
   }, [paginationData])
 
   const handleChange = (event, value) => {

@@ -123,7 +123,6 @@ export const PublishPropertyProvider = ({ children }) => {
 
         if (response.ok) {
           const data = await response.json()
-          console.log("Success: ", data)
           setBuilding(data)
           setErrors((prevErrors) => ({
             ...prevErrors,
@@ -328,9 +327,7 @@ export const PublishPropertyProvider = ({ children }) => {
           )
         }
       })
-      .then((responseData) => {
-        console.log("Property successfully published:", responseData)
-
+      .then(() => {
         // Show alert for successful submission
         handleNavigationWithSnackbar(
           "/",

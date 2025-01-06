@@ -64,7 +64,6 @@ export const PublishBuildingProvider = ({ children }) => {
         )
 
         if (!response.ok) {
-          console.log("No se encontró un building, continúa el flujo.")
           setErrors((prevErrors) => ({
             ...prevErrors,
             address: {
@@ -123,7 +122,6 @@ export const PublishBuildingProvider = ({ children }) => {
       }))
     }
 
-    console.log(isValid)
     return isValid
   }
 
@@ -171,8 +169,6 @@ export const PublishBuildingProvider = ({ children }) => {
       }))
     }
 
-    console.log(isValid)
-    console.log(formData)
     return isValid
   }
 

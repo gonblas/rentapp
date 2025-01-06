@@ -22,7 +22,6 @@ export default function InputFileUpload({ onFileChange }) {
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) {
         alert("El archivo no puede ser mayor de 5MB")
-        console.log("El archivo no puede ser mayor de 5MB")
         return
       }
 
