@@ -83,8 +83,8 @@ function SearchBar() {
       URLdata.append("laundry", true)
     }
 
-    console.log("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata)
-    fetch("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata, {
+    console.log("http://localhost:8000/building/?" + URLdata)
+    fetch("http://localhost:8000/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())

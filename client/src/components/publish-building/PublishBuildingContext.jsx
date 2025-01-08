@@ -56,7 +56,7 @@ export const PublishBuildingProvider = ({ children }) => {
 
       try {
         const response = await fetch(
-          "https://cc210ef425fe.sn.mynetname.net/building/search/?" + URLdata,
+          "http://localhost:8000/building/search/?" + URLdata,
           {
             method: "GET",
             credentials: "include",
@@ -180,7 +180,7 @@ export const PublishBuildingProvider = ({ children }) => {
     // eslint-disable-next-line no-unused-vars
     const filteredData = (({ neighborhood, ...rest }) => rest)(formData)
 
-    fetch("https://cc210ef425fe.sn.mynetname.net/building/", {
+    fetch("http://localhost:8000/building/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

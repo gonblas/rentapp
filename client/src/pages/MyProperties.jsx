@@ -13,7 +13,7 @@ function MyProperties() {
     setLoading(true)
     setError(null)
 
-    fetch("https://cc210ef425fe.sn.mynetname.net/user/publications", {
+    fetch("http://localhost:8000/user/publications", {
       method: "GET",
       credentials: "include", // Include cookies with the request
     })

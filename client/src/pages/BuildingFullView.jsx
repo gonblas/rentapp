@@ -21,7 +21,7 @@ function BuildingFullView({ isAdmin = false }) {
 
       try {
         const response = await fetch(
-          `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}`,
+          `http://localhost:8000/building/${buildingId}`,
           {
             method: "GET",
             credentials: "include",
@@ -89,7 +89,7 @@ function BuildingFullView({ isAdmin = false }) {
       }
 
       fetch(
-        `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}/properties?` + URLdata,
+        `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
         {
           method: "GET",
         },

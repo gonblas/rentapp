@@ -19,7 +19,7 @@ function AdminPropertyView() {
 
       try {
         const response = await fetch(
-          `https://cc210ef425fe.sn.mynetname.net/building/${buildingId}`,
+          `http://localhost:8000/building/${buildingId}`,
           {
             method: "GET",
             credentials: "include",
