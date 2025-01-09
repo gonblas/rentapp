@@ -17,7 +17,7 @@ function ValidationButtons({ object, type }) {
       <Button
         onClick={() => {
           fetch(
-            `https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/approve`,
+            `http://localhost:8000/admin/${type}/${object.id}/approve`,
             {
               method: "PUT",
               credentials: "include",
@@ -60,7 +60,7 @@ function ValidationButtons({ object, type }) {
       <Button
         onClick={() => {
           fetch(
-            `https://cc210ef425fe.sn.mynetname.net/admin/${type}/${object.id}/reject`,
+            `http://localhost:8000/admin/${type}/${object.id}/reject`,
             {
               method: "DELETE",
               credentials: "include",

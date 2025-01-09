@@ -1,16 +1,9 @@
 import * as React from "react"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import parse from "autosuggest-highlight/parse"
-import Grid from "@mui/material/Grid2"
-import {
-  Box,
-  TextField,
-  Autocomplete,
-  Typography,
-  debounce,
-} from "@mui/material"
+import { debounce } from "@mui/material/utils"
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyC3aviU6KHXAjoSnxcw6qbOhjnFctbxPkE"
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
 
 function loadScript(src, position, id) {
   if (!position) {

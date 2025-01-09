@@ -48,14 +48,9 @@ function SearchBar() {
       Lavadero: "laundry",
     }
 
-    filters.building?.services?.forEach((service) => {
-      const mappedKey = serviceMapping[service]
-      if (mappedKey) {
-        URLdata.append(mappedKey, true)
-      }
-    })
 
-    fetch("https://cc210ef425fe.sn.mynetname.net/building/?" + URLdata, {
+    console.log("http://localhost:8000/building/?" + URLdata)
+    fetch("http://localhost:8000/building/?" + URLdata, {
       method: "GET",
     })
       .then((response) => response.json())

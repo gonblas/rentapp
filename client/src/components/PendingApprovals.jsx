@@ -23,8 +23,8 @@ function PendingApprovals() {
 
     const endpoint =
       showList === "apartment"
-        ? "https://cc210ef425fe.sn.mynetname.net/admin/property/pending"
-        : "https://cc210ef425fe.sn.mynetname.net/admin/building/pending"
+        ? "http://localhost:8000/admin/property/pending"
+        : "http://localhost:8000/admin/building/pending"
 
     fetch(endpoint, {
       method: "GET",

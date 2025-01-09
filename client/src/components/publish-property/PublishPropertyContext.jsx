@@ -114,7 +114,7 @@ export const PublishPropertyProvider = ({ children }) => {
 
       try {
         const response = await fetch(
-          `https://cc210ef425fe.sn.mynetname.net/building/search/?${URLdata.toString()}`,
+          `http://localhost:8000/building/search/?${URLdata.toString()}`,
           {
             method: "GET",
             credentials: "include",
@@ -313,7 +313,7 @@ export const PublishPropertyProvider = ({ children }) => {
       data.append("images", file.image)
     })
 
-    fetch("https://cc210ef425fe.sn.mynetname.net/property/", {
+    fetch("http://localhost:8000/property/", {
       method: "POST",
       credentials: "include",
       body: data,

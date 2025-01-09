@@ -20,7 +20,7 @@ function BuildingFilters({ filters, setFilters }) {
     () => async () => {
       try {
         const response = await axios.get(
-          "https://cc210ef425fe.sn.mynetname.net/neighborhood/",
+          "http://localhost:8000/neighborhood/",
         )
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
