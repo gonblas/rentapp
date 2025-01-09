@@ -63,9 +63,7 @@ function Footer() {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ display: "block" }}>
-            <img src="../RentAppLogo.svg" alt="" width="200" />
-          </Typography>
+          <img src="/src/assets/RentAppLogo.svg" alt="" width="200" />
           <Grid container>
             {social_icons.map((data) => (
               <Grid key={data.key}>

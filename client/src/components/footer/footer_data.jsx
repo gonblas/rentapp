@@ -58,12 +58,12 @@ const explore_items = [
 const app_icons = [
   {
     id: 1,
-    src: "../GooglePlay.svg",
+    src: "src/assets/GooglePlay.svg",
     alt: "Google Play",
   },
   {
     id: 2,
-    src: "../AppStore.svg",
+    src: "src/assets/AppStore.svg",
     alt: "App Store",
   },
 ]

@@ -234,7 +234,7 @@ export default function SignUp(props) {
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Typography sx={{ display: "block" }}>
-            <img src="../RentAppLogo.svg" alt="" height="50" />
+            <img src="/src/assets/RentAppLogo.svg" alt="" height="50" />
           </Typography>
           <Typography
             component="h1"
