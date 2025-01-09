@@ -1,6 +1,6 @@
 import * as React from "react"
 import Grid from "@mui/material/Grid2"
-import { Stack, Link, Typography, Container } from "@mui/material"
+import { Stack, Link, Typography, Container, IconButton } from "@mui/material"
 import {
   sitemap_items,
   explore_items,
@@ -67,9 +67,22 @@ function Footer() {
             <img src="../RentAppLogo.svg" alt="" width="200" />
           </Typography>
           <Grid container>
-            {social_icons.map(({ key, icon }) => (
-              <Grid key={key}>
-                <Typography sx={{ px: 0.5 }}>{icon}</Typography>
+            {social_icons.map((data) => (
+              <Grid key={data.key}>
+                <IconButton
+                  href={data.href}
+                  target="_blank"
+                  aria-label={data["aria-label"]}
+                  sx={{
+                    "&:hover": {
+                      color: `${data.color}`,
+                      backgroundColor: "transparent",
+                    },
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  {data.icon}
+                </IconButton>
               </Grid>
             ))}
           </Grid>

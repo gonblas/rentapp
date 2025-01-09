@@ -10,7 +10,7 @@ import {
   debounce,
 } from "@mui/material"
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyBRBWgrItri9YSfUy3uNFd36eVQsMnZGws"
+const GOOGLE_MAPS_API_KEY = "AIzaSyC3aviU6KHXAjoSnxcw6qbOhjnFctbxPkE"
 
 function loadScript(src, position, id) {
   if (!position) {

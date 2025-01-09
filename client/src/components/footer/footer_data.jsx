@@ -1,5 +1,4 @@
 import React from "react"
-import IconButton from "@mui/material/IconButton"
 import XIcon from "@mui/icons-material/X"
 import InstagramIcon from "@mui/icons-material/Instagram"
 import YouTubeIcon from "@mui/icons-material/YouTube"
@@ -71,76 +70,32 @@ const app_icons = [
 
 const social_icons = [
   {
-    icon: (
-      <IconButton
-        href="https://x.com/"
-        target="_blank"
-        sx={{
-          "&:hover": {
-            color: "black",
-            backgroundColor: "transparent",
-          },
-          backgroundColor: "transparent",
-        }}
-      >
-        <XIcon />
-      </IconButton>
-    ),
+    href: "https://x.com/",
+    color: "black",
+    icon: <XIcon />,
     key: "XIcon",
+    "aria-label": "Visitanos en X",
   },
   {
-    icon: (
-      <IconButton
-        href="https://www.instagram.com/"
-        target="_blank"
-        sx={{
-          "&:hover": {
-            color: "#EE2A7B",
-            backgroundColor: "transparent",
-          },
-          backgroundColor: "transparent",
-        }}
-      >
-        <InstagramIcon />
-      </IconButton>
-    ),
+    href: "https://www.instagram.com/",
+    color: "#EE2A7B",
+    icon: <InstagramIcon />,
     key: "InstagramIcon",
+    "aria-label": "Visitanos en Instagram",
   },
   {
-    icon: (
-      <IconButton
-        href="https://youtube.com/"
-        target="_blank"
-        sx={{
-          "&:hover": {
-            color: "red",
-            backgroundColor: "transparent",
-          },
-          backgroundColor: "transparent",
-        }}
-      >
-        <YouTubeIcon />
-      </IconButton>
-    ),
+    href: "https://youtube.com/",
+    color: "red",
+    icon: <YouTubeIcon />,
     key: "YouTubeIcon",
+    "aria-label": "Visitanos en YouTube",
   },
   {
-    icon: (
-      <IconButton
-        href="https://www.linkedin.com/"
-        target="_blank"
-        sx={{
-          "&:hover": {
-            color: "#0077B5",
-            backgroundColor: "transparent",
-          },
-          backgroundColor: "transparent",
-        }}
-      >
-        <LinkedInIcon />
-      </IconButton>
-    ),
+    href: "https://www.linkedin.com/",
+    color: "#0077B5",
+    icon: <LinkedInIcon />,
     key: "LinkedInIcon",
+    "aria-label": "Visitanos en LinkedIn",
   },
 ]
 

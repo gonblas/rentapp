@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import Container from "@mui/material/Container"
-import Button from "@mui/material/Button"
+import { Button } from "@mui/material"
 import FilterList from "./filters/FilterList"
 import SearchIcon from "@mui/icons-material/Search"
 import { useNavigate } from "react-router-dom"
@@ -112,12 +112,13 @@ function SearchBar() {
       <Button
         type="submit"
         variant="contained"
+        aria-label="search"
         sx={{
           height: "48px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "0 16px",
+          paddingX: "16px",
         }}
       >
         <SearchIcon />
