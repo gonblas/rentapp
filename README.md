@@ -29,13 +29,16 @@ The project was developed in a single sprint, focusing on delivering a streamlin
 ## Screenshots
 
 ### Homepage
-    ![Homepage](/client/public/home.png)
+
+![Homepage](/client/public/home.png)
 
 ### Forms for apartment and building creating
-    ![Forms](/client/public/forms.png)
+
+![Forms](/client/public/forms.png)
 
 ### Search Filters
-    ![Forms](/client/public/filters.png)
+
+![Forms](/client/public/filters.png)
 
 ## Install
 
