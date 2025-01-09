@@ -24,9 +24,9 @@ function ImagePreview({ file }) {
       <img
         src={file.url}
         alt={file.name}
+        width={"100%"}
+        height={"100%"}
         style={{
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
         }}
       />

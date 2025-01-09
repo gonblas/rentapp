@@ -74,7 +74,6 @@ export default function InputFileUpload({ onFileChange }) {
           Carga tu archivo
           <VisuallyHiddenInput type="file" onChange={handleChange} />
         </Button>
-        {/* <img src={file} /> */}
       </Stack>
     </ThemeProvider>
   )

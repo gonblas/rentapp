@@ -63,7 +63,12 @@ function Footer() {
             alignItems: "center",
           }}
         >
-          <img src="/src/assets/RentAppLogo.svg" alt="" width="200" />
+          <img
+            src="/src/assets/RentAppLogo.svg"
+            alt=""
+            width="100%"
+            height="40%"
+          />
           <Grid container>
             {social_icons.map((data) => (
               <Grid key={data.key}>
@@ -99,7 +104,7 @@ function Footer() {
           <Stack>
             {app_icons.map(({ id, alt, src }) => (
               <Typography key={id} sx={{ display: "block", pb: 1 }}>
-                <img src={src} alt={alt} width="150" />
+                <img src={src} alt={alt} width="150" height="50" />
               </Typography>
             ))}
           </Stack>

@@ -26,7 +26,12 @@ function NavBar() {
             }}
           >
             <Link to={"/"} key={"Inicio"}>
-              <img src="/src/assets/RentAppLogo.svg" alt="" height="50" />
+              <img
+                src="/src/assets/RentAppLogo.svg"
+                alt=""
+                height="50"
+                width="auto"
+              />
             </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>

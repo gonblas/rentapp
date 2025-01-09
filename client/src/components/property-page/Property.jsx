@@ -33,8 +33,9 @@ function Property({ property, canDelete = true }) {
             <img
               src={original}
               alt={description}
+              width={"100%"}
+              height={"auto"}
               style={{
-                width: "100%",
                 objectFit: "contain",
                 maxHeight: "500px",
                 margin: "0 auto",
@@ -54,6 +55,8 @@ function Property({ property, canDelete = true }) {
             <img
               src={thumbnail}
               alt={description}
+              width={"100%"}
+              height={"100%"}
               style={{
                 width: "100%",
                 height: "100%",

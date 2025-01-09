@@ -125,7 +125,12 @@ export default function SignInCard() {
     >
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <Typography sx={{ display: "block" }}>
-          <img src="/src/assets/RentAppLogo.svg" alt="" height="50" />
+          <img
+            src="/src/assets/RentAppLogo.svg"
+            alt=""
+            height="50"
+            width={"auto"}
+          />
         </Typography>
       </Box>
       <Typography

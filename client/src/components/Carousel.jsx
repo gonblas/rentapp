@@ -53,6 +53,8 @@ function Carousel({ data }) {
           <img
             src={item}
             key={idx}
+            width="100%"
+            height="100%"
             style={{
               minWidth: "100%!important",
               minHeight: "100%!important",
@@ -63,6 +65,8 @@ function Carousel({ data }) {
           <img
             src={item}
             key={idx}
+            width="100%"
+            height="100%"
             style={{
               width: "100%",
               height: "100%",
