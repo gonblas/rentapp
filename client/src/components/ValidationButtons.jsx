@@ -32,17 +32,16 @@ function ValidationButtons({ object, type }) {
               return response.json()
             })
             .then((data) => {
-              console.log(data) // Log the response data
               handleNavigationWithSnackbar(
                 "/admin",
                 type === "property"
                   ? "¡Propiedad validada correctamente!"
                   : "¡Edificio validado correctamente!",
-                "success", // Positive snackbar
+                "success",
               )
             })
             .catch((error) => {
-              console.error(error) // Log the error message
+              console.error(error)
             })
         }}
         startIcon={<DoneIcon />}
@@ -75,18 +74,17 @@ function ValidationButtons({ object, type }) {
               }
               return response.json()
             })
-            .then((data) => {
-              console.log(data) // Log the response data
+            .then(() => {
               handleNavigationWithSnackbar(
                 "/admin",
                 type === "property"
                   ? "¡Propiedad rechazada correctamente!"
                   : "¡Edificio rechazado correctamente!",
-                "error", // Negative snackbar
+                "error",
               )
             })
             .catch((error) => {
-              console.error(error) // Log the error message
+              console.error(error)
             })
         }}
         startIcon={<DeleteIcon />}

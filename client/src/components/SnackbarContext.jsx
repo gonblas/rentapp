@@ -9,7 +9,7 @@ export const SnackbarProvider = ({ children }) => {
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: "",
-    type: "success", // Default to 'success' for positive messages
+    type: "success",
   })
 
   const navigate = useNavigate()
@@ -19,12 +19,10 @@ export const SnackbarProvider = ({ children }) => {
     showSnackbar(message, severity)
   }
 
-  // Function to show the snackbar
   const showSnackbar = useCallback((message, type = "success") => {
     setSnackbarState({ open: true, message, type })
   }, [])
 
-  // Function to close the snackbar
   const handleClose = useCallback(() => {
     setSnackbarState((prev) => ({ ...prev, open: false }))
   }, [])
@@ -40,7 +38,7 @@ export const SnackbarProvider = ({ children }) => {
       >
         <Alert
           onClose={handleClose}
-          severity={snackbarState.type} // Dynamically set the severity
+          severity={snackbarState.type}
           sx={{
             width: "100%",
             bgcolor:
@@ -48,13 +46,13 @@ export const SnackbarProvider = ({ children }) => {
                 ? "success.main"
                 : snackbarState.type === "error"
                   ? "error.main"
-                  : undefined, // Custom color control
+                  : undefined,
             color:
               snackbarState.type === "success"
                 ? "white"
                 : snackbarState.type === "error"
                   ? "white"
-                  : undefined, // Color for text
+                  : undefined,
           }}
         >
           {snackbarState.message}

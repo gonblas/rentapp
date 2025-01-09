@@ -3,9 +3,10 @@ import React, { useState, useEffect, useCallback } from "react"
 import PropertyCard from "../components/cards/PropertyCard"
 import CenteredContainer from "../components/CenteredContainer"
 import ListContainer from "../components/ListContainer"
+import AlertContainer from "../components/AlertContainer" // Import AlertContainer
 
 function MyProperties() {
-  const [properties, setProperties] = useState([]) // properties to store fetched information
+  const [properties, setProperties] = useState([]) // Properties to store fetched information
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
 
@@ -26,9 +27,8 @@ function MyProperties() {
         return response.json()
       })
       .then((data) => {
-        console.log("Success:", data)
         if (Array.isArray(data.properties)) {
-          setProperties(data.properties) // Update the state with fetched properties
+          setProperties(data.properties)
         } else {
           console.error("Unexpected data format:", data)
           setError("Unexpected data format from the server.")
@@ -54,7 +54,7 @@ function MyProperties() {
           Mis propiedades
         </Typography>
         {loading && <Typography>Cargando propiedades...</Typography>}
-        {error && <Typography>Error: {error}</Typography>}
+        {error && <Typography color="error">Error: {error}</Typography>}
 
         {!loading && !error && properties.length > 0
           ? properties.map((property) => (
@@ -65,7 +65,9 @@ function MyProperties() {
               />
             ))
           : !loading &&
-            !error && <Typography>No hay propiedades publicadas</Typography>}
+            !error && (
+              <AlertContainer message="No hay propiedades publicadas." /> // Display message with AlertContainer
+            )}
       </ListContainer>
     </CenteredContainer>
   )

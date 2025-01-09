@@ -1,14 +1,14 @@
-import React from "react"
-import FormControl from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import { useContext } from "react"
+import React, { useEffect, useContext, useState, useMemo } from "react"
 import PublishBuildingContext from "./PublishBuildingContext"
 import GoogleMaps from "../GoogleMaps"
-import FormHelperText from "@mui/material/FormHelperText"
-import Autocomplete from "@mui/material/Autocomplete"
-import TextField from "@mui/material/TextField"
-import { useEffect, useState, useMemo } from "react"
 import axios from "axios"
+import {
+  FormHelperText,
+  Autocomplete,
+  TextField,
+  FormControl,
+  FormLabel,
+} from "@mui/material"
 
 function SelectLocation() {
   const { errors, handleOnChange, formData } = useContext(
@@ -24,7 +24,7 @@ function SelectLocation() {
         )
         setNeighborhoods(response.data.neighborhoods)
       } catch (error) {
-        console.log("Error al obtener los barrios:", error)
+        console.error("Error al obtener los barrios:", error)
       }
     },
     [],

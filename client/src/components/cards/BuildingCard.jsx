@@ -1,9 +1,8 @@
 import React from "react"
 import PublicationCard from "./PublicationCard"
-import InfoTag from "./InfoTag"
-import Container from "@mui/material/Container"
-import { Typography } from "@mui/material"
 import FavoriteButton from "./FavoriteButton"
+import InfoTag from "./InfoTag"
+import { Container, Typography } from "@mui/material"
 import ApartmentIcon from "@mui/icons-material/Apartment"
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline"
 
@@ -38,11 +37,11 @@ function BuildingCard({ building, linkName }) {
     (key) => building[key] === true,
   )
 
+  const { id, address, neighborhood_name, floors, apartments_per_floor } =
+    building
+
   return (
-    <PublicationCard
-      linkName={linkName}
-      item={{ type: "building", id: building.id }}
-    >
+    <PublicationCard linkName={linkName} item={{ type: "building", id: id }}>
       <Container
         sx={{
           display: "flex",
@@ -69,7 +68,7 @@ function BuildingCard({ building, linkName }) {
               px: "0!important",
             }}
           >
-            {building.address}
+            {address}
           </Typography>
           <FavoriteButton />
         </Container>
@@ -81,7 +80,7 @@ function BuildingCard({ building, linkName }) {
             px: "0!important",
           }}
         >
-          {building.neighborhood_name}
+          {neighborhood_name}
         </Typography>
         <Container
           sx={{
@@ -93,13 +92,10 @@ function BuildingCard({ building, linkName }) {
             my: "auto",
           }}
         >
-          <FeatureItem
-            icon={<ApartmentIcon />}
-            text={`Pisos: ${building.floors}`}
-          />
+          <FeatureItem icon={<ApartmentIcon />} text={`Pisos: ${floors}`} />
           <FeatureItem
             icon={<ViewHeadlineIcon />}
-            text={`Deptos. por piso: ${building.apartments_per_floor}`}
+            text={`Deptos. por piso: ${apartments_per_floor}`}
           />
         </Container>
 

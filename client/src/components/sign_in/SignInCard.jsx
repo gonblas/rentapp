@@ -1,16 +1,18 @@
 import * as React from "react"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import MuiCard from "@mui/material/Card"
-import FormLabel from "@mui/material/FormLabel"
-import FormControl from "@mui/material/FormControl"
 import { Link } from "react-router-dom"
-import TextField from "@mui/material/TextField"
-import Typography from "@mui/material/Typography"
-import FormHelperText from "@mui/material/FormHelperText"
 import useAuth from "../../hooks/AuthContext"
-
-import { styled, useTheme } from "@mui/material/styles"
+import {
+  Button,
+  Card as MuiCard,
+  Box,
+  Typography,
+  styled,
+  useTheme,
+  FormControl,
+  FormLabel,
+  TextField,
+  FormHelperText,
+} from "@mui/material"
 
 import ForgotPassword from "./ForgotPassword"
 
@@ -123,7 +125,12 @@ export default function SignInCard() {
     >
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <Typography sx={{ display: "block" }}>
-          <img src="../RentAppLogo.svg" alt="" height="50" />
+          <img
+            src="/src/assets/RentAppLogo.svg"
+            alt=""
+            height="50"
+            width={"auto"}
+          />
         </Typography>
       </Box>
       <Typography

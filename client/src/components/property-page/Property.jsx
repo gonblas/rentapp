@@ -1,14 +1,13 @@
 import React from "react"
 import Gallery from "react-image-gallery"
 import "react-image-gallery/styles/css/image-gallery.css"
-import Container from "@mui/material/Container"
+import { useLocation } from "react-router-dom"
 import PropertyHeader from "./PropertyHeader"
 import BuildingFeatures from "../BuildingFeatures"
 import PublisherInfo from "./PublisherInfo"
 import useAuth from "../../hooks/AuthContext"
-import Button from "@mui/material/Button"
+import { Container, Button } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { useLocation } from "react-router-dom"
 
 function Property({ property, canDelete = true }) {
   const location = useLocation()
@@ -19,31 +18,32 @@ function Property({ property, canDelete = true }) {
     return (
       <Gallery
         items={images}
-        showPlayButton={false} // Disable the autoplay button
-        showFullscreenButton={false} // Disable the fullscreen button
-        showBullets={true} // Enable navigation bullets
-        showThumbnails={true} // Enable thumbnails
-        slideInterval={3000} // Interval between slides if autoplay is enabled (though it's disabled here)
-        useBrowserFullscreen={false} // Disable fullscreen
-        startIndex={0} // Start the gallery at the first image
-        autoPlay={false} // Disable autoplay feature
-        disableThumbnailScroll={true} // Prevent scrolling of the thumbnails
-        thumbnailPosition="bottom" // You can change position of thumbnails to bottom if needed
-        renderItem={(item) => (
+        showPlayButton={false}
+        showFullscreenButton={false}
+        showBullets={true}
+        showThumbnails={true}
+        slideInterval={3000}
+        useBrowserFullscreen={false}
+        startIndex={0}
+        autoPlay={false}
+        disableThumbnailScroll={true}
+        thumbnailPosition="bottom"
+        renderItem={({ original, description }) => (
           <div style={{ maxWidth: "800px", margin: "0 auto" }}>
             <img
-              src={item.original}
-              alt={item.description}
+              src={original}
+              alt={description}
+              width={"100%"}
+              height={"auto"}
               style={{
-                width: "100%", // Resize the image to fill the container
-                objectFit: "contain", // Ensure the aspect ratio is maintained
-                maxHeight: "500px", // Limit the height of the image
+                objectFit: "contain",
+                maxHeight: "500px",
                 margin: "0 auto",
               }}
             />
           </div>
         )}
-        renderThumbInner={(item) => (
+        renderThumbInner={({ thumbnail, description }) => (
           <div
             style={{
               width: "80px",
@@ -53,15 +53,17 @@ function Property({ property, canDelete = true }) {
             }}
           >
             <img
-              src={item.thumbnail}
-              alt={item.description}
+              src={thumbnail}
+              alt={description}
+              width={"100%"}
+              height={"100%"}
               style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover", // Preserve aspect ratio of thumbnails without distortion
-                aspectRatio: "16/9", // Enforce square aspect ratio
-                borderRadius: "2px", // Optional: Add rounded corners to thumbnails
-                position: "absolute", // Center the image within the thumbnail container
+                objectFit: "cover",
+                aspectRatio: "16/9",
+                borderRadius: "2px",
+                position: "absolute",
                 top: "0",
                 left: "0",
               }}
@@ -97,8 +99,8 @@ function Property({ property, canDelete = true }) {
   }
 
   const images = property.images.map((image) => ({
-    original: image, // Can replace with a smaller image if you have one
-    thumbnail: image, // Same here, ideally you should provide a smaller image for thumbnails
+    original: image,
+    thumbnail: image,
     description: "",
   }))
 

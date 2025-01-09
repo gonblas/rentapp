@@ -1,20 +1,22 @@
 import React from "react"
-import Box from "@mui/material/Box"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import Divider from "@mui/material/Divider"
-import IconButton from "@mui/material/IconButton"
-import Tooltip from "@mui/material/Tooltip"
+import AvatarRender from "../AvatarRender"
+import LogoutDialog from "./LogoutDialog"
+import { Link } from "react-router-dom"
 import Settings from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
 import useAuth from "../../hooks/AuthContext"
-import Button from "@mui/material/Button"
-import AvatarRender from "../AvatarRender"
-import LogoutDialog from "./LogoutDialog"
-import { Link } from "react-router-dom"
-import { useTheme } from "@mui/material/styles"
+import {
+  Box,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Button,
+  useTheme,
+  Divider,
+} from "@mui/material"
 
 function AccountMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -113,7 +115,6 @@ function AccountMenu({ user }) {
         <MenuItem
           onClick={() => {
             setOpenDialog(true)
-            console.log("Cerrar Sesión")
           }}
         >
           <ListItemIcon>
@@ -126,7 +127,6 @@ function AccountMenu({ user }) {
         open={openDialog}
         handleClose={() => {
           setOpenDialog(false)
-          console.log("Cerrar Sesión")
         }}
       />
     </React.Fragment>

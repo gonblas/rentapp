@@ -1,9 +1,6 @@
 import * as React from "react"
 import Grid from "@mui/material/Grid2"
-import Stack from "@mui/material/Stack"
-import Link from "@mui/material/Link"
-import Typography from "@mui/material/Typography"
-import Container from "@mui/material/Container"
+import { Stack, Link, Typography, Container, IconButton } from "@mui/material"
 import {
   sitemap_items,
   explore_items,
@@ -35,9 +32,9 @@ function FooterColumn({ title, items }) {
     >
       <Stack spacing={1}>
         <Title>{title}</Title>
-        {items.map((item) => (
-          <Link key={item.name} href={item.path} underline="hover">
-            {item.name}
+        {items.map(({ id, name, path }) => (
+          <Link key={id} href={path} underline="hover">
+            {name}
           </Link>
         ))}
       </Stack>
@@ -66,13 +63,29 @@ function Footer() {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ display: "block" }}>
-            <img src="../RentAppLogo.svg" alt="" width="200" />
-          </Typography>
+          <img
+            src="/src/assets/RentAppLogo.svg"
+            alt=""
+            width="100%"
+            height="40%"
+          />
           <Grid container>
-            {social_icons.map((item) => (
-              <Grid key={item.key}>
-                <Typography sx={{ px: 0.5 }}>{item.icon}</Typography>
+            {social_icons.map((data) => (
+              <Grid key={data.key}>
+                <IconButton
+                  href={data.href}
+                  target="_blank"
+                  aria-label={data["aria-label"]}
+                  sx={{
+                    "&:hover": {
+                      color: `${data.color}`,
+                      backgroundColor: "transparent",
+                    },
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  {data.icon}
+                </IconButton>
               </Grid>
             ))}
           </Grid>
@@ -89,9 +102,9 @@ function Footer() {
         >
           <Title>Descargar la app</Title>
           <Stack>
-            {app_icons.map((item) => (
-              <Typography key={item.alt} sx={{ display: "block", pb: 1 }}>
-                <img src={item.src} alt={item.alt} width="150" />
+            {app_icons.map(({ id, alt, src }) => (
+              <Typography key={id} sx={{ display: "block", pb: 1 }}>
+                <img src={src} alt={alt} width="150" height="50" />
               </Typography>
             ))}
           </Stack>

@@ -1,13 +1,9 @@
 import * as React from "react"
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
+import { Link } from "react-router-dom"
 import UserMenu from "./UserMenu"
 import ButtonMenu from "./ButtonMenu"
-import { Link } from "react-router-dom"
 import useAuth from "../../hooks/AuthContext"
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material"
 
 function NavBar() {
   const { isAdmin } = useAuth()
@@ -30,16 +26,19 @@ function NavBar() {
             }}
           >
             <Link to={"/"} key={"Inicio"}>
-              <img src="../RentAppLogo.svg" alt="" height="50" />
+              <img
+                src="/src/assets/RentAppLogo.svg"
+                alt=""
+                height="50"
+                width="auto"
+              />
             </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Link to={item.path} key={item.title}>
-                {item.render && (
-                  <Button sx={{ color: "text.primary", mr: 2 }}>
-                    {item.title}
-                  </Button>
+            {navItems.map(({ path, title, render }) => (
+              <Link to={path} key={title}>
+                {render && (
+                  <Button sx={{ color: "text.primary", mr: 2 }}>{title}</Button>
                 )}
               </Link>
             ))}

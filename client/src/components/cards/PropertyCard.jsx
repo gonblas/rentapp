@@ -1,39 +1,44 @@
 import PublicationCard from "./PublicationCard"
-import Typography from "@mui/material/Typography"
-import Container from "@mui/material/Container"
-import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined"
-import Button from "@mui/material/Button"
-import CardMedia from "@mui/material/CardMedia"
+import {
+  Container,
+  Typography,
+  Button,
+  Divider,
+  CardMedia,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  CardActions,
+} from "@mui/material"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
-import Divider from "@mui/material/Divider"
-import Carousel from "../Carousel"
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import ListItemIcon from "@mui/material/ListItemIcon"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import CopyToClipboardButton from "../CopyToClipboardButton"
 import AvatarRender from "../AvatarRender"
 import InfoTag from "./InfoTag"
 import FavoriteButton from "./FavoriteButton"
-import CardActions from "@mui/material/CardActions"
+import Carousel from "../Carousel"
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
+import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined"
 import { Link } from "react-router-dom"
 
 function ContactButton({ contact }) {
   const items = [
     {
+      id: 1,
       icon: <LocalPostOfficeOutlinedIcon />,
       text: contact.email,
       func: () => window.open(`mailto:${contact.email}`),
       condition: true,
     },
     {
+      id: 2,
       icon: <LocalPhoneIcon />,
       text: contact.phone_number,
       func: () => window.open(`tel:${contact.phone}`),
       condition: contact.has_phone_number,
     },
     {
+      id: 3,
       icon: <WhatsAppIcon />,
       text: contact.whatsapp_number,
       func: () => window.open(`https://wa.me/${contact.phone}`),
@@ -104,11 +109,11 @@ function ContactButton({ contact }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              {items.map((item, index) => {
-                if (item.condition === false) return null
+              {items.map(({ id, condition, func, icon, text }) => {
+                if (condition === false) return null
                 return (
                   <MenuItem
-                    key={index}
+                    key={id}
                     sx={{
                       display: "flex",
                       gap: "5px",
@@ -118,7 +123,7 @@ function ContactButton({ contact }) {
                   >
                     <Container
                       onClick={() => {
-                        item.func()
+                        func()
                         popupState.close()
                       }}
                       sx={{
@@ -127,10 +132,10 @@ function ContactButton({ contact }) {
                         alignItems: "center",
                       }}
                     >
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                      {item.text}
+                      <ListItemIcon>{icon}</ListItemIcon>
+                      {text}
                     </Container>
-                    <CopyToClipboardButton textToCopy={item.text} />
+                    <CopyToClipboardButton textToCopy={text} />
                   </MenuItem>
                 )
               })}
@@ -143,7 +148,8 @@ function ContactButton({ contact }) {
 }
 
 function AvatarPublisher({ publisher }) {
-  const typePublisher = publisher.is_real_estate ? "Inmobiliaria" : "Particular"
+  const { name, avatar, is_real_estate } = publisher
+  const typePublisher = is_real_estate ? "Inmobiliaria" : "Particular"
   return (
     <Container
       sx={{
@@ -154,7 +160,7 @@ function AvatarPublisher({ publisher }) {
         height: "100%",
       }}
     >
-      <AvatarRender name={publisher.name} image={publisher.avatar} />
+      <AvatarRender name={name} image={avatar} />
       <Container
         sx={{
           display: "flex",
@@ -164,7 +170,7 @@ function AvatarPublisher({ publisher }) {
           height: "100%",
         }}
       >
-        <Typography variant="body1">{publisher.name}</Typography>
+        <Typography variant="body1">{name}</Typography>
         <Typography
           sx={{
             fontSize: "0.8rem",
@@ -196,11 +202,10 @@ function PropertyCard({ property, linkName }) {
     return null
   })()
 
+  const { id, images, features, address, description, publisher } = property
+
   return (
-    <PublicationCard
-      linkName={linkName}
-      item={{ type: "property", id: property.id }}
-    >
+    <PublicationCard linkName={linkName} item={{ type: "property", id: id }}>
       <CardMedia
         image=""
         sx={{
@@ -210,7 +215,7 @@ function PropertyCard({ property, linkName }) {
         }}
       >
         <Carousel
-          data={property.images}
+          data={images}
           style={{
             width: "100%",
             height: "100%",
@@ -256,7 +261,7 @@ function PropertyCard({ property, linkName }) {
                 px: "0!important",
               }}
             >
-              ${property.features.rental_value.toLocaleString("es-ES")}
+              ${features.rental_value.toLocaleString("es-ES")}
             </Typography>
             <FavoriteButton />
           </Container>
@@ -267,7 +272,7 @@ function PropertyCard({ property, linkName }) {
               overflow: "hidden",
             }}
           >
-            ${property.features.expenses_value.toLocaleString("es-ES")} expensas
+            ${features.expenses_value.toLocaleString("es-ES")} expensas
           </Typography>
           <Typography
             variant="h5"
@@ -280,7 +285,7 @@ function PropertyCard({ property, linkName }) {
               pt: "12px",
             }}
           >
-            {property.address}
+            {address}
           </Typography>
         </Container>
 
@@ -293,14 +298,16 @@ function PropertyCard({ property, linkName }) {
             border: "none",
           }}
         >
-          <InfoTag>{property.features.square_meters} m²</InfoTag>
-          <InfoTag>{property.features.rooms} amb</InfoTag>
+          <InfoTag>{features.square_meters} m²</InfoTag>
+          <InfoTag>{features.rooms} amb</InfoTag>
           <InfoTag>
-            {property.features.location === "front"
+            {features.location === "front"
               ? "Frente"
-              : property.features.location === "back"
+              : features.location === "back"
                 ? "Contrafrente"
-                : "Interno"}
+                : features.location === "Interno"
+                  ? "Interno"
+                  : "Lateral"}
           </InfoTag>
           {lastTag}
         </Container>
@@ -318,7 +325,7 @@ function PropertyCard({ property, linkName }) {
             whiteSpace: "nowrap",
           }}
         >
-          {property.description}
+          {description}
         </Typography>
         <Divider
           sx={{
@@ -334,7 +341,7 @@ function PropertyCard({ property, linkName }) {
             height: "40px",
           }}
         >
-          <AvatarPublisher publisher={property.publisher} />
+          <AvatarPublisher publisher={publisher} />
           <CardActions
             sx={{
               display: "flex",
@@ -345,7 +352,7 @@ function PropertyCard({ property, linkName }) {
               pb: "0px",
             }}
           >
-            <ContactButton contact={property.publisher.contact}></ContactButton>
+            <ContactButton contact={publisher.contact}></ContactButton>
           </CardActions>
         </Container>
       </Container>

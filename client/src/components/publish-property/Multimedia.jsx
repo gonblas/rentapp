@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import Dropzone from "./Dropzone"
 import FormHeader from "../FormHeader"
-import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
 
 function Multimedia() {
-  const { formData, handleOnChangeImages, setErrors } = useContext(PublishPropertyContext)
+  const { formData, handleOnChangeImages, setErrors } = useContext(
+    PublishPropertyContext,
+  )
 
   return (
     <>

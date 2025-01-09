@@ -1,11 +1,8 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useContext } from "react"
 import { useDropzone } from "react-dropzone"
-import Typography from "@mui/material/Typography"
-import Grid from "@mui/material/Grid2"
-import Container from "@mui/material/Container"
-import { useContext } from "react"
 import PublishPropertyContext from "./PublishPropertyContext"
-import FormHelperText from "@mui/material/FormHelperText"
+import Grid from "@mui/material/Grid2"
+import { Typography, Container, FormHelperText } from "@mui/material"
 
 function ImagePreview({ file }) {
   return (
@@ -27,9 +24,9 @@ function ImagePreview({ file }) {
       <img
         src={file.url}
         alt={file.name}
+        width={"100%"}
+        height={"100%"}
         style={{
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
         }}
       />
@@ -65,12 +62,11 @@ function Dropzone({ files, onChange, setErrors }) {
         const remainingSlots = 10 - files.length
 
         if (remainingSlots <= 0) {
-          console.error("No puedes subir más de 10 archivos")
           setErrors((prevErrors) => ({
             ...prevErrors,
             images: {
               hasError: true,
-              message: `No puedes subir más de 10 archivos.`,
+              message: `No puedes subir más de 10 imágenes.`,
             },
           }))
           return

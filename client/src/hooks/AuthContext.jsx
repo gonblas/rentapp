@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const { handleNavigationWithSnackbar } = useContext(SnackbarContext)
-  console.log(userData)
 
   function handleSignup(data, setFieldError) {
     const formData = new FormData()
@@ -68,7 +67,6 @@ export const AuthProvider = ({ children }) => {
       body: URLdata.toString(),
     })
       .then((response) => {
-        console.log(!response.ok)
         if (!response.ok) {
           if (response.status === 404) {
             setFieldError(
@@ -138,8 +136,7 @@ export const AuthProvider = ({ children }) => {
         }
         return response.json()
       })
-      .then((data) => {
-        console.log(data) // Log the response data
+      .then(() => {
         handleNavigationWithSnackbar(
           "/my-properties",
           "¡Propiedad eliminada correctamente!",

@@ -44,7 +44,7 @@ function Carousel({ data }) {
             color: "white",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             boxShadow: "0px 0px 5px #333",
-            borderRadius: "50%", // Ensures the shape is circular
+            borderRadius: "50%",
           },
         }}
       />
@@ -53,6 +53,8 @@ function Carousel({ data }) {
           <img
             src={item}
             key={idx}
+            width="100%"
+            height="100%"
             style={{
               minWidth: "100%!important",
               minHeight: "100%!important",
@@ -63,6 +65,8 @@ function Carousel({ data }) {
           <img
             src={item}
             key={idx}
+            width="100%"
+            height="100%"
             style={{
               width: "100%",
               height: "100%",

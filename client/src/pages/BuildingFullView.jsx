@@ -5,6 +5,7 @@ import BuildingHeader from "../components/BuildingHeader"
 import PropertyCard from "../components/cards/PropertyCard"
 import SearchContext from "../components/SearchContext"
 import AdminContext from "../components/AdminContext"
+import AlertContainer from "../components/AlertContainer" // Import AlertContainer
 
 function BuildingFullView({ isAdmin = false }) {
   const { buildingId } = useParams() // Get the building ID from the URL
@@ -47,46 +48,30 @@ function BuildingFullView({ isAdmin = false }) {
         setLoading(false)
       }
     }
+
     if (!isAdmin) {
       const URLdata = new URLSearchParams()
 
-      // Conditionally add each parameter if the value is not empty, null, or undefined
-      if (filters.property.building_id) {
+      // Add filters conditionally
+      if (filters.property.building_id)
         URLdata.append("building_id", filters.property.building_id)
-      }
-      if (filters.property.minRentPrice !== null) {
+      if (filters.property.minRentPrice !== null)
         URLdata.append("min_rental_value", filters.property.minRentPrice)
-      }
-      if (filters.property.maxRentPrice !== null) {
+      if (filters.property.maxRentPrice !== null)
         URLdata.append("max_rental_value", filters.property.maxRentPrice)
-      }
-      if (filters.property.minExpenses !== null) {
+      if (filters.property.minExpenses !== null)
         URLdata.append("min_expenses_value", filters.property.minExpenses)
-      }
-      if (filters.property.maxExpenses !== null) {
+      if (filters.property.maxExpenses !== null)
         URLdata.append("max_expenses_value", filters.property.maxExpenses)
-      }
-      if (filters.property.rooms !== null) {
+      if (filters.property.rooms !== null)
         URLdata.append("rooms", filters.property.rooms)
-      }
-      if (filters.property.balconies !== null) {
+      if (filters.property.balconies !== null)
         URLdata.append("balconies", filters.property.balconies)
-      }
-      if (filters.property.hasBackyard) {
-        // Send only if true
-        URLdata.append("backyard", true)
-      }
-      if (filters.property.hasGarage) {
-        // Send only if true
-        URLdata.append("garage", true)
-      }
-      if (filters.property.petfriendly) {
-        // Send only if true
-        URLdata.append("pet_friendly", true)
-      }
-      if (filters.property.location) {
+      if (filters.property.hasBackyard) URLdata.append("backyard", true)
+      if (filters.property.hasGarage) URLdata.append("garage", true)
+      if (filters.property.petfriendly) URLdata.append("pet_friendly", true)
+      if (filters.property.location)
         URLdata.append("location", filters.property.location)
-      }
 
       fetch(
         `http://localhost:8000/building/${buildingId}/properties?` + URLdata,
@@ -95,13 +80,8 @@ function BuildingFullView({ isAdmin = false }) {
         },
       )
         .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data)
-          setProperties(data.properties)
-        })
-        .catch((error) => {
-          console.error("Error:", error)
-        })
+        .then((data) => setProperties(data.properties))
+        .catch((error) => console.error("Error:", error))
     }
 
     fetchBuilding()
@@ -135,23 +115,22 @@ function BuildingFullView({ isAdmin = false }) {
       }}
     >
       <BuildingHeader building={building} />
-      {properties && properties.length > 0 && (
-        <Typography variant="h5" sx={{ mr: "auto", pb: "25px" }}>
-          Propiedades en este edificio
-        </Typography>
-      )}
+
+      <Typography variant="h5" sx={{ mr: "auto", pb: "25px" }}>
+        Propiedades en este edificio
+      </Typography>
       {properties && properties.length > 0 ? (
-        properties.map((property) => (
-          <PropertyCard
-            key={property.id}
-            property={property}
-            linkName="/property-full-view"
-          />
-        ))
-      ) : !isAdmin ? (
-        <Typography>No hay propiedades en este edificio</Typography>
+        <>
+          {properties.map((property) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+              linkName="/property-full-view"
+            />
+          ))}
+        </>
       ) : (
-        " "
+        <AlertContainer message="No hay propiedades registradas" /> // Use AlertContainer to display the message
       )}
     </Container>
   )

@@ -8,10 +8,10 @@ import BuildingCard from "./cards/BuildingCard"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
 import AdminContext from "./AdminContext"
+import AlertContainer from "./AlertContainer"
 
 function PendingApprovals() {
   const { showList, setShowList } = useContext(AdminContext) // Get context values
-  // console.log(showList)
   const [data, setData] = useState([]) // Data to store fetched information
   const [loading, setLoading] = useState(false) // For managing loading state
   const [error, setError] = useState(null) // For handling errors
@@ -39,25 +39,25 @@ function PendingApprovals() {
         return response.json()
       })
       .then((data) => {
-        setData(data) // Update the state with fetched data
+        setData(data)
       })
       .catch((error) => {
-        setError(error.message) // Set error state in case of failure
+        setError(error.message)
       })
       .finally(() => {
-        setLoading(false) // Stop loading when done
+        setLoading(false)
       })
-  }, [showList]) // `showList` is the dependency for `fetchData`
+  }, [showList])
 
   // Fetch data when showList changes
   useEffect(() => {
-    fetchData() // Fetch data when `showList` changes
-  }, [fetchData]) // `fetchData` is now part of the dependency array
+    fetchData()
+  }, [fetchData])
 
   // Helper function to render apartments
   const renderApartments = () => {
-    if (!Array.isArray(data.properties)) {
-      return <Typography>No data available for properties.</Typography>
+    if (!data.properties || data.properties.length === 0) {
+      return <AlertContainer message="No hay departamentos a validar" />
     }
 
     return data.properties.map((item) => (
@@ -78,8 +78,8 @@ function PendingApprovals() {
 
   // Helper function to render buildings
   const renderBuildings = () => {
-    if (!data?.buildings) {
-      return <Typography>No buildings data available.</Typography>
+    if (!data.buildings || data.buildings.length === 0) {
+      return <AlertContainer message="No hay edificios a validar" />
     }
 
     return data.buildings.map((item) => (
@@ -128,7 +128,7 @@ function PendingApprovals() {
             },
           }}
         >
-          Departamento
+          Departamentos
         </ToggleButton>
         <ToggleButton
           value="buildings"

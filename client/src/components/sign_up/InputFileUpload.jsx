@@ -1,10 +1,6 @@
-import * as React from "react"
-import Button from "@mui/joy/Button"
-import SvgIcon from "@mui/joy/SvgIcon"
-import { styled } from "@mui/joy"
-import { ThemeProvider } from "@mui/joy"
+import React from "react"
+import { styled, Button, SvgIcon, ThemeProvider } from "@mui/joy"
 import { unstable_createMuiStrictModeTheme } from "@mui/material/styles"
-import { useState } from "react"
 import Stack from "@mui/material/Stack"
 const theme = unstable_createMuiStrictModeTheme()
 
@@ -21,14 +17,11 @@ const VisuallyHiddenInput = styled("input")`
 `
 
 export default function InputFileUpload({ onFileChange }) {
-  const [file, setFile] = useState(null)
-
   function handleChange(e) {
     const selectedFile = e.target.files[0]
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) {
         alert("El archivo no puede ser mayor de 5MB")
-        console.log("El archivo no puede ser mayor de 5MB")
         return
       }
 
@@ -38,7 +31,6 @@ export default function InputFileUpload({ onFileChange }) {
         return
       }
 
-      setFile(selectedFile)
       onFileChange(selectedFile, URL.createObjectURL(selectedFile))
     }
   }
@@ -82,7 +74,6 @@ export default function InputFileUpload({ onFileChange }) {
           Carga tu archivo
           <VisuallyHiddenInput type="file" onChange={handleChange} />
         </Button>
-        {/* <img src={file} /> */}
       </Stack>
     </ThemeProvider>
   )
