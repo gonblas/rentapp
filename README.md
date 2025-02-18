@@ -63,9 +63,9 @@ The project was developed in a single sprint, focusing on delivering a streamlin
 
 3. Check if the container is running:
     
-        ```bash
-        docker ps
-        ```
+   ```bash
+   docker ps
+   ```
     
 Now you can access the Swagger Docs on http://localhost:8000/docs
 
