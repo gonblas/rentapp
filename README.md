@@ -8,10 +8,10 @@ The project was developed in a single sprint, focusing on delivering a streamlin
 
 ## Technologies Used
 
-- Backend: Python with FastAPI.
-- Database: SQL.
+- Backend: Python with FastAPI framework.
+- Database: MySQL.
 - Frontend: React with Material UI and vanilla CSS.
-
+- Docker: Used to containerize the application.
 
 ## Lessons Learned
 
@@ -61,15 +61,14 @@ The project was developed in a single sprint, focusing on delivering a streamlin
     docker-compose up --build -d
     ```
 
-3. Check if the container is running:
+3. Check if the containers are running:
     
    ```bash
    docker ps
    ```
     
-Now you can access the Swagger Docs on http://localhost:8000/docs
+Now you can access the frontend at [http://localhost:5173](http://localhost:5173) and the Swagger Docs of the API at [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Additional notes
 
-- Make sure that port 8000 is available and not being used by another application.
-- You can change the mapped port by modifying docker-compose.yaml file.
+- Make sure that ports 8000 and 5173 are available and not being used by another application.
